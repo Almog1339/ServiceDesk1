@@ -13,7 +13,7 @@ namespace ServiceDesk1.Controllers
     public class LoginController : ControllerBase
     {
         [HttpPost]
-        public static short Login([FromForm]Employee userData)
+        public short Login([FromForm]Employee userData)
         {
             if (string.IsNullOrEmpty(userData.UserName) || string.IsNullOrEmpty(userData.Pass))
             {

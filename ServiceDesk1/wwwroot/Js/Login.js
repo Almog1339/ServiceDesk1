@@ -1,36 +1,34 @@
-﻿$("#BtnLogin").on("click", function () {
+﻿/// <reference path="jquery-3.3.1.js" />
+
+
+$("#BtnLogin").on("click", function () {
 
     var userData = {
         UserName: $('#username').val(),
         Pass: $('#password').val()
     };
 
-    $.ajax({
-        type: "POST",
-        url: "api/Login",
-        data: userData,
-        dataType:JSON,
-        success:
-            function(data) {
-                switch (data) {
-                    //Engineering 
+    $.post("api/Login", userData).done(
+        function (data) {
+            switch (data) {
+                //Engineering 
                 case 1:
                 case 2:
                 case 6:
-                    console.log("1,2,6");
+                    window.location.href = "Engineering.html";
                     break;
                 //Sales And marketing
                 case 3:
                 case 4:
-                    console.log("3,4");
+                    window.location.href = "Sales.html";
                     break;
                 //Hr
                 case 9:
-                    console.log("9");
+                    window.location.href = "Hr.html";
                     break;
                 //IT
                 case 17:
-                    console.log("17");
+                    window.location.href = "IT.html";
                     break;
                 //Manufacturing
                 case 5:
@@ -39,20 +37,18 @@
                 case 12:
                 case 13:
                 case 15:
-                    console.log("5,7,8,12,13,15");
+                    window.location.href = "Manufacturing.html";
                     break;
                 //Executive General and Administration
                 case 10:
                 case 11:
                 case 16:
                 case 14:
-                    console.log("10,11,16,14");
+                    window.location.href = "Executive.html";
                     break;
                 default:
                     console.log("Something went wrong!");
                     break;
-                }
             }
-
-    });
+        });
 });

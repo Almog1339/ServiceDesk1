@@ -12536,11 +12536,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\almog\\source\\repos\\ServiceDesk1\\ServiceDesk1\\ServiceDesk1.csproj",
+      "projectUniqueName": "C:\\Users\\almog\\Documents\\GitHub\\ServiceDesk1\\ServiceDesk1\\ServiceDesk1.csproj",
       "projectName": "ServiceDesk1",
-      "projectPath": "C:\\Users\\almog\\source\\repos\\ServiceDesk1\\ServiceDesk1\\ServiceDesk1.csproj",
+      "projectPath": "C:\\Users\\almog\\Documents\\GitHub\\ServiceDesk1\\ServiceDesk1\\ServiceDesk1.csproj",
       "packagesPath": "C:\\Users\\almog\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\almog\\source\\repos\\ServiceDesk1\\ServiceDesk1\\obj\\",
+      "outputPath": "C:\\Users\\almog\\Documents\\GitHub\\ServiceDesk1\\ServiceDesk1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

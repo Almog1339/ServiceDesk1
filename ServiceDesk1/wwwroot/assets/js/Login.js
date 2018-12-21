@@ -14,20 +14,24 @@ $("#Btn-login").on("click", function () {
             case 1:
             case 2:
             case 6:
-                window.location.href = "Engineering.html";
+                window.location.href = "index.html";
+                $("#Welcome").append(userData.UserName);
                 break;
             //Sales And marketing
             case 3:
             case 4:
-                window.location.href = "Sales.html";
+                    window.location.href = "index.html";
+                $("#Welcome").append(userData.UserName);
                 break;
             //Hr
             case 9:
-                window.location.href = "Hr.html";
+                window.location.href = "index.html";
+                $("#Welcome").append(userData.UserName);
                 break;
             //IT
             case 17:
-                window.location.href = "IT.html";
+                window.location.href = "index.html";
+                $("#Welcome").append(userData.UserName);
                 break;
             //Manufacturing
             case 5:
@@ -36,14 +40,16 @@ $("#Btn-login").on("click", function () {
             case 12:
             case 13:
             case 15:
-                window.location.href = "Manufacturing.html";
+                window.location.href = "index.html";
+                $("#Welcome").append(userData.UserName);
                 break;
             //Executive General and Administration
             case 10:
             case 11:
             case 16:
             case 14:
-                window.location.href = "Executive.html";
+                window.location.href = "index.html";
+                $("#Welcome").append(userData.UserName);
                 break;
             default:
                 console.log("Something went wrong!");

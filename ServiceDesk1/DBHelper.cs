@@ -54,5 +54,15 @@ namespace ServiceDesk1
             return -1;
 
         }
+
+        public static object GetNotification(string UserName)
+        {
+            return -1;
+        }
+
+        public static object GetMessages(string UserName)
+        {
+            return -1;
+        }
     }
 }

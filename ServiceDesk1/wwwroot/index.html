@@ -1,12 +1,15 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ServiceDesk</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
-    <script src="assets/js/date_time.js"></script>
+    <!-- <script src="assets/js/date_time.js"></script> -->
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-route.min.js"></script>
+    <script src="assets/js/MainApp.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -14,16 +17,16 @@
             <div class="sidebar-wrapper">
                 <div class="logo" style="height: 86px"><a href="#" class="simple-text"><img style="background-image:url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
                 <ul class="nav" id="Manubar">
-                    <li class="active" v-for="option in options">
-                    </li>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="Chat.html">Chat</a></li>
                 </ul>
             </div>
         </div>
         <div class="main-panel">
-            
+
             <nav class="navbar navbar-light navbar-expand-md" style="background-color: #377ac2;">
                 <div class="container-fluid">
-                    
+
                     <a class="navbar-brand float-none" href="#">Home Page</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 
                     <div class="collapse navbar-collapse" id="navcol-1">
@@ -33,20 +36,18 @@
                         <span class="ml-auto navbar-text hidden-lg hidden-md">You have:<span id="Notification"></span> Notificaciones </span>
                     </div>
                 </div>
-                
+
             </nav>
+            <div>
+                <!--<div style="background-color: #377ac2;">
+                    <span id="date_time"></span>
+                    <script type="text/javascript">window.onload = date_time('date_time');</script>
+                </div>-->
+            </div>
             
-            <div style="background-color: #377ac2;">
-                <span id="date_time"></span>
-                <script type="text/javascript">window.onload = date_time('date_time');</script>
-            </div>
-
-            <!--Vue Main app-->
-            <div class="content" id="app">
-
-            </div>
         </div>
+            <ng-view>
+            </ng-view>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
 </body>
 </html>

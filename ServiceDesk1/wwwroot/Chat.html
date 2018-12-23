@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ServiceDesk Chat</title>
-    <style>
+﻿<style>
     .Container{
         display: grid;
         position: relative;
@@ -15,23 +9,6 @@
         height: 100%;
         margin: 0;
         
-    }
-    #debuggrid{
-        display: grid;
-        position: absolute;
-        grid-template-columns: repeat(12,1fr);
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        padding: 0;
-        display: none;
-        border: 1px dashed red;
-    }
-    #debuggrid p{
-        border: 1px solid #000;
-        opacity: 1;
-        padding: 0%;
-        margin: 0%;
     }
     .ChatList{
         background-color: rgb(206, 130, 30);
@@ -48,25 +25,10 @@
         grid-column: 5/13;
         grid-row:1/7;
     }
-    input:checked + #Container #debuggrid{
-        display: grid;
-    }
-    </style>
-</head>
-<body>
-    <input type="checkbox">
+ </style>
+
     <div class="Container" id="Container">
-        <div id='debuggrid'>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-        </div>
+        
         <div id="ChatList" class="ChatList">
 
         </div>
@@ -77,5 +39,3 @@
 
         </div>
     </div>
-</body>
-</html>

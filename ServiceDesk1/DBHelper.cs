@@ -4,13 +4,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ServiceDesk1
 {
     public class DBHelper
     {
-        public static string CONN_STRING = "Data Source=DESKTOP-O8IU0PQ\\SQLEXPRESS;Initial Catalog=ServiceDesk;Persist Security Info=True;User ID=sa;Password=Q1w2q1w2";
-        public static short ValidateUser(string UserName, string Pass)
+        private static string CONN_STRING = "Data Source=DESKTOP-O8IU0PQ\\SQLEXPRESS;Initial Catalog=ServiceDesk;Persist Security Info=True;User ID=sa;Password=Q1w2q1w2";
+        public static bool ValidateUser(string UserName, string Pass)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 StringBuilder sb = new StringBuilder();
@@ -23,22 +24,37 @@ namespace ServiceDesk1
 
                     SqlDataReader dr = cmd.ExecuteReader();
                     {
-                        if (dr.Read())
-                        {
-                           return ValidateDepartment(UserName);
+                        if (dr.Read()) {
+                            return true;
                         }
                     }
                 }
+                return false;
+            }
+        }
+
+        public static int GetBEID(string UserName)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" Select HumanResources.Employee.BusinessEntityID from HumanResources.Employee where HumanResources.Employee.LoginID = @LoginID ", conn)) {
+                    cmd.Parameters.AddWithValue("@LoginID", UserName);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            int BEID = dr.GetInt16(0);
+                            return BEID;
+                        }
+                    }
+                }
+
                 return -1;
             }
         }
 
         public static short ValidateDepartment(string UserName)
         {
-            using (SqlConnection conn = new SqlConnection(CONN_STRING))
-            {
-                using (SqlCommand cmd = new SqlCommand(" SELECT HumanResources.Department.DepartmentID FROM HumanResources.Employee LEFT JOIN HumanResources.EmployeeDepartmentHistory ON HumanResources.Employee.BusinessEntityID = HumanResources.EmployeeDepartmentHistory.BusinessEntityID LEFT JOIN HumanResources.Department ON HumanResources.EmployeeDepartmentHistory.DepartmentID = HumanResources.Department.DepartmentID where HumanResources.EmployeeDepartmentHistory.EndDate IS NULL AND LoginID = @LoginID",conn))
-                {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" SELECT HumanResources.Department.DepartmentID FROM HumanResources.Employee LEFT JOIN HumanResources.EmployeeDepartmentHistory ON HumanResources.Employee.BusinessEntityID = HumanResources.EmployeeDepartmentHistory.BusinessEntityID LEFT JOIN HumanResources.Department ON HumanResources.EmployeeDepartmentHistory.DepartmentID = HumanResources.Department.DepartmentID where HumanResources.EmployeeDepartmentHistory.EndDate IS NULL AND LoginID = @LoginID", conn)) {
                     cmd.Parameters.AddWithValue("@LoginID", UserName);
                     conn.Open();
                     SqlDataReader dr = cmd.ExecuteReader();

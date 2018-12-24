@@ -13,14 +13,25 @@ namespace ServiceDesk1.Controllers
     public class LoginController : ControllerBase
     {
         [HttpPost]
-        public short Login([FromForm]Employee userData)
+        public bool Login([FromForm]Employee userData)
         {
             if (string.IsNullOrEmpty(userData.UserName) || string.IsNullOrEmpty(userData.Pass))
+            {
+                return false;
+            }
+
+            return DBHelper.ValidateUser(userData.UserName, userData.Pass);
+        }
+
+        [HttpGet]
+        public short GetDepartmentID(Employee userData)
+        {
+            if (string.IsNullOrEmpty(userData.UserName))
             {
                 return -1;
             }
 
-            return DBHelper.ValidateUser(userData.UserName, userData.Pass);
+            return DBHelper.ValidateDepartment(userData.UserName);
         }
     }
 

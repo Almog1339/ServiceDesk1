@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+    <script src="assets/js/jquery.min.js"></script>
+    <style>
+    .Container{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        padding: 0%;
+        height: 100%;
+        margin: 35px;
+        
+    }
+    .descriptions{
+        text-align:justify;
+        
+    }
+    .descriptions input[text]{
+        align-items: flex-start;
+        
+    }
+    .Description{
+        width: 85%;
+        
+    }
+    .ShortDescription{
+        width: 80%;
+        align-items: center;
+        text-align: left,top;
+    }
+    </style>
+</head>
+<body>
+    <div class="Container">
+        <div id="col1">
+    Request by: <input type="text" id="UserName" disabled ><br />
+    Request for: <input type="text" id='OpenFor'><br />
+    Request for Phone numner: <input type="number" id='phoneNumer'><br />
+    Request for email: <input type="email" id='Email'>
+
+        </div>
+        <div id="col2">
+    Urgency: 
+    <select id="Urgency">
+        <option>Normal</option>
+        <option>High</option>
+        <option>Critical</option>
+    </select>
+    <br />
+    Impact: 
+    <select id="Impact" disabled>
+        <option>Normal</option>
+        <option>High</option>
+        <option>Critical</option>
+    </select>
+    <br />
+     Priority: <input type="number" id="Priority" disabled>
+    <br />
+    </div>
+    
+</div>
+<div class="descriptions">
+        Short Description: 
+   <input type="text" id="ShortDescription" class="ShortDescription"><br />
+       Description: 
+   <input type="text" id="Description" class="Description">
+ </div>
+
+</body>
+</html>

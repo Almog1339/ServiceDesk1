@@ -1,2 +1,20 @@
+<head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+    <script>
+        var dataArray = [30, 40, 70];
+        var canvas = d3.select("body")
+            .append("svg")
+            .attr("width", 500)
+            .attr("Height", 500);
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. In dolorum temporibus aliquam ea, corrupti eveniet omnis libero nobis. Tenetur obcaecati error commodi nihil labore sed aliquam nisi voluptatibus ab minus?
+        var bars = canvas.selectAll("rect")
+            .data(dataArray)
+            .enter()
+            .append("rect")
+            .attr("width",function (d) { return d * 10;})
+            .attr("height", 50)
+            .attr("y", function (d,i) { return i * 100;});
+    </script>
+</body>

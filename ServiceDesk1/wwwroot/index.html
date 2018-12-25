@@ -2,14 +2,14 @@
 <html >
 <head>
     <title>ServiceDesk</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-route.min.js"></script>
+     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css"> 
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/Login.js"></script>
-    <script src="assets/js/Main.js"></script>
     <script src="assets/js/date_time.js"></script>
 </head>
-<body>
+<body ng-app="myApp">
     <div class="wrapper" >
         <div class="main-panel" >
             <nav class="navbar navbar-light navbar-expand-md" style="background-color: #377ac2;">
@@ -29,6 +29,7 @@
                 <span id="date_time"></span>
                 <!--<script type="text/javascript">window.onload = date_time('date_time');</script>-->
             </div>
+            <div ng-view></div>
         </div>
     </div>
     <div>
@@ -39,13 +40,17 @@
                     <div>
                         <ul>
                             <li><a href="#!home">Home</a></li>
-                            <li><a href="#!chat">chat</a></li>
+                            <li><a href="#!chat">Chat</a></li>
+                            <li><a href="#!NewITRequest">Submit a IT Request</a></li>
+                            <li><a href="#!NewHRRequest">Submit a HR Request</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
+<script src="assets/js/IndexNg.js"></script>
+<script src="assets/js/IndexHandlerjs.js"></script>
 </body>
 </html>

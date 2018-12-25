@@ -15,23 +15,26 @@ namespace ServiceDesk1.Controllers
         [HttpPost]
         public bool Login([FromForm]Employee userData)
         {
-            if (string.IsNullOrEmpty(userData.UserName) || string.IsNullOrEmpty(userData.Pass))
+            if (string.IsNullOrEmpty(userData.LoginID) || string.IsNullOrEmpty(userData.Password))
             {
                 return false;
             }
-
-            return DBHelper.ValidateUser(userData.UserName, userData.Pass);
+            Employee employee = new Employee {
+                LoginID = userData.LoginID,
+                Password = userData.Password
+            };
+            return DBHelper.ValidateUser(userData.LoginID, userData.Password);
         }
 
         [HttpGet]
         public short GetDepartmentID(Employee userData)
         {
-            if (string.IsNullOrEmpty(userData.UserName))
+            if (string.IsNullOrEmpty(userData.LoginID))
             {
                 return -1;
             }
-
-            return DBHelper.ValidateDepartment(userData.UserName);
+            
+            return DBHelper.ValidateDepartment(userData.LoginID);
         }
     }
 

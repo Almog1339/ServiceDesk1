@@ -80,5 +80,13 @@ namespace ServiceDesk1
         {
             return -1;
         }
+
+        public static object GetListOfOption(int departmentID){
+            
+
+
+            return -1;
+        }
+
     }
 }

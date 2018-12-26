@@ -7,7 +7,16 @@
      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css"> 
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/date_time.js"></script>
+    <!--<script src="assets/js/date_time.js"></script>-->
+    <style>
+        ul{
+            list-style-type: none;
+        }
+        li{
+            margin: 0%;
+            padding: 0%;
+        }
+    </style>
 </head>
 <body ng-app="myApp">
     <div class="wrapper" >
@@ -37,12 +46,11 @@
             <div class="visible sidebar" id="divimg" data-color="blue" data-image="" style="background-image: url(&quot;assets/img/sidebar-2.jpg&quot;); color: rgb(0, 0, 0);">
                 <div class="sidebar-wrapper">
                     <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
-                    <div>
-                        <ul>
-                            <li><a href="#!home">Home</a></li>
-                            <li><a href="#!chat">Chat</a></li>
-                            <li><a href="#!NewITRequest">Submit a IT Request</a></li>
-                            <li><a href="#!NewHRRequest">Submit a HR Request</a></li>
+                    <div ng-controller="IndexMainUl">
+                        <ul >
+                            <li ng-repeat="list in lists">
+                                {{list}}
+                            </li>
                         </ul>
                     </div>
                 </div>

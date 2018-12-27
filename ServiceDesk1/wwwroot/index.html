@@ -6,7 +6,6 @@
     <script src="assets/js/angular-route.min.js"></script>
      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css"> 
-    <script src="assets/js/jquery.min.js"></script>
     <!--<script src="assets/js/date_time.js"></script>-->
     <style>
         ul{
@@ -26,8 +25,8 @@
 
                     <a class="navbar-brand float-none" href="#">Home Page</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 
-                    <div class="collapse navbar-collapse" id="navcol-1">
-                        <span class="float-left navbar-text">Welcome:<span id="Welcome"></span>&nbsp;</span>
+                    <div class="collapse navbar-collapse" id="navcol-1" ng-controller="nameCtrl">
+                        <span class="float-left navbar-text">Welcome:<span id="Welcome" ng-module>{{LoginID}}</span>&nbsp;</span>
                     </div>
                     <div>
                         <span class="ml-auto navbar-text hidden-lg hidden-md">You have:<span id="Notification"></span> Notificaciones </span>
@@ -48,6 +47,7 @@
                     <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
                     <div ng-controller="IndexMainUl">
                         <ul >
+                            <li ng-repet="test in tests">{{test}}</li>
                         </ul>
                     </div>
                 </div>
@@ -56,6 +56,5 @@
     </div>
     
 <script src="assets/js/IndexNg.js"></script>
-<script src="assets/js/IndexHandlerjs.js"></script>
 </body>
 </html>

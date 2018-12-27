@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceDesk1.Controllers
 {
-    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -24,15 +24,15 @@ namespace ServiceDesk1.Controllers
             };
             return DBHelper.ValidateUser(userData.LoginID, userData.Password);
         }
-        
-        public short GetDepartmentId([FromBody]string result)
+        [HttpGet]
+        public short GetDepartmentId(string loginID)
         {
-            if (string.IsNullOrEmpty(result))
+            if (string.IsNullOrEmpty(loginID))
             {
                 return -1;
             }
             
-            return DBHelper.ValidateDepartment(result);
+            return DBHelper.ValidateDepartment(loginID);
         }
         
     }

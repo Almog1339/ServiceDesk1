@@ -1,34 +1,32 @@
 ﻿var myApp = angular.module('myApp', ["ngRoute"]);
 
-myApp.controller('IndexMainUl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('nameCtrl', ['$scope', '$window', function ($scope, $window) {
+    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+
+}]);
+
+myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     $scope.lists = '';
-    $scope.LoginID = localStorage.username;
-    var data = {
-        LoginID: $scope.LoginID
-    };
+    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
 
-    $http.get('api/Login', JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } }).then(function (result) {
-        if (result === -1) {
-            $scope.lists = ["Please try to login again later we have encounter some problems...", 1];
-            return console.log(result);
-        } else if (data >= 1) {
-            localStorage.setItem("department", data);
-            $scope.department = localStorage.department;
-            $http.get("api/index", $scope.department).then(function () {
-                if (result === -1) {
-                    $scope.lists = "Please try to login again later we have encounter some problems...";
-                    return console.log(data + " from the second get request");
+    $http.get("api/Login?LoginID=" + $scope.LoginID).then(function (response) {
+        if (response.data === -1) {
+            console.log("Please try to login again later we have encounter some problems...");
 
-                } else {
-                    $scope.lists = data;
-                    return console.log($scope.lists);
-                }
-            });
+        } else if (response.data >= 1) {
+            $window.localStorage.setItem('departmentId', JSON.stringify(response.data));
+
         } else {
-            $scope.lists = "Please try to login again later we have encounter some problems...";
-            console.log(data + " only god know why it fail at this point...");
+            console.log("Please try to login again later we have encounter some problems...");
+            console.log(response.data);
 
-               }
+        }
+    });
+    setTimeout(1000);
+    $scope.departmentID = JSON.parse($window.localStorage.getItem('departmentId'));
+
+    $http.get("api/index?departmentId=" + $scope.departmentID).then(function (response) {
+        $scope.tests = response.data.toString();
     });
 }]);
 

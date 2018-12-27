@@ -10,7 +10,7 @@ $("#Btn-login").on("click", function () {
     $.post("api/Login", userData).done(
         function (data) {
             if (data === true) {
-                localStorage.setItem('username',userData.LoginID);
+                localStorage.setItem('username',JSON.stringify(userData.LoginID));
                 window.location.href = "index.html";
             } else {
                 alert("Something went wrong!");

@@ -12,7 +12,7 @@ namespace ServiceDesk1.Controllers
     public class IndexController : ControllerBase
     {
         [HttpGet]
-        public object ListOrganizerCtrl([FromBody]int departmentId)
+        public object ListOrganizerCtrl(int departmentId)
         {
             return DBHelper.GetListOfOption(departmentId);
         }

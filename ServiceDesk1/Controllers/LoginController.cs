@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceDesk1.Controllers
 {
-    [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [HttpPost]
+        [Microsoft.AspNetCore.Mvc.HttpPost]
         public bool Login([FromForm]Employee userData)
         {
             if (string.IsNullOrEmpty(userData.LoginID) || string.IsNullOrEmpty(userData.Password))
@@ -25,17 +24,17 @@ namespace ServiceDesk1.Controllers
             };
             return DBHelper.ValidateUser(userData.LoginID, userData.Password);
         }
-
-        [HttpGet]
-        public short GetDepartmentID(Employee userData)
+        
+        public short GetDepartmentId([FromBody]string result)
         {
-            if (string.IsNullOrEmpty(userData.LoginID))
+            if (string.IsNullOrEmpty(result))
             {
                 return -1;
             }
             
-            return DBHelper.ValidateDepartment(userData.LoginID);
+            return DBHelper.ValidateDepartment(result);
         }
+        
     }
 
 }

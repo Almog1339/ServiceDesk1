@@ -70,6 +70,33 @@ namespace ServiceDesk1
             return -1;
 
         }
+        public static object GetListOfOption(int departmentID)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING))
+            {
+                using (SqlCommand cmd = new SqlCommand(" select OptionList.TitleID,Title,SubTitle from OptionList inner join OptionListSub on OptionListSub.TitleID = OptionList.TitleID where OptionList.DepartmentID = @DepartmentID",
+                        conn))
+                {
+                    cmd.Parameters.AddWithValue("@DepartmentID", departmentID);
+                    conn.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    {
+                        for (int i = 0; i > dr.FieldCount; i++)
+                        {
+                            object obj = dr.GetString(i);
+                            ListOrganizer(obj);
+                        }
+                    }
+                }
+
+                return -1;
+            }
+        }
+
+        public static object ListOrganizer(object obj)
+        {
+            return -1;
+        }
 
         public static object GetNotification(string UserName)
         {
@@ -81,12 +108,7 @@ namespace ServiceDesk1
             return -1;
         }
 
-        public static object GetListOfOption(int departmentID){
-            
-
-
-            return -1;
-        }
+        
 
     }
 }

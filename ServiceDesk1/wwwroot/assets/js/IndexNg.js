@@ -27,8 +27,8 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
     $scope.departmentID = JSON.parse($window.localStorage.getItem('departmentId'));
         
     $http.get("api/index?departmentId=" + $scope.departmentID).then(function (response) {
-        $window.localStorage.setItem('options', JSON.stringify(response.data));
-        $scope.options = response.data;
+        $window.localStorage.setItem('option', JSON.stringify(response.data));
+        $scope.option = response.data;
     });
 
     myApp.config(function ($routeProvider) {

@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
     <!--<script src="assets/js/date_time.js"></script>-->
     <style>
-        ul {
-            list-style-type: none;
-        }
 
-        li {
+        ul {
             margin: 0%;
             padding: 0%;
+            font-size: 1.5em;
+            font-family: Arial, Helvetica, sans-serif;
+            border: 0.5px groove;
         }
     </style>
 </head>
@@ -47,10 +47,8 @@
                 <div class="sidebar-wrapper">
                     <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
                     <div ng-controller="IndexMainUl">
-                        <ul>
-                            <li ng-repeat="o in options">
-                                {{ o.content }}
-                            </li>
+                        <ul ng-repeat="o in option">
+                        {{ o.content }}
                         </ul>
                     </div>
                 </div>

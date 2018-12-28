@@ -14,7 +14,7 @@ namespace ServiceDesk1.Controllers
         [HttpGet]
         public object ListOrganizerCtrl(int departmentId)
         {
-            return DBHelper.GetListOfOption(departmentId);
+            return DBHelper.GetListOfOption(departmentId) ;
         }
     }
 }

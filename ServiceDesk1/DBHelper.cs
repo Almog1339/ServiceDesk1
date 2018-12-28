@@ -74,8 +74,7 @@ namespace ServiceDesk1
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
-                using (SqlCommand cmd = new SqlCommand(" select OptionList.Title from OptionList inner join OptionListSub on OptionListSub.TitleID = OptionList.TitleID where OptionList.DepartmentID = @DepartmentID group by Title",
-                        conn))
+                using (SqlCommand cmd = new SqlCommand(" select OptionList.Title from OptionList where OptionList.DepartmentID = @DepartmentID group by Title",conn))
                 {
                     cmd.Parameters.AddWithValue("@DepartmentID", departmentID);
                     conn.Open();
@@ -86,9 +85,32 @@ namespace ServiceDesk1
                         {
                             OptionList list = new OptionList(dr.GetString(0));
                             lists.Add(list);
+                            //need to do casting
+                            GetListOfItems(departmentID,list);
                         }
 
                         return lists;
+                    }
+                }
+            }
+        }
+
+        public static List<OptionList> GetListOfItems(int departmentID, OptionList list)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select OptionListSub.SubTitle from OptionListSub inner join OptionList on OptionList.TitleID = OptionListSub.TitleID where OptionList.DepartmentID = @DepartmentID and OptionList.Title = @list", conn)) {
+                    cmd.Parameters.AddWithValue("@DepartmentID", departmentID);
+                    cmd.Parameters.AddWithValue("@list", list);
+                    conn.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    {
+                        List<OptionList> items = new List<OptionList>();
+                        while (dr.Read()) {
+                            OptionList item = new OptionList(dr.GetString(0));
+                            items.Add(item);
+                        }
+
+                        return items;
                     }
                 }
             }

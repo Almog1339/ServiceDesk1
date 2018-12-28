@@ -1,25 +1,26 @@
 ﻿<!DOCTYPE html>
-<html >
+<html>
 <head>
     <title>ServiceDesk</title>
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/angular-route.min.js"></script>
-     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css"> 
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
     <!--<script src="assets/js/date_time.js"></script>-->
     <style>
-        ul{
+        ul {
             list-style-type: none;
         }
-        li{
+
+        li {
             margin: 0%;
             padding: 0%;
         }
     </style>
 </head>
 <body ng-app="myApp">
-    <div class="wrapper" >
-        <div class="main-panel" >
+    <div class="wrapper">
+        <div class="main-panel">
             <nav class="navbar navbar-light navbar-expand-md" style="background-color: #377ac2;">
                 <div class="container-fluid">
 
@@ -46,15 +47,17 @@
                 <div class="sidebar-wrapper">
                     <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
                     <div ng-controller="IndexMainUl">
-                        <ul >
-                            <li ng-repet="test in tests">{{test}}</li>
+                        <ul>
+                            <li ng-repeat="o in options">
+                                {{ o.content }}
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-<script src="assets/js/IndexNg.js"></script>
+
+    <script src="assets/js/IndexNg.js"></script>
 </body>
 </html>

@@ -70,7 +70,7 @@ namespace ServiceDesk1
             return -1;
 
         }
-        public static string GetListOfOption(int departmentID)
+        public static List<OptionList> GetListOfOption(int departmentID)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
@@ -81,22 +81,16 @@ namespace ServiceDesk1
                     conn.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     {
-                        if (dr.Read())
+                        List<OptionList> lists = new List<OptionList>();
+                        while (dr.Read())
                         {
-                            string s= "";
-                            for (int i = 0; i < dr.FieldCount ; i++)
-                            {
-                                 s = dr.GetString(i);
-                                
-                            }
-
-                            return s;
-
+                            OptionList list = new OptionList(dr.GetString(0));
+                            lists.Add(list);
                         }
+
+                        return lists;
                     }
                 }
-
-                return "";
             }
         }
 
@@ -112,5 +106,15 @@ namespace ServiceDesk1
 
         
 
+    }
+
+    public class OptionList
+    {
+        public string Content { get; set; }
+        public OptionList(string Content)
+        {
+
+            this.Content = Content;
+        }
     }
 }

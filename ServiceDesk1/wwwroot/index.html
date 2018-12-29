@@ -6,7 +6,8 @@
     <script src="assets/js/angular-route.min.js"></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
-    <!--<script src="assets/js/date_time.js"></script>-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="assets/js/IndexNg.js"></script>
     <style>
 
         ul {
@@ -22,22 +23,26 @@
     <div class="wrapper">
         <div class="main-panel">
             <nav class="navbar navbar-light navbar-expand-md" style="background-color: #377ac2;">
-                <div class="container-fluid">
+                <div class="container-fluid" ng-controller="navCtrl">
 
-                    <a class="navbar-brand float-none" href="#">Home Page</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <a class="navbar-brand float-none" href="#">Home Page</a>
 
-                    <div class="collapse navbar-collapse" id="navcol-1" ng-controller="nameCtrl">
+                    <div class="collapse navbar-collapse" id="navcol-1">
                         <span class="float-left navbar-text">Welcome:<span id="Welcome" ng-module>{{LoginID}}</span>&nbsp;</span>
                     </div>
-                    <div>
-                        <span class="ml-auto navbar-text hidden-lg hidden-md">You have:<span id="Notification"></span> Notificaciones </span>
+                    <div style="  margin: auto;width: 60%;">
+                        <span class="ml-auto navbar-text hidden-lg hidden-md">You have:<span id="Notification" ng-module>{{Notificaciones}}</span> Notificaciones </span>
+
                     </div>
+
+                    <div>
+                        <span style="font-size:1.4em"><i class="far fa-user-circle"></i></span>
+                        <span style="font-size:1.4em"><i class="far fa-comments"></i></span>
+                        <span style="font-size:1.4em"><i class="fas fa-cogs"></i></span>
+                    </div>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 </div>
             </nav>
-            <div style="background-color: #377ac2;">
-                <span id="date_time"></span>
-                <!--<script type="text/javascript">window.onload = date_time('date_time');</script>-->
-            </div>
             <div ng-view></div>
         </div>
     </div>
@@ -48,7 +53,7 @@
                     <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
                     <div ng-controller="IndexMainUl">
                         <ul ng-repeat="o in option">
-                        {{ o.content }}
+                            <li><a href="#!{{o.content}}">{{o.content}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -56,6 +61,5 @@
         </div>
     </div>
 
-    <script src="assets/js/IndexNg.js"></script>
 </body>
 </html>

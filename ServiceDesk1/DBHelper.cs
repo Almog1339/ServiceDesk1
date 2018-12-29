@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 
 namespace ServiceDesk1
 {
@@ -85,32 +86,9 @@ namespace ServiceDesk1
                         {
                             OptionList list = new OptionList(dr.GetString(0));
                             lists.Add(list);
-                            //need to do casting
-                            GetListOfItems(departmentID,list);
                         }
 
                         return lists;
-                    }
-                }
-            }
-        }
-
-        public static List<OptionList> GetListOfItems(int departmentID, OptionList list)
-        {
-            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" select OptionListSub.SubTitle from OptionListSub inner join OptionList on OptionList.TitleID = OptionListSub.TitleID where OptionList.DepartmentID = @DepartmentID and OptionList.Title = @list", conn)) {
-                    cmd.Parameters.AddWithValue("@DepartmentID", departmentID);
-                    cmd.Parameters.AddWithValue("@list", list);
-                    conn.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    {
-                        List<OptionList> items = new List<OptionList>();
-                        while (dr.Read()) {
-                            OptionList item = new OptionList(dr.GetString(0));
-                            items.Add(item);
-                        }
-
-                        return items;
                     }
                 }
             }
@@ -125,9 +103,6 @@ namespace ServiceDesk1
         {
             return -1;
         }
-
-        
-
     }
 
     public class OptionList
@@ -135,7 +110,6 @@ namespace ServiceDesk1
         public string Content { get; set; }
         public OptionList(string Content)
         {
-
             this.Content = Content;
         }
     }

@@ -1,8 +1,20 @@
 ﻿var myApp = angular.module('myApp', ["ngRoute"]);
 
-myApp.controller('nameCtrl', ['$scope', '$window', function ($scope, $window) {
-    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+myApp.config(function ($routeProvider) {
+    $routeProvider
+        .when("/", { templateUrl: "Self-Service.html" })
+        .when("/hr", { templateUrl: "HR.html" })
+        .when("/Self-Service", { templateUrl: "Self-Service.html" })
+        .when("/Organization", { templateUrl: "Organization.html" })
+        .when("/Incident", { templateUrl: "Incident.html" })
+        .when("/Service Desk", { templateUrl: "Service Desk.html" });
 
+});
+
+myApp.controller('navCtrl', ['$scope', '$window', function ($scope, $window) {
+    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+    //when the chat function will work need to write a get request.
+    //and use $scope.Notificaciones
 }]);
 
 myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
@@ -19,9 +31,6 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
 
         } else {
             alert("Please try to login again later we have encounter some problems...");
-            console.log("Please try to login again later we have encounter some problems...");
-            console.log(response.data);
-
                }
     });
     $scope.departmentID = JSON.parse($window.localStorage.getItem('departmentId'));
@@ -30,15 +39,4 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
         $window.localStorage.setItem('option', JSON.stringify(response.data));
         $scope.option = response.data;
     });
-
-    myApp.config(function ($routeProvider) {
-        $routeProvider
-            .when("/hr", { templateUrl: "HR.html" })
-            .when("/Self-Service", { templateUrl: "Self-Service.html" })
-            .when("/Organization", { templateUrl: "Organization.html" })
-            .when("/Incident", { templateUrl: "Incident.html" })
-            .when("/Service Desk", { templateUrl: "Service Desk.html" });
-
-    });
-
 }]);

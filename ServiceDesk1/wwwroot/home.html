@@ -2,19 +2,26 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <body>
-    <script>
-        var dataArray = [30, 40, 70];
-        var canvas = d3.select("body")
-            .append("svg")
-            .attr("width", 500)
-            .attr("Height", 500);
+    <div style="background-color: #377ac2;">
+        <span><i class="far fa-user-circle"></i></span>
+        <span><i class="fas fa-cogs"></i></span>
+        <span><i class="far fa-comments"></i></span>
+    </div>
 
-        var bars = canvas.selectAll("rect")
-            .data(dataArray)
-            .enter()
-            .append("rect")
-            .attr("width",function (d) { return d * 10;})
-            .attr("height", 50)
-            .attr("y", function (d,i) { return i * 100;});
-    </script>
+
+<script>
+    var dataArray = [30, 40, 70];
+    var canvas = d3.select("body")
+        .append("svg")
+        .attr("width", 500)
+        .attr("Height", 500);
+
+    var bars = canvas.selectAll("rect")
+        .data(dataArray)
+        .enter()
+        .append("rect")
+        .attr("width", function(d) { return d * 10; })
+        .attr("height", 50)
+        .attr("y", function(d, i) { return i * 100; });
+</script>
 </body>

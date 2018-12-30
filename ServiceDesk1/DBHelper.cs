@@ -34,6 +34,26 @@ namespace ServiceDesk1
             }
         }
 
+        public static List<OptionList> UsersList()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("SELECT Person.BusinessEntityID,Person.FirstName,Person.MiddleName,Person.LastName,HumanResources.Employee.JobTitle,Employee.LoginID,EmailAddress,Person.PhoneNumberType.Name,PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID WHERE Person.Person.PersonType in ('em', 'sp')", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        List<OptionList> lists = new List<OptionList>();
+                        while (dr.Read())
+                        {
+                            OptionList list = new OptionList(dr.GetValue(0));
+                            lists.Add(list);
+                        }
+
+                        return lists;
+                    }
+                    
+                }
+            }
+        }
         public static int GetBEID(string UserName)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -73,17 +93,14 @@ namespace ServiceDesk1
         }
         public static List<OptionList> GetListOfOption(int departmentID)
         {
-            using (SqlConnection conn = new SqlConnection(CONN_STRING))
-            {
-                using (SqlCommand cmd = new SqlCommand(" select OptionList.Title from OptionList where OptionList.DepartmentID = @DepartmentID group by Title",conn))
-                {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select OptionList.Title from OptionList where OptionList.DepartmentID = @DepartmentID group by Title", conn)) {
                     cmd.Parameters.AddWithValue("@DepartmentID", departmentID);
                     conn.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     {
                         List<OptionList> lists = new List<OptionList>();
-                        while (dr.Read())
-                        {
+                        while (dr.Read()) {
                             OptionList list = new OptionList(dr.GetString(0));
                             lists.Add(list);
                         }
@@ -107,8 +124,9 @@ namespace ServiceDesk1
 
     public class OptionList
     {
-        public string Content { get; set; }
-        public OptionList(string Content)
+
+        public object Content { get; set; }
+        public OptionList(object Content)
         {
             this.Content = Content;
         }

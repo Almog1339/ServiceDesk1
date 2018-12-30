@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="assets/js/IndexNg.js"></script>
     <style>
-
         ul {
             margin: 0%;
             padding: 0%;
@@ -26,35 +25,46 @@
                 <div class="container-fluid" ng-controller="navCtrl">
 
                     <a class="navbar-brand float-none" href="#">Home Page</a>
+                    <div style="background-color: transparent; float: left;">
+                        <button id="user_info_dropdown" style="background-color: transparent;border: transparent">
+                            <div class="dropdown pull-left" style="float: left; background-color: transparent;">
 
-                    <div class="collapse navbar-collapse" id="navcol-1">
-                        <span class="float-left navbar-text">Welcome:<span id="Welcome" ng-module>{{LoginID}}</span>&nbsp;</span>
+                                <img src="assets/img/Avatars/Ninja.png" style="width: 30px; height: 30px" />
+                                <span> </span>
+                                <span style="color: white">{{LoginID}}</span>
+                                <i class="fas fa-caret-down" style="color: white"></i>
+
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu" onkeydown="checkKeyPressed(event)">
+                            <li><a href="">Profile</a></li>
+                            <li><a href="">Impersonate User</a></li>
+                            <li><a href="">Elevate Roles</a></li>
+                            <li><a href="">Logout</a></li>
+                        </ul>
                     </div>
-                    <div style="  margin: auto;width: 60%;">
-                        <span class="ml-auto navbar-text hidden-lg hidden-md">You have:<span id="Notification" ng-module>{{Notificaciones}}</span> Notificaciones </span>
-
-                    </div>
-
-                    <div>
-                        <span style="font-size:1.4em"><i class="far fa-user-circle"></i></span>
-                        <span style="font-size:1.4em"><i class="far fa-comments"></i></span>
-                        <span style="font-size:1.4em"><i class="fas fa-cogs"></i></span>
+                    <div style="margin-left: -20px">
+                        <a href=""><span style="font-size:1.7em; color:black"><i class="fas fa-search"></i></span></a>
+                        <a href="#!Chat"><span style="font-size:1.7em; color:black"><i class="far fa-comments"></i></span></a>
+                        <a href="#!Settings"><span style="font-size:1.7em; color:black"><i class="fas fa-cogs"></i></span></a>
                     </div>
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 </div>
             </nav>
-            <div ng-view></div>
-        </div>
-    </div>
-    <div>
-        <div>
-            <div class="visible sidebar" id="divimg" data-color="blue" data-image="" style="background-image: url(&quot;assets/img/sidebar-2.jpg&quot;); color: rgb(0, 0, 0);">
-                <div class="sidebar-wrapper">
-                    <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;assets/img/Logo1.png&quot;);"><span id="Department"></span>Dashboard</a></div>
-                    <div ng-controller="IndexMainUl">
-                        <ul ng-repeat="o in option">
-                            <li><a href="#!{{o.content}}">{{o.content}}</a></li>
-                        </ul>
+            <div id="main">
+                <div ng-view></div>
+            </div>
+            <div>
+                <div>
+                    <div class="visible sidebar" id="divimg" data-color="blue" data-image="" style="background-image: url(&quot;/assets/img/sidebar-2.jpg&quot;); color: rgb(0, 0, 0);">
+                        <div class="sidebar-wrapper">
+                            <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;/assets/img/Logo1.png&quot;);"><span id="Department"></span>Service Management System</a></div>
+                            <div ng-controller="IndexMainUl">
+                                <ul ng-repeat="o in option">
+                                    <li><a href="#!{{o.content}}" style="color:black">{{o.content}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,4 +72,5 @@
     </div>
 
 </body>
+
 </html>

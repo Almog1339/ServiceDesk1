@@ -6,6 +6,8 @@
     <script src="assets/js/angular-route.min.js"></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="assets/js/IndexNg.js"></script>
     <style>
@@ -25,25 +27,21 @@
                 <div class="container-fluid" ng-controller="navCtrl">
 
                     <a class="navbar-brand float-none" href="#">Home Page</a>
-                    <div style="background-color: transparent; float: left;">
-                        <button id="user_info_dropdown" style="background-color: transparent;border: transparent">
-                            <div class="dropdown pull-left" style="float: left; background-color: transparent;">
-
+                    <span style="flex: 1 1 auto"></span>
+                    <div class="dropdown" style="background-color: transparent;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="user_info_dropdown" style="background-color: transparent;border: transparent">
                                 <img src="assets/img/Avatars/Ninja.png" style="width: 30px; height: 30px" />
                                 <span> </span>
                                 <span style="color: white">{{LoginID}}</span>
-                                <i class="fas fa-caret-down" style="color: white"></i>
-
-                            </div>
                         </button>
-                        <ul class="dropdown-menu" onkeydown="checkKeyPressed(event)">
-                            <li><a href="">Profile</a></li>
-                            <li><a href="">Impersonate User</a></li>
-                            <li><a href="">Elevate Roles</a></li>
-                            <li><a href="">Logout</a></li>
-                        </ul>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#!Profile">Profile</a></li>
+                                    <li><a href="">Impersonate User</a></li>
+                                    <li><a href="/Login.html">Logout</a></li>
+                                </ul>
                     </div>
-                    <div style="margin-left: -20px">
+
+                    <div style="float: left">
                         <a href=""><span style="font-size:1.7em; color:black"><i class="fas fa-search"></i></span></a>
                         <a href="#!Chat"><span style="font-size:1.7em; color:black"><i class="far fa-comments"></i></span></a>
                         <a href="#!Settings"><span style="font-size:1.7em; color:black"><i class="fas fa-cogs"></i></span></a>
@@ -53,12 +51,13 @@
             </nav>
             <div id="main">
                 <div ng-view></div>
+
             </div>
             <div>
                 <div>
-                    <div class="visible sidebar" id="divimg" data-color="blue" data-image="" style="background-image: url(&quot;/assets/img/sidebar-2.jpg&quot;); color: rgb(0, 0, 0);">
+                    <div class="visible sidebar" data-color="blue" data-image="" style="background-image: url(&quot;/assets/img/sidebar-2.jpg&quot;); color: rgb(0, 0, 0);">
                         <div class="sidebar-wrapper">
-                            <div class="logo" style="height: 110px"><a href="#" class="simple-text"><img style="background-image: url(&quot;/assets/img/Logo1.png&quot;);"><span id="Department"></span>Service Management System</a></div>
+                            <div class="logo" style="height: 100px"><a href="#" class="simple-text">Service Management System</a></div>
                             <div ng-controller="IndexMainUl">
                                 <ul ng-repeat="o in option">
                                     <li><a href="#!{{o.content}}" style="color:black">{{o.content}}</a></li>
@@ -66,6 +65,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

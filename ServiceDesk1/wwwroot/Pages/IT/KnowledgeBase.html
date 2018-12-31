@@ -1,0 +1,37 @@
+﻿<style>
+    .Container {
+        display: grid;
+        position: relative;
+        grid-template-columns: repeat(2,1fr);
+        padding: 0%;
+        height: 100%;
+        margin: 0;
+        grid-gap: 10px;
+    }
+
+    .box {
+        border: 2px solid black;
+        border-radius: 12px;
+    }
+    .vl {
+        border-left: 2px solid black;
+        height: 100%;
+        position: absolute;
+        left: 50%;
+        top: 0;
+    }
+</style>
+<nav style="background-color: gray">
+    <button ng-click="NewArticle()" style="background-color: darkslateblue;float: left" id="addNewArticle">Add new Article</button>
+</nav>
+<div class="Container">
+    <div class="box">
+        <ul>
+            <li ng-repeat="item in items">{{item}}</li>
+        </ul>
+    </div>
+    <span class="vl"></span>
+    <div class="box">
+
+    </div>
+</div>

@@ -11,17 +11,13 @@ namespace ServiceDesk1.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [Microsoft.AspNetCore.Mvc.HttpPost]
+        [HttpPost]
         public bool Login([FromForm]Employee userData)
         {
             if (string.IsNullOrEmpty(userData.LoginID) || string.IsNullOrEmpty(userData.Password))
             {
                 return false;
             }
-            Employee employee = new Employee {
-                LoginID = userData.LoginID,
-                Password = userData.Password
-            };
             return DBHelper.ValidateUser(userData.LoginID, userData.Password);
         }
         [HttpGet]

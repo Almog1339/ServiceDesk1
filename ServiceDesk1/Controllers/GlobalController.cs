@@ -11,9 +11,8 @@ namespace ServiceDesk1.Controllers
     [ApiController]
     public class GlobalController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("UsersList")]
         public object UsersList()
-
         {
             return DBHelper.UsersList();
         }

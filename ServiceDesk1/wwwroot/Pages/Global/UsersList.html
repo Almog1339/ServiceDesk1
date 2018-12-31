@@ -1,7 +1,27 @@
-﻿<table class="table">
+﻿
+<table class="table">
+    <thead>
+    <tr>
+        <th><a ng-click="sortBy('ID')">ID</a></th>
+        <th><a ng-click="sortBy('FirstName')">First Name</a></th>
+        <th><a ng-click="sortBy('LastName')">Last Name</a></th>
+        <th>Job Title</th>
+        <th>LoginID</th>
+        <th>Email Address</th>
+        <th>Type of communication</th>
+        <th>Phone Number</th>
+    </tr>
+    </thead>
     <tbody>
-        <tr>
-            <td ng-repeat="t in td">{{t}}</td>
-        </tr>
+       <tr ng-repeat="t in td  | orderBy: businessEntityID">
+            <td>{{t.businessEntityID}}</td>
+            <td>{{t.firstName}}</td>
+            <td>{{t.lastName}}</td>
+            <td>{{t.jobTitle}}</td>
+            <td>{{t.loginID}}</td>
+            <td>{{t.emailAddress}}</td>
+            <td>{{t.phoneNumberType}}</td>
+            <td>{{t.phoneNumber}}</td>
+       </tr>
     </tbody>
 </table>

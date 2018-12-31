@@ -3,23 +3,25 @@
 myApp.config(function ($routeProvider) {
     $routeProvider
         .when("/", { templateUrl: "/Pages/Global/Self-Service.html" })
-        .when("/HR", { templateUrl: "/Pages/Hr/HR.html"})
+        .when("/HR", { templateUrl: "/Pages/Hr/HR.html" })
         .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
-        .when("/Organization", {templateUrl: "/Pages/Global/Organization.html" })
+        .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
         .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
         .when("/Chat", { templateUrl: "/Pages/Global/Chat.html" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html" })
         .when("/Settings", { templateUrl: "/Pages/Global/Settings.html" })
-        .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl"});
+        .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
+        .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgebaseCtrl" });
 
 });
 
 myApp.controller('navCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+
     //when the chat function will work need to write a get request.
     //and use $scope.Notificaciones
-    
+
 }]);
 
 myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
@@ -36,18 +38,39 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
 
         } else {
             alert("Please try to login again later we have encounter some problems...");
-               }
+        }
     });
     $scope.departmentID = JSON.parse($window.localStorage.getItem('departmentId'));
-        
+
     $http.get("api/index?departmentId=" + $scope.departmentID).then(function (response) {
         $window.localStorage.setItem('option', JSON.stringify(response.data));
         $scope.option = response.data;
     });
 }]);
 
-myApp.controller('OrganizationCtrl', ['$scope', '$http', function($scope,$http) {
-    $http.get("/api/Global".then(function(response) {
+myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("/api/Global/UsersList").then(function (response) {
         $scope.td = response.data;
-    }));
+    });
+    $http.get("/api/Global/Vendor").then(function(response) {
+        $scope.td = response.data;
+    })
+}]);
+
+myApp.controller('KnowledgebaseCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("/api/Knowledge").then(function(response) {
+        if (response.data === -1) {
+            alert("Please try again later");
+        } else {
+            $scope.ID = response.data;
+        }
+    });
+
+    function submitArticle() {
+        $http.post("api/Knowledge").then(function(response) {
+            if (response.status === -1) {
+                alert("We have encounter some problem please try again later");
+            }
+        })
+    }
 }]);

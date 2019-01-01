@@ -16,5 +16,11 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.UsersList();
         }
+
+        [HttpGet("Department")]
+        public object DepartmentList()
+        {
+            return DBHelper.DepartmentList();
+        }
     }
 }

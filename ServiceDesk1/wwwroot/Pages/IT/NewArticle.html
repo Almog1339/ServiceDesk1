@@ -16,7 +16,7 @@
 </style>
 <div class="container">
     <label>Article number:</label><input type="text" disabled="disabled" placeholder="KB{{ID}}"/>
-    <label>Title: </label><input type="text" placeholder="Your article title..."/>
-    <label>Info: </label><input type="text" placeholder="This is where you should start typing..."/>
+    <label>Title: </label><input ng-module="title" type="text" placeholder="Your article title..."/>
+    <label>Info: </label><input ng-module="content" type="text" placeholder="This is where you should start typing..."/>
     <input ng-click="submitArticle()" type="submit" value="Submit" style="background-color: darkslateblue" />
 </div>

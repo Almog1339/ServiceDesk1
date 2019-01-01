@@ -8,6 +8,7 @@ using System.Xml.Schema;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
+using ServiceDesk1.wwwroot;
 
 namespace ServiceDesk1
 {
@@ -36,15 +37,15 @@ namespace ServiceDesk1
             }
         }
 
-        public static bool PostNewArticle(int ID, string title, string content)
+        public static bool PostNewArticle(int ID, string title, string content,int BusinessEntityID)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 using (SqlCommand cmd =
-                    new SqlCommand(" Insert into Knowledgebase(ID,Subject,Data) valuse (@ID,@title,@Content)", conn)) {
+                    new SqlCommand(" Insert into Knowledgebase(ID,Subject,Data,PostedBy) values (@ID,@title,@Content,@BusinessEntityID)", conn)) {
                     cmd.Parameters.AddWithValue("@ID", ID);
                     cmd.Parameters.AddWithValue("@title", title);
                     cmd.Parameters.AddWithValue("@content", content);
-
+                    cmd.Parameters.AddWithValue("@BusinessEntityID", @BusinessEntityID);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         if (dr.Read()) {
@@ -60,7 +61,7 @@ namespace ServiceDesk1
         public static List<Employee> UsersList()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand("SELECT Person.BusinessEntityID,Person.FirstName,Person.LastName,HumanResources.Employee.JobTitle,Employee.LoginID,EmailAddress,Person.PhoneNumberType.Name,PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID WHERE Person.Person.PersonType in ('em', 'sp')", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" SELECT Person.BusinessEntityID,Person.FirstName,Person.LastName,HumanResources.Employee.JobTitle,Employee.LoginID,EmailAddress,Person.PhoneNumberType.Name,PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID WHERE Person.Person.PersonType in ('em', 'sp')", conn)) {
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -76,6 +77,26 @@ namespace ServiceDesk1
                 }
             }
         }
+
+        public static List<Department> DepartmentList()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" SELECT HumanResources.Department.DepartmentID,HumanResources.Department.Name,HumanResources.Department.GroupName,Person.FirstName,Person.LastName,HumanResources.Employee.JobTitle,HumanResources.Employee.LoginID,Person.EmailAddress.EmailAddress,Person.PersonPhone.PhoneNumber FROM HumanResources.Department INNER JOIN HumanResources.EmployeeDepartmentHistory ON HumanResources.EmployeeDepartmentHistory.DepartmentID = HumanResources.Department.DepartmentID INNER JOIN HumanResources.Employee ON HumanResources.EmployeeDepartmentHistory.BusinessEntityID = HumanResources.Employee.BusinessEntityID INNER JOIN Person.Person ON Person.BusinessEntityID = HumanResources.Employee.BusinessEntityID inner join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = Person.BusinessEntityID inner join Person.EmailAddress on Person.EmailAddress.BusinessEntityID = Person.BusinessEntityID WHERE HumanResources.Employee.OrganizationLevel = 1 AND Person.BusinessEntityID = HumanResources.Employee.BusinessEntityID ORDER BY HumanResources.Department.DepartmentID", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+
+                        List<Department> lists = new List<Department>();
+                        while (dr.Read()) {
+                            Department list = new Department(dr.GetInt16(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetString(7),dr.GetString(8));
+                            lists.Add(list);
+                        }
+
+                        return lists;
+                    }
+                }
+            }
+        }
+
         public static int GetID()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -84,7 +105,8 @@ namespace ServiceDesk1
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         if (dr.Read()) {
                             int ID = dr.GetInt32(0);
-                            return ID++;
+                            ID++;
+                            return ID;
                         }
 
                         return -1;
@@ -92,15 +114,15 @@ namespace ServiceDesk1
                 }
             }
         }
-        public static int GetBEID(string UserName)
+        public static int GetBEID(string userName)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 using (SqlCommand cmd = new SqlCommand(" Select HumanResources.Employee.BusinessEntityID from HumanResources.Employee where HumanResources.Employee.LoginID = @LoginID ", conn)) {
-                    cmd.Parameters.AddWithValue("@LoginID", UserName);
+                    cmd.Parameters.AddWithValue("@LoginID", userName);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         if (dr.Read()) {
-                            int BEID = dr.GetInt16(0);
+                            int BEID = dr.GetInt32(0);
                             return BEID;
                         }
                     }

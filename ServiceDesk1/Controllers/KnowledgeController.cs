@@ -11,24 +11,26 @@ namespace ServiceDesk1.Controllers
     [ApiController]
     public class KnowledgeController : ControllerBase
     {
-        [HttpPost]
-        public static bool PostNewArticle(int ID,string title,string content)
+        [HttpGet("EntityID")]
+        public int EntityID(string userName)
         {
-            if (string.IsNullOrEmpty(title)||string.IsNullOrEmpty(content)||ID.Equals(null))
-            {
-                return false;
-            }
-            else
-            {
-                return DBHelper.PostNewArticle(ID, title, content);
-            }
-            
+            return DBHelper.GetBEID(userName);
         }
 
         [HttpGet]
-        public static int GetID()
+        public int GetID()
         {
             return DBHelper.GetID();
+        }
+        [HttpPost]
+        public bool submitArticle(int ID, string title, string content,int BusinessEntityID)
+        {
+            if (string.IsNullOrEmpty(title)||string.IsNullOrEmpty(content)||ID != -1 || ID != 0 || BusinessEntityID != 0|| BusinessEntityID != -1)
+            {
+                return false;
+            }
+
+            return DBHelper.PostNewArticle(ID, title, content, BusinessEntityID);
         }
     }
 }

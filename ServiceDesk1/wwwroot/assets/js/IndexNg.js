@@ -12,7 +12,9 @@ myApp.config(function ($routeProvider) {
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html" })
         .when("/Settings", { templateUrl: "/Pages/Global/Settings.html" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
-        .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgebaseCtrl" });
+        .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
+        .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
+        .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "KnowledgeCtrl" });
 
 });
 
@@ -52,25 +54,43 @@ myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http
     $http.get("/api/Global/UsersList").then(function (response) {
         $scope.td = response.data;
     });
-    $http.get("/api/Global/Vendor").then(function(response) {
-        $scope.td = response.data;
-    })
+    $http.get("/api/Global/Department").then(function (response) {
+        $scope.DepartmentList = response.data;
+    });
 }]);
 
-myApp.controller('KnowledgebaseCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get("/api/Knowledge").then(function(response) {
+myApp.controller('KnowledgeCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+
+    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+
+    $http.get("api/Knowledge/EntityID?userName=" + $scope.LoginID).then(function (response) {
+        $scope.BusinessEntityID = response.data;
+    });
+
+
+
+    $http.get("/api/Knowledge").then(function (response) {
         if (response.data === -1) {
             alert("Please try again later");
         } else {
+            console.log(response.data);
             $scope.ID = response.data;
         }
     });
 
-    function submitArticle() {
-        $http.post("api/Knowledge").then(function(response) {
+    function submitArticle($scope.ID, $scope.title, $scope.content, $scope.BusinessEntityID) {
+
+        $http.post("api/Knowledge?ID=" + $scope.ID + "&Title=" + $scope.title + "&Content=" + $scope.content + "&BusinessEntityID=" + $scope.BusinessEntityID).then(function (response) {
+            console.log($scope.title);
+            console.log($scope.content);
+            console.log($scope.BusinessEntityID);
             if (response.status === -1) {
                 alert("We have encounter some problem please try again later");
+            } else {
+                console.log("Done...");
             }
-        })
+        });
     }
+
+
 }]);

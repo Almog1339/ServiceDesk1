@@ -15,14 +15,14 @@ namespace ServiceDesk1
     public class DBHelper
     {
         private static string CONN_STRING = "Data Source=DESKTOP-O8IU0PQ\\SQLEXPRESS;Initial Catalog=ServiceDesk;Persist Security Info=True;User ID=sa;Password=Q1w2q1w2";
-        public static bool ValidateUser(string UserName, string Pass)
+        public static bool ValidateUser(string userName, string pass)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("SELECT LoginID, PasswordSalt FROM HumanResources.Employee LEFT JOIN PERSON.Password ON HumanResources.Employee.BusinessEntityID = Person.Password.BusinessEntityID WHERE HumanResources.Employee.LoginID = @LoginID AND Person.Password.PasswordSalt = @Password ");
                 using (SqlCommand cmd = new SqlCommand(sb.ToString(), conn)) {
-                    cmd.Parameters.AddWithValue("@LoginID", UserName);
-                    cmd.Parameters.AddWithValue("@Password", Pass);
+                    cmd.Parameters.AddWithValue("@LoginID", userName);
+                    cmd.Parameters.AddWithValue("@Password", pass);
 
                     conn.Open();
 
@@ -37,15 +37,15 @@ namespace ServiceDesk1
             }
         }
 
-        public static bool PostNewArticle(int ID, string title, string content,int BusinessEntityID)
+        public static bool PostNewArticle(string title, string content,int businessEntityID, string postedByName)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 using (SqlCommand cmd =
-                    new SqlCommand(" Insert into Knowledgebase(ID,Subject,Data,PostedBy) values (@ID,@title,@Content,@BusinessEntityID)", conn)) {
-                    cmd.Parameters.AddWithValue("@ID", ID);
+                    new SqlCommand(" Insert into Knowledgebase(Subject,Data,PostedBy,PostedByLoginID) values(@title,@Content,@BusinessEntityID,@PostedByLoginID)", conn)) {
                     cmd.Parameters.AddWithValue("@title", title);
                     cmd.Parameters.AddWithValue("@content", content);
-                    cmd.Parameters.AddWithValue("@BusinessEntityID", @BusinessEntityID);
+                    cmd.Parameters.AddWithValue("@BusinessEntityID", businessEntityID);
+                    cmd.Parameters.AddWithValue("@PostedByLoginID", postedByName);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         if (dr.Read()) {
@@ -78,6 +78,27 @@ namespace ServiceDesk1
             }
         }
 
+        public static List<Knowledge> GetArticles()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING))
+            {
+                using (SqlCommand cmd = new SqlCommand(" select ID,Subject,Data,PostedByLoginID from Knowledgebase", conn))
+                {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        List<Knowledge> lists =new List<Knowledge>();
+                        while (dr.Read())
+                        {
+                            Knowledge item =new Knowledge(dr.GetInt32(0),dr.GetString(1),dr.GetString(2),dr.GetString(3));
+                            lists.Add(item);
+                        }
+
+                        return lists;
+                    }
+                }
+            }
+        }
         public static List<Department> DepartmentList()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -100,15 +121,15 @@ namespace ServiceDesk1
         public static int GetID()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" Select ID from Knowledgebase", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" Select max(ID) from Knowledgebase", conn)) {
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
-                        if (dr.Read()) {
+                        if (dr.Read())
+                        {
                             int ID = dr.GetInt32(0);
                             ID++;
                             return ID;
                         }
-
                         return -1;
                     }
                 }
@@ -132,11 +153,11 @@ namespace ServiceDesk1
             }
         }
 
-        public static short ValidateDepartment(string UserName)
+        public static short ValidateDepartment(string userName)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 using (SqlCommand cmd = new SqlCommand(" SELECT HumanResources.Department.DepartmentID FROM HumanResources.Employee LEFT JOIN HumanResources.EmployeeDepartmentHistory ON HumanResources.Employee.BusinessEntityID = HumanResources.EmployeeDepartmentHistory.BusinessEntityID LEFT JOIN HumanResources.Department ON HumanResources.EmployeeDepartmentHistory.DepartmentID = HumanResources.Department.DepartmentID where HumanResources.EmployeeDepartmentHistory.EndDate IS NULL AND LoginID = @LoginID", conn)) {
-                    cmd.Parameters.AddWithValue("@LoginID", UserName);
+                    cmd.Parameters.AddWithValue("@LoginID", userName);
                     conn.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     {

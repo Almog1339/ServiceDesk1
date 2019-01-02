@@ -9,12 +9,14 @@ myApp.config(function ($routeProvider) {
         .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
         .when("/Chat", { templateUrl: "/Pages/Global/Chat.html" })
+        .when("/LocationMap", { templateUrl: "/Pages/Global/LocationMap.html", controller: "SimpleMapController" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html" })
         .when("/Settings", { templateUrl: "/Pages/Global/Settings.html" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
-        .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "KnowledgeCtrl" });
+        .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" });
+
 
 });
 
@@ -59,16 +61,18 @@ myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http
     });
 }]);
 
-myApp.controller('KnowledgeCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+myApp.controller('KnowledgeCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("/api/Knowledge/GetArticles").then(function (response) {
+        $scope.items = response.data;
+    });
+}]);
 
+myApp.controller('ArticleCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
 
     $http.get("api/Knowledge/EntityID?userName=" + $scope.LoginID).then(function (response) {
         $scope.BusinessEntityID = response.data;
     });
-
-
-
     $http.get("/api/Knowledge").then(function (response) {
         if (response.data === -1) {
             alert("Please try again later");
@@ -78,19 +82,26 @@ myApp.controller('KnowledgeCtrl', ['$scope', '$http', '$window', function ($scop
         }
     });
 
-    function submitArticle($scope.ID, $scope.title, $scope.content, $scope.BusinessEntityID) {
+    $scope.submitArticle = function () {
 
-        $http.post("api/Knowledge?ID=" + $scope.ID + "&Title=" + $scope.title + "&Content=" + $scope.content + "&BusinessEntityID=" + $scope.BusinessEntityID).then(function (response) {
-            console.log($scope.title);
-            console.log($scope.content);
-            console.log($scope.BusinessEntityID);
+        $http.post("api/Knowledge?ID=" +
+            $scope.ID +
+            "&Title=" +
+            $scope.title +
+            "&Content=" +
+            $scope.content +
+            "&BusinessEntityID=" +
+            $scope.BusinessEntityID +
+            "&PostedByLoginID=" +
+            $scope.LoginID
+        ).then(function (response) {
             if (response.status === -1) {
                 alert("We have encounter some problem please try again later");
             } else {
-                console.log("Done...");
+                alert("Done... we will redirect you shortly back to home page");
+                $window.location.href("/KnowledgeBase.html");
             }
         });
-    }
-
-
-}]);
+    };
+}
+]);

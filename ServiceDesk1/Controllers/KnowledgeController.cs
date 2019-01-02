@@ -11,6 +11,12 @@ namespace ServiceDesk1.Controllers
     [ApiController]
     public class KnowledgeController : ControllerBase
     {
+        
+        [HttpGet("GetArticles")]
+        public object GetArticles()
+        {
+            return DBHelper.GetArticles();
+        }
         [HttpGet("EntityID")]
         public int EntityID(string userName)
         {
@@ -23,14 +29,14 @@ namespace ServiceDesk1.Controllers
             return DBHelper.GetID();
         }
         [HttpPost]
-        public bool submitArticle(int ID, string title, string content,int BusinessEntityID)
+        public bool submitArticle( string title, string content,int BusinessEntityID,string PostedByLoginID)
         {
-            if (string.IsNullOrEmpty(title)||string.IsNullOrEmpty(content)||ID != -1 || ID != 0 || BusinessEntityID != 0|| BusinessEntityID != -1)
+            if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(content) && BusinessEntityID != 0 && BusinessEntityID != -1)
             {
                 return false;
             }
 
-            return DBHelper.PostNewArticle(ID, title, content, BusinessEntityID);
+            return DBHelper.PostNewArticle(title, content, BusinessEntityID, PostedByLoginID);
         }
     }
 }

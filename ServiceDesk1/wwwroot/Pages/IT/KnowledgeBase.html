@@ -24,14 +24,28 @@
 <nav style="background-color: gray">
     <a href="#!NewArticle"><input type="button" value="Add new Article" /></a>
 </nav>
-<div class="Container">
+<div class="Container" >
     <div class="box">
-        <ul>
-            <li ng-repeat="item in items">{{item}}</li>
-        </ul>
+        <table class="table" >
+            <thead class="table table-info" >
+            <tr>
+                <td>Number</td>
+                <td>Subject</td>
+                <td>Posted By</td>
+            </tr>
+            </thead>
+            <tbody class="table table-hover">
+            <tr ng-repeat="item in items">
+                <td>KB0{{item.id}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.postedByName}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <span class="vl"></span>
     <div class="box">
-
+        <span>ID:KB0{{showID}}</span><br/>
+        <span>Title:{{title}}</span>
+        <p>{{item.content}}</p>
     </div>
 </div>

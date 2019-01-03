@@ -11,6 +11,16 @@ namespace ServiceDesk1.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
+        //[HttpGet]
+        //public static object GetChats(string LoginID)
+        //{
+        //    if (string.IsNullOrEmpty(LoginID))
+        //    {
+        //        return -1;
+        //    }
 
+        //    return DBHelper.GetChats();
+        //}
+        
     }
 }

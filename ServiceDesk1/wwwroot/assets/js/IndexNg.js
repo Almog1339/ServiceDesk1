@@ -11,7 +11,7 @@ myApp.config(function ($routeProvider) {
         .when("/Chat", { templateUrl: "/Pages/Global/Chat.html" })
         .when("/LocationMap", { templateUrl: "/Pages/Global/LocationMap.html", controller: "SimpleMapController" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html" })
-        .when("/Settings", { templateUrl: "/Pages/Global/Settings.html" })
+        .when("/Settings", { templateUrl: "/Pages/Global/Settings.html",controller:"SettingsCtrl" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
@@ -29,6 +29,13 @@ myApp.controller('navCtrl', ['$scope','$http', '$window', function ($scope,$http
     //when the chat function will work need to write a get request.
     //and use $scope.Notificaciones
 
+}]);
+myApp.controller('SettingsCtrl', ['$scope', function($scope) {
+    $scope.Settings = [{
+        "name": "Themes"
+    }, {
+        "name": "Profile Settings"
+    }]
 }]);
 
 myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope, $http, $window) {

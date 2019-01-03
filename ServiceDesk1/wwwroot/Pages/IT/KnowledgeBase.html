@@ -42,27 +42,15 @@
     <input ng-model="search" type="text" name="search" placeholder="Search..">
 </nav>
 <div class="Container" >
-    <div class="box">
-        <table class="table" >
-            <thead class="table table-info" >
-            <tr>
-                <td>Number</td>
-                <td>Subject</td>
-                <td>Posted By</td>
-            </tr>
-            </thead>
-            <tbody class="table table-hover">
-            <tr ng-repeat="item in items| filter:search">
-                <td>KB0{{item.id}}</td>
-                <td>{{item.title}}</td>
-                <td>{{item.postedByName}}</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="box" >
+        <ul ng-repeat="item in items| filter:search">
+            <li>KB{{item.id}},{{item.title}}</li>
+            <li>{{item.postedByName}}</li>
+        </ul>
     </div>
     <div class="box">
         <span>ID:KB0{{showID}}</span><br/>
-        <span ng-model="title">Title:{{title}}</span>
+        <span>Title:{{title}}</span>
         <p>{{item.content}}</p>
     </div>
 </div>

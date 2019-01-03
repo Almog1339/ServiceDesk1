@@ -29,6 +29,7 @@
 
     input[type=text]:focus {
         width: 78%;
+        max-width: 500px;
     }
 </style>
 <div>
@@ -68,6 +69,7 @@
     <div class="Container" ng-hide="table">
         <div ng-repeat="t in td | filter:search">
             <div class="box">
+                
                 {{t.firstName}}
                 {{t.lastName}}<br/>
                 {{t.jobTitle}}<br/>

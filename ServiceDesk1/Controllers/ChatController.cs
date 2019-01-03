@@ -9,12 +9,8 @@ namespace ServiceDesk1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IndexController : ControllerBase
+    public class ChatController : ControllerBase
     {
-        [HttpGet("image")]
-        public object image(string loginID) => DBHelper.GetImg(loginID);
 
-        [HttpGet]
-        public object ListOrganizerCtrl(int departmentId) => DBHelper.GetListOfOption(departmentId);
     }
 }

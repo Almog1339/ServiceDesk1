@@ -20,9 +20,12 @@ myApp.config(function ($routeProvider) {
 
 });
 
-myApp.controller('navCtrl', ['$scope', '$window', function ($scope, $window) {
+myApp.controller('navCtrl', ['$scope','$http', '$window', function ($scope,$http, $window) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
 
+    //$http.get("api/index/image?LoginID=" + $scope.LoginID).then(function(response) {
+    //    $scope.img = response.data;
+    //});
     //when the chat function will work need to write a get request.
     //and use $scope.Notificaciones
 

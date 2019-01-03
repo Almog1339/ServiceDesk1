@@ -20,9 +20,26 @@
         left: 50%;
         top: 0;
     }
+    input[type=text] {
+        width: 130px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        font-size: 12px;
+        background-color: white;
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+
+    input[type=text]:focus {
+        width: 50%;
+    }
 </style>
 <nav style="background-color: gray">
     <a href="#!NewArticle"><input type="button" value="Add new Article" /></a>
+    <input ng-model="search" type="text" name="search" placeholder="Search..">
 </nav>
 <div class="Container" >
     <div class="box">
@@ -35,7 +52,7 @@
             </tr>
             </thead>
             <tbody class="table table-hover">
-            <tr ng-repeat="item in items">
+            <tr ng-repeat="item in items| filter:search">
                 <td>KB0{{item.id}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.postedByName}}</td>
@@ -45,7 +62,7 @@
     </div>
     <div class="box">
         <span>ID:KB0{{showID}}</span><br/>
-        <span>Title:{{title}}</span>
+        <span ng-model="title">Title:{{title}}</span>
         <p>{{item.content}}</p>
     </div>
 </div>

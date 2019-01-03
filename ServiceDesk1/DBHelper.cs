@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
+using Microsoft.AspNetCore.Antiforgery.Internal;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
@@ -61,7 +62,7 @@ namespace ServiceDesk1
         public static List<Employee> UsersList()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" SELECT Person.BusinessEntityID,Person.FirstName,Person.LastName,HumanResources.Employee.JobTitle,Employee.LoginID,EmailAddress,Person.PhoneNumberType.Name,PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID WHERE Person.Person.PersonType in ('em', 'sp')", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" SELECT Person.BusinessEntityID,Person.FirstName,Person.LastName,HumanResources.Employee.JobTitle,Employee.LoginID,EmailAddress,Person.PhoneNumberType.Name,PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID inner join [Employess.Photo] on [Employess.Photo].BusinessEntityID = Employee.BusinessEntityID WHERE Person.Person.PersonType in ('em', 'sp')", conn)) {
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -150,6 +151,28 @@ namespace ServiceDesk1
                 }
 
                 return -1;
+            }
+        }
+
+        public static object GetImg(string userName)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING))
+            {
+                using (SqlCommand cmd = new SqlCommand(" select Photo from [Employess.Photo] inner join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = [Employess.Photo].BusinessEntityID where LoginID = @LoginID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@LoginID", userName);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            return dr.GetSqlBinary(0);
+                            
+                        }
+
+                        return -1;
+                    }
+                }
             }
         }
 

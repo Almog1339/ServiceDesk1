@@ -1,28 +1,53 @@
-﻿<table class="table table-striped">
-    <thead class="thead-dark">
-    <tr>
-        <th>ID</th>
-        <th>Department Name</th>
-        <th>Group Name</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Job Title</th>
-        <th>LoginID</th>
-        <th>Email Address</th>
-        <th>Phone Number</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="Department in DepartmentList">
-            <td>{{Department.id}}</td>
-            <td>{{Department.departmentName}}</td>
-            <td>{{Department.groupName}}</td>
-            <td>{{Department.managerFirstName}}</td>
-            <td>{{Department.managerLastName}}</td>
-            <td>{{Department.managerTitle}}</td>
-            <td>{{Department.managerLoginID}}</td>
-            <td>{{Department.managerEmail}}</td>
-            <td>{{Department.managerPhoneNumber}}</td>
-        </tr>
-    </tbody>
-</table>
+﻿<style>
+    input[type=text] {
+        width: 130px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        font-size: 12px;
+        background-color: white;
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+
+    input[type=text]:focus {
+        width: 100%;
+    }
+</style>
+<div>
+    <nav style="background-color: gray">
+        <input ng-model="search" type="text" name="search" placeholder="Search..">
+    </nav>
+    <div>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Department Name</th>
+                <th>Group Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Job Title</th>
+                <th>LoginID</th>
+                <th>Email Address</th>
+                <th>Phone Number</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="Department in DepartmentList | filter:search">
+                <td>{{Department.id}}</td>
+                <td>{{Department.departmentName}}</td>
+                <td>{{Department.groupName}}</td>
+                <td>{{Department.managerFirstName}}</td>
+                <td>{{Department.managerLastName}}</td>
+                <td>{{Department.managerTitle}}</td>
+                <td>{{Department.managerLoginID}}</td>
+                <td>{{Department.managerEmail}}</td>
+                <td>{{Department.managerPhoneNumber}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

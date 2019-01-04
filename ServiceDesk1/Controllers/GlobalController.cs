@@ -22,5 +22,17 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.DepartmentList();
         }
+
+        [HttpGet("info")]
+        public object info(string loginID)
+        {
+            return DBHelper.getInfo(loginID);
+        }
+
+        [HttpPost("info")]
+        public bool updateInfo(string firstName, string lastName,int BusinessEntityID)
+        {
+            return DBHelper.updateInfo(firstName,lastName, BusinessEntityID);
+        }
     }
 }

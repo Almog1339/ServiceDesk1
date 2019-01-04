@@ -47,5 +47,15 @@ namespace ServiceDesk1
             this.PhoneNumberType = PhoneNumberType;
             this.PhoneNumber = PhoneNumber;
         }
+
+        public Employee(string firstName, string lastName, string phoneNumber, string jobTitle, string emailAddress,int businessEntityId)
+        {
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.PhoneNumber = phoneNumber;
+            this.JobTitle = jobTitle;
+            this.EmailAddress = emailAddress;
+            this.BusinessEntityID = businessEntityId;
+        }
     }
 }

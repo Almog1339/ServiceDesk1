@@ -1,97 +1,39 @@
 ﻿<style>
-    img {
-        width: 200px;
-        height: 200px;
+    .Container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    input[type="text"] {
+        width: 350px;
+    }
+    input:focus {
+        border: 1px solid purple;
+
+    }
+    label {
+        margin: 5px;
+        padding: 10px;
     }
 </style>
-<div ng-app="plunkr">
-    <div ng-controller="UploadController ">
-
-        <form>
-            <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
-        </form>
-
-        <img ng-src="{{imageSrc}}" />
-
+<div class="Container" ng-repeat="info in information">
+    <div>
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">First Name</label>
+        <input class="input-group-addon" type="text" value="{{info.firstName}}" />
+        <br />
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Business Phone</label>
+        <input disabled="disabled" class="input-group-addon" type="text" value="{{info.phoneNumber}}" />
+        <br />
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">title</label>
+        <input disabled="disabled"  class="input-group-addon" type="text" value="{{info.jobTitle}}" />
+        <br />
+        <input ng-click="UpdateProfile()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Update" />
+        <input style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Reset Password" />
+    </div>
+    <div>
+        <label  class="col-xs-12 col-md-3 col-lg-4 control-label">Last Name</label>
+        <input class="input-group-addon" type="text" value="{{info.lastName}}" />
+        <br/>
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Email</label>
+        <input disabled="disabled" class="input-group-addon" type="text" value="{{info.emailAddress}}" />
     </div>
 </div>
-<script>
-    var app = angular.module('plunkr', [])
-    app.controller('UploadController', function ($scope, fileReader) {
-        $scope.imageSrc = "";
-
-        $scope.$on("fileProgress", function (e, progress) {
-            $scope.progress = progress.loaded / progress.total;
-        });
-    });
-    app.directive("ngFileSelect", function (fileReader, $timeout) {
-        return {
-            scope: {
-                ngModel: '='
-            },
-            link: function ($scope, el) {
-                function getFile(file) {
-                    fileReader.readAsDataUrl(file, $scope)
-                        .then(function (result) {
-                            $timeout(function () {
-                                $scope.ngModel = result;
-                            });
-                        });
-                }
-
-                el.bind("change", function (e) {
-                    var file = (e.srcElement || e.target).files[0];
-                    getFile(file);
-                });
-            }
-        };
-    });
-
-    app.factory("fileReader", function ($q, $log) {
-        var onLoad = function (reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    deferred.resolve(reader.result);
-                });
-            };
-        };
-
-        var onError = function (reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    deferred.reject(reader.result);
-                });
-            };
-        };
-
-        var onProgress = function (reader, scope) {
-            return function (event) {
-                scope.$broadcast("fileProgress", {
-                    total: event.total,
-                    loaded: event.loaded
-                });
-            };
-        };
-
-        var getReader = function (deferred, scope) {
-            var reader = new FileReader();
-            reader.onload = onLoad(reader, deferred, scope);
-            reader.onerror = onError(reader, deferred, scope);
-            reader.onprogress = onProgress(reader, scope);
-            return reader;
-        };
-
-        var readAsDataURL = function (file, scope) {
-            var deferred = $q.defer();
-
-            var reader = getReader(deferred, scope);
-            reader.readAsDataURL(file);
-
-            return deferred.promise;
-        };
-
-        return {
-            readAsDataUrl: readAsDataURL
-        };
-    });
-</script>

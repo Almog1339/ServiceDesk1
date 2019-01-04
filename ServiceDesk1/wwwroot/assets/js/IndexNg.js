@@ -1,28 +1,51 @@
 ﻿var myApp = angular.module('myApp', ["ngRoute"]);
 
-myApp.config(function ($routeProvider) {
-    $routeProvider
-        .when("/", { templateUrl: "/Pages/Global/Self-Service.html" })
-        .when("/HR", { templateUrl: "/Pages/Hr/HR.html" })
-        .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
-        .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
-        .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
-        .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
-        .when("/Chat", { templateUrl: "/Pages/Global/Chat.html" })
-        .when("/LocationMap", { templateUrl: "/Pages/Global/LocationMap.html", controller: "SimpleMapController" })
-        .when("/Profile", { templateUrl: "/Pages/Global/Profile.html" })
-        .when("/Settings", { templateUrl: "/Pages/Global/Settings.html",controller:"SettingsCtrl" })
-        .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
+myApp.config(function($routeProvider) {
+        $routeProvider
+            .when("/", { templateUrl: "/Pages/Global/Self-Service.html" })
+            .when("/HR", { templateUrl: "/Pages/Hr/HR.html" })
+            .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
+            .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
+            .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
+            .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
+            .when("/Chat", { templateUrl: "/Pages/Global/Chat.html" })
+            .when("/LocationMap", { templateUrl: "/Pages/Global/LocationMap.html", controller: "SimpleMapController" })
+            .when("/Profile", { templateUrl: "/Pages/Global/Profile.html", controller:"navCtrl" })
+            .when("/Settings", { templateUrl: "/Pages/Global/Settings.html", controller: "SettingsCtrl" })
+            .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
+            .when("/JobCandidate", { templateUrl: "/pages/HR/JobCandidate.html", controller: "HrCtrl" })
+            .when("/ServiceCatalog", { templateUrl: "/pages/Global/ServiceCatalog.html",controller:"CatalogCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
         .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" });
 
 
 });
+myApp.controller('CatalogCtrl', ['$scope', '$http', function($scope, $http) {
+    $http.get("api/Catalog").then(function(response) {
+        $scope.Catalogs = response.data;
+    });
+}]);
 
 myApp.controller('navCtrl', ['$scope','$http', '$window', function ($scope,$http, $window) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
-
+    $http.get("api/Global/info?LoginID=" + $scope.LoginID).then(function (response) {
+        $scope.information = response.data;
+        $window.localStorage.setItem('information', JSON.stringify(response.data));
+    });
+    $scope.UpdateProfile = function() {
+        $http.post("api/Global/info?firstName=" +
+            $scope.firstName +
+            "&lastName=" +
+            scope.lastName +
+            "&BusinessEntityID=" +
+            $scope.BusinessEntityID).then(function(response) {
+            if (response.data === -1 | response.data === false) {
+                alert("We could not update your information please contact your system administrator or the HR");
+            }
+            alert("Done you are now can continue your work");
+        });
+    };
     //$http.get("api/index/image?LoginID=" + $scope.LoginID).then(function(response) {
     //    $scope.img = response.data;
     //});
@@ -31,13 +54,25 @@ myApp.controller('navCtrl', ['$scope','$http', '$window', function ($scope,$http
 
 }]);
 myApp.controller('SettingsCtrl', ['$scope', function($scope) {
-    $scope.Settings = [{
-        "name": "Themes"
-    }, {
-        "name": "Profile Settings"
-    }]
+    $scope.Settings = [
+        {
+            "name": "Themes"
+        }, {
+            "name": "Profile Settings"
+        }
+    ];
 }]);
 
+myApp.controller('HrCtrl',['$scope', '$http', function($scope, $http) {
+            $http.get("api/HR").then(function(response) {
+                $scope.OpenJobs = response.data;
+                console.log(response.data);
+            });
+        $http.get("api/HR/Candidate").then(function(response) {
+            $scope.Candidates = response.data;
+        });
+    }
+    ]);
 myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     $scope.lists = '';
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
@@ -57,7 +92,6 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
     $scope.departmentID = JSON.parse($window.localStorage.getItem('departmentId'));
 
     $http.get("api/index?departmentId=" + $scope.departmentID).then(function (response) {
-        $window.localStorage.setItem('option', JSON.stringify(response.data));
         $scope.option = response.data;
     });
 }]);

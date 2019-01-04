@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Content Include="Department.cs" />
+    <Content Include="HR.cs" />
   </ItemGroup>
 
   <ItemGroup>

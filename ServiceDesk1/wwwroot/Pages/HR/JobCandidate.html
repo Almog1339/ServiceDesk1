@@ -1,0 +1,75 @@
+﻿<style>
+    input[type=text] {
+        width: 130px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        font-size: 12px;
+        background-color: white;
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+
+    input[type=text]:focus {
+        width: 100%;
+    }
+    .Container {
+        display: grid;
+        position: relative;
+        grid-template-columns: repeat(2,1fr);
+        padding: 0%;
+        height: 100%;
+        margin: 0;
+        grid-gap: 10px;
+    }
+    .box {
+        border: 1px solid black;
+        border-radius: 12px;
+    }
+</style>
+<nav style="background-color: gray">
+    <input ng-model="search" type="text" name="search" placeholder="Search..">
+</nav>
+<div class="Container">
+
+    <div class="box">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th>Position number</th>
+                <th>Title</th>
+                <th>Job Description</th>
+                <th>Department ID</th>
+                <th>Manager</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="Job in OpenJobs | filter:search">
+                <td >{{Job.id}}</td>
+                <td>{{Job.title}}</td>
+                <td>{{Job.description}}</td>
+                <td>{{Job.departmentID}}</td>
+                <td>{{Job.manager}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="box">
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>resume</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="Candidate in Candidates">
+                    <td>{{Candidate.jobCandidateID}}</td>
+                    <td>{{Candidate.resume}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

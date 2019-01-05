@@ -32,7 +32,22 @@ namespace ServiceDesk1.Controllers
         [HttpPost("info")]
         public bool updateInfo(string firstName, string lastName,int BusinessEntityID)
         {
+            if (string.IsNullOrEmpty(firstName)||string.IsNullOrEmpty(lastName))
+            {
+                return false;
+            }
             return DBHelper.updateInfo(firstName,lastName, BusinessEntityID);
+        }
+
+        [HttpPost("passwordReset")]
+        public bool passwordReset(string loginID, string password,string newPassword,int BusinessEntityID)
+        {
+            if (string.IsNullOrEmpty(loginID) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(newPassword)) {
+                return false;
+            }
+            else {
+                return DBHelper.passwordReset(loginID, password, newPassword, BusinessEntityID);
+            }
         }
     }
 }

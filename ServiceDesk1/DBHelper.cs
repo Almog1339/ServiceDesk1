@@ -20,6 +20,28 @@ namespace ServiceDesk1
         private static string CONN_STRING =
             "Data Source=DESKTOP-O8IU0PQ\\SQLEXPRESS;Initial Catalog=ServiceDesk;Persist Security Info=True;User ID=sa;Password=Q1w2q1w2";
 
+        public static int PositionID()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select max(JobID) from Positions", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())    {
+                        if (dr.Read()) {
+                            int id = dr.GetInt32(0);
+                            id++;
+                            return id;
+                        }
+                        return -1;
+                    }
+                }               
+            }
+        }
+
+        public static bool NewPosition(string jobTitle, string jobDescription, string department)
+        {
+            throw new NotImplementedException();
+        }
+
         public static bool ValidateUser(string userName, string pass)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -43,6 +65,38 @@ namespace ServiceDesk1
                     }
                 }
 
+                return false;
+            }
+        }
+
+        public static bool passwordReset(string loginID, string password, string newPassword,int BusinessEntityID)
+        {
+            if (ValidateUser(loginID, password) == true)
+            {
+                using (SqlConnection conn = new SqlConnection(CONN_STRING))
+                {
+                    using (SqlCommand cmd =
+                        new SqlCommand(
+                            " update Person.Password set PasswordSalt = '@newPassword' where BusinessEntityID = @BusinessEntityID",
+                            conn))
+                    {
+                        cmd.Parameters.AddWithValue("@newPassword", newPassword);
+                        cmd.Parameters.AddWithValue("@BusinessEntityID", BusinessEntityID);
+                        conn.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    }
+                }
+            }
+            else
+            {
                 return false;
             }
         }

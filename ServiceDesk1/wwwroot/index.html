@@ -26,26 +26,20 @@
             <nav class="navbar navbar-light navbar-expand-md" style="background-color: #377ac2;">
                 <div class="container-fluid" ng-controller="navCtrl">
 
-                    <a class="navbar-brand float-none" href="#">Home Page</a>
-                    <span style="flex: 1 1 auto"></span>
                     <div class="dropdown" style="background-color: transparent;">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="user_info_dropdown" style="background-color: transparent;border: transparent">
-                            <img src="/assets/img/1.png" style="width: 30px; height: 30px"/>
-                                <span> </span>
-                                <span style="color: white">{{LoginID}}</span>
+                            <img src="/assets/img/1.png" style="width: 30px; height: 30px" />
+                            <span> </span>
+                            <span style="color: white">{{LoginID}}</span>
                         </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#!Profile">Profile</a></li>
-                                    <li><a href="">Impersonate User</a></li>
-                                    <li><a href="/Login.html">Logout</a></li>
-                                </ul>
+                        <ul class="dropdown-menu">
+                            <li><a href="#!Profile">Profile</a></li>
+                            <li><a href="#!Settings">Settings</a></li>
+                            <li><a href="#!Chat">Chat</a></li>
+                            <li><a href="/Login.html">Logout</a></li>
+                        </ul>
                     </div>
-
-                    <div style="float: left">
-                        <a href=""><span style="font-size:1.7em; color:black"><i class="fas fa-search"></i></span></a>
-                        <a href="#!Chat"><span style="font-size:1.7em; color:black"><i class="far fa-comments"></i></span></a>
-                        <a href="#!Settings"><span style="font-size:1.7em; color:black"><i class="fas fa-cogs"></i></span></a>
-                    </div>
+                    <span style="flex: 1 1 auto"></span>
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 </div>
             </nav>

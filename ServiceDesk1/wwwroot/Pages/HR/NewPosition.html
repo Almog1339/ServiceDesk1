@@ -1,0 +1,80 @@
+﻿<style>
+    .Container {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    input[type="text"] {
+        width: 300px;
+    }
+
+    textarea {
+        width: 650px;
+        max-width: 80%;
+        height: 150px;
+        max-height: 300px;
+    }
+    textarea:focus {
+        border: 2px solid purple;
+    }
+    input:focus {
+        border: 2px solid purple;
+    }
+</style>
+<div class="Container">
+    <div>
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">ID</label>
+        <input disabled="disabled" class="input-group-addon" type="text" value="{{NewPositionID}}" />
+        <br />
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Caller</label>
+        <input class="input-group-addon" type="text" value="" />
+        <br />
+    </div>
+    <div>
+        <label class="control-label">Department</label>
+        <select style="max-width:250px;float:right" class="form-control">
+            <option>Engineering</option>
+            <option>Tool Design</option>
+            <option>Research and Development</option>
+            <option>Marketing</option>
+            <option>Purchasing</option>
+            <option>Sales</option>
+            <option>Production</option>
+            <option>Human Resources</option>
+            <option>Finance</option>
+            <option>Information Services</option>
+            <option>IT</option>
+            <option>Facilities and Maintenance</option>
+            <option>Document Control</option>
+        </select>
+        <br />
+        <br />
+        <label class="control-label">Assignment group</label>
+        <select style="max-width:250px;float:right" class="form-control">
+            <option>Engineering</option>
+            <option>Tool Design</option>
+            <option>Research and Development</option>
+            <option>Marketing</option>
+            <option>Purchasing</option>
+            <option>Sales</option>
+            <option>Production</option>
+            <option selected>Human Resources</option>
+            <option>Finance</option>
+            <option>Information Services</option>
+            <option>IT</option>
+            <option>Facilities and Maintenance</option>
+            <option>Document Control</option>
+        </select>
+    </div>
+
+</div>
+<div>
+    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Short Job Discription</label>
+    <input class="input-group-addon" type="text" value="" />
+    <br />
+    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Job Discription</label>
+    <textarea class="input-group-addon" type="text" value=""></textarea>
+    <hr />
+    <input ng-click="Reset()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Approve" />
+
+</div>

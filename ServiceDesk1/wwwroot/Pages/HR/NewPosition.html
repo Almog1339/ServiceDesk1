@@ -1,4 +1,7 @@
 ﻿<style>
+    body {
+        background-color:antiquewhite
+    }
     .Container {
         display: grid;
         grid-template-columns: repeat(2,1fr);
@@ -6,6 +9,10 @@
 
     input[type="text"] {
         width: 300px;
+    }
+    #Short_Discription {
+        width: 650px;
+        max-width: 80%;
     }
 
     textarea {
@@ -26,13 +33,13 @@
         <label class=" col-xs-12 col-md-3 col-lg-4 control-label">ID</label>
         <input disabled="disabled" class="input-group-addon" type="text" value="{{NewPositionID}}" />
         <br />
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Caller</label>
-        <input class="input-group-addon" type="text" value="" />
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Open By</label>
+        <input disabled class="input-group-addon" type="text" value="{{LoginID}}" />
         <br />
     </div>
     <div>
         <label class="control-label">Department</label>
-        <select style="max-width:250px;float:right" class="form-control">
+        <select ng-model="Hiring_Department" style="max-width:250px;float:right" class="form-control">
             <option>Engineering</option>
             <option>Tool Design</option>
             <option>Research and Development</option>
@@ -50,7 +57,7 @@
         <br />
         <br />
         <label class="control-label">Assignment group</label>
-        <select style="max-width:250px;float:right" class="form-control">
+        <select disabled style="max-width:250px;float:right" class="form-control">
             <option>Engineering</option>
             <option>Tool Design</option>
             <option>Research and Development</option>
@@ -66,15 +73,17 @@
             <option>Document Control</option>
         </select>
     </div>
-
+    <br />
+    <br />
+    <br />
 </div>
 <div>
-    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Short Job Discription</label>
-    <input class="input-group-addon" type="text" value="" />
+    <label  class=" col-xs-12 col-md-3 col-lg-4 control-label">Short Job Discription</label>
+    <input ng-model="JobTitle" id="Short_Discription" class="input-group-addon" type="text" />
     <br />
     <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Job Discription</label>
-    <textarea class="input-group-addon" type="text" value=""></textarea>
+    <textarea ng-model="JobDescription" class="input-group-addon" type="text" ></textarea>
     <hr />
-    <input ng-click="Reset()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Approve" />
+    <input ng-click="OpenNewPosition()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Approve" />
 
 </div>

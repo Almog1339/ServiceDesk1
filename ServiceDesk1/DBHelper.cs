@@ -36,10 +36,56 @@ namespace ServiceDesk1
                 }               
             }
         }
+        public static int ReutnDepartmentID(string Department)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("select DepartmentID from HumanResources.Department where name = @Department", conn)) {
+                    cmd.Parameters.AddWithValue("@Department", Department);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return dr.GetInt16(0);
+                        }
+                        return -1;
+                    }
+                }
+            }
+        }
+        public static string ReturnManagerDepartmnetName(string Department)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" SELECT HumanResources.Employee.LoginID FROM HumanResources.Department INNER JOIN HumanResources.EmployeeDepartmentHistory ON HumanResources.EmployeeDepartmentHistory.DepartmentID = HumanResources.Department.DepartmentID INNER JOIN HumanResources.Employee ON HumanResources.EmployeeDepartmentHistory.BusinessEntityID = HumanResources.Employee.BusinessEntityID WHERE HumanResources.Employee.OrganizationLevel = 1 AND Department.Name = @Department", conn)) {
+                    cmd.Parameters.AddWithValue("@Department", Department);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return dr.GetString(0);
+                        }
+                        return "";
+                    }
+                }
+            }
+        }
 
         public static bool NewPosition(string jobTitle, string jobDescription, string department)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                int DepartmentID = ReutnDepartmentID(department);
+                string Manager = ReturnManagerDepartmnetName(department);
+                using (SqlCommand cmd = new SqlCommand(" insert into Positions (JobDescription,JobTitle,DepartmentID,Manager,PositionStatus) values (@JobDescription,@JobTitle,@DepartmentID,@Manager,'Open')", conn)) {
+                    cmd.Parameters.AddWithValue("@JobDescription", jobDescription);
+                    cmd.Parameters.AddWithValue("@jobTitle", jobTitle);
+                    cmd.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    cmd.Parameters.AddWithValue("@Manager", Manager);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+            }
         }
 
         public static bool ValidateUser(string userName, string pass)
@@ -101,19 +147,20 @@ namespace ServiceDesk1
             }
         }
 
-        public static bool PostNewArticle(string title, string content, int businessEntityID, string postedByName)
+        public static bool PostNewArticle(string Subject, string content, int businessEntityID, string postedByName,string title)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
                 using (SqlCommand cmd =
                     new SqlCommand(
-                        " Insert into Knowledgebase(Subject,Data,PostedBy,PostedByLoginID) values(@title,@Content,@BusinessEntityID,@PostedByLoginID)",
+                        " Insert into Knowledgebase(Subject,Data,PostedBy,PostedByLoginID,Title) values(@Subject,@Content,@BusinessEntityID,@PostedByLoginID)",
                         conn))
                 {
-                    cmd.Parameters.AddWithValue("@title", title);
+                    cmd.Parameters.AddWithValue("@Subject", Subject);
                     cmd.Parameters.AddWithValue("@content", content);
                     cmd.Parameters.AddWithValue("@BusinessEntityID", businessEntityID);
                     cmd.Parameters.AddWithValue("@PostedByLoginID", postedByName);
+                    cmd.Parameters.AddWithValue("@Title", title);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -157,7 +204,7 @@ namespace ServiceDesk1
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
-                using (SqlCommand cmd = new SqlCommand(" select ID,Subject,Data,PostedByLoginID from Knowledgebase",
+                using (SqlCommand cmd = new SqlCommand(" select ID,title,Data,PostedByLoginID,Subject from Knowledgebase",
                     conn))
                 {
                     conn.Open();
@@ -167,7 +214,7 @@ namespace ServiceDesk1
                         while (dr.Read())
                         {
                             Knowledge item = new Knowledge(dr.GetInt32(0), dr.GetString(1), dr.GetString(2),
-                                dr.GetString(3));
+                                dr.GetString(3),dr.GetString(4));
                             lists.Add(item);
                         }
                         return lists;
@@ -319,9 +366,23 @@ namespace ServiceDesk1
             }
         }
 
-        public static object GetChats(string UserName)
+        public static List<Chats> GetChats(string userName)
         {
-            return -1;
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select * from Room where UserID1 = @BEID or UserID2 = @BEID", conn)) {
+                    int BEID = GetBEID(userName);
+                    cmd.Parameters.AddWithValue("@BEID", BEID);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Chats> chats = new List<Chats>();
+                        while (dr.Read()) {
+                            Chats chat = new Chats(dr.GetInt32(0), dr.GetInt32(1), dr.GetInt32(2));
+                            chats.Add(chat);
+                        }
+                        return chats;
+                    }
+                }
+            }
         }
 
         public static object GetOpenPositions()

@@ -8,13 +8,13 @@ myApp.config(function ($routeProvider) {
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
         .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
-        .when("/Chat", { templateUrl: "/Pages/Global/Chat.html", controller:"ChatCtrl" })
+        .when("/Chat", { templateUrl: "/Pages/Global/Chat.html", controller: "ChatCtrl" })
         .when("/LocationMap", { templateUrl: "/Pages/Global/LocationMap.html", controller: "SimpleMapController" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html", controller: "navCtrl" })
         .when("/Settings", { templateUrl: "/Pages/Global/Settings.html", controller: "SettingsCtrl" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
         .when("/JobCandidate", { templateUrl: "/pages/HR/JobCandidate.html", controller: "HrCtrl" })
-        .when("/NewPosition", { templateUrl: "/pages/HR/NewPosition.html", controller:"HrCtrl" })
+        .when("/NewPosition", { templateUrl: "/pages/HR/NewPosition.html", controller: "HrCtrl" })
         .when("/ServiceCatalog", { templateUrl: "/pages/Global/ServiceCatalog.html", controller: "CatalogCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
@@ -28,8 +28,15 @@ myApp.controller('CatalogCtrl', ['$scope', '$http', function ($scope, $http) {
     });
 }]);
 myApp.controller('ChatCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get("api/Global/UsersList").then(function (response) {
-        $scope.users = response.data;
+    $scope.LoginID = JSON.parse(window.localStorage.getItem('username'));
+
+    $http.get("api/Chat?userName=" + $scope.LoginID).then(function (response) {
+        if (response.data === -1) {
+            alert("Please try again later");
+        } else {
+            $scope.RoomList = response.data;
+            console.log(response.data);
+        }
     });
 }]);
 
@@ -61,7 +68,7 @@ myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $ht
                 alert("Done you are now can continue your work");
             });
     };
-    
+
     $scope.Reset = function () {
         alert($scope.password);
         //$http.post("api/Global/passwordReset?loginID=" +
@@ -92,6 +99,7 @@ myApp.controller('SettingsCtrl', ['$scope', function ($scope) {
 }]);
 
 myApp.controller('HrCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.LoginID = JSON.parse(window.localStorage.getItem('username'));
     $http.get("api/HR").then(function (response) {
         $scope.OpenJobs = response.data;
         console.log(response.data);
@@ -104,9 +112,18 @@ myApp.controller('HrCtrl', ['$scope', '$http', function ($scope, $http) {
             alert("Please try again later");
         } else {
             $scope.NewPositionID = response.data;
-        };
-
+        }
     });
+    $scope.OpenNewPosition = function () {
+        $http.post("api/HR?JobTitle=" + $scope.JobTitle + "&JobDescription=" + $scope.JobDescription + "&Department=" + $scope.Hiring_Department).then(function (response) {
+            if (response.data === -1 | response.data === false) {
+                alert("Please try again later");
+            } else {
+                alert("Done");
+            }
+        });
+    };
+
 }
 ]);
 myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
@@ -142,8 +159,11 @@ myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http
 }]);
 
 myApp.controller('KnowledgeCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.subject;
+    console.log($scope.subject);
     $http.get("/api/Knowledge/GetArticles").then(function (response) {
         $scope.items = response.data;
+        console.log(response.data);
     });
 }]);
 
@@ -166,14 +186,16 @@ myApp.controller('ArticleCtrl', ['$scope', '$http', '$window', function ($scope,
 
         $http.post("api/Knowledge?ID=" +
             $scope.ID +
-            "&Title=" +
-            $scope.title +
+            "&Subject=" +
+            $scope.Subject +
             "&Content=" +
             $scope.content +
             "&BusinessEntityID=" +
             $scope.BusinessEntityID +
             "&PostedByLoginID=" +
-            $scope.LoginID
+            $scope.LoginID +
+            "&title=" +
+            $scope.title
         ).then(function (response) {
             if (response.status === -1) {
                 alert("We have encounter some problem please try again later");

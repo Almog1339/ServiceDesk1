@@ -29,14 +29,14 @@ namespace ServiceDesk1.Controllers
             return DBHelper.GetID();
         }
         [HttpPost]
-        public bool submitArticle( string title, string content,int BusinessEntityID,string PostedByLoginID)
+        public bool submitArticle( string Subject, string content,int BusinessEntityID,string PostedByLoginID,string title)
         {
-            if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(content) && BusinessEntityID != 0 && BusinessEntityID != -1)
+            if (string.IsNullOrEmpty(Subject) && string.IsNullOrEmpty(content) && BusinessEntityID != 0 && BusinessEntityID != -1)
             {
                 return false;
             }
 
-            return DBHelper.PostNewArticle(title, content, BusinessEntityID, PostedByLoginID);
+            return DBHelper.PostNewArticle(Subject, content, BusinessEntityID, PostedByLoginID,title);
         }
     }
 }

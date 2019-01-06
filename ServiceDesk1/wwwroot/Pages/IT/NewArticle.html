@@ -1,22 +1,57 @@
 ﻿<style>
     .Container {
         display: grid;
-        position: relative;
         grid-template-columns: repeat(2,1fr);
-        padding: 0%;
-        height: 100%;
-        margin: 0;
-        grid-gap: 10px;
     }
 
-    .box {
-        border: 2px solid black;
-        border-radius: 12px;
+    input[type="text"] {
+        width: 300px;
     }
+
+    #Short_Discription {
+        width: 650px;
+        max-width: 80%;
+    }
+
+    textarea {
+        width: 650px;
+        max-width: 100%;
+        height: 150px;
+        max-height: 300px;
+    }
+
+        textarea:focus {
+            border: 2px solid purple;
+        }
 </style>
-<div class="container">
-    <label>Article number:</label><input type="text" disabled="disabled" placeholder="KB{{ID}}"/>
-    <label>Title: </label><input ng-model="title" type="text" placeholder="Your article title..."/>
-    <label>Info: </label><input ng-model="content" type="text" placeholder="This is where you should start typing..."/>
-    <input ng-click="submitArticle()" type="submit" value="Submit" style="background-color: darkslateblue" />
+<div class="Container">
+    <div>
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Article number:</label>
+        <input disabled="disabled" class="input-group-addon" type="text" value="KB{{ID}}" />
+        <br />
+        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Open By</label>
+        <input disabled class="input-group-addon" type="text" value="{{LoginID}}" />
+        <br />
+    </div>
+    <div>
+        <label class="control-label">Subject </label>
+        <select ng-model="Subject" style="max-width:250px;float:right" class="form-control" ">
+            <option>Application</option>
+            <option>Devices</option>
+            <option>Email</option>
+            <option>IT</option>
+            <option>Operating System</option>
+        </select>
+        <br /> <br /> <br />
+    </div>
+
+</div>
+<div>
+    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Title</label>
+    <input ng-model="title" id="Short_Discription" class="input-group-addon" type="text" />
+    <br />
+    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Your Content</label>
+    <textarea ng-model="content" class="input-group-addon" type="text"></textarea>
+    <hr />
+    <button class="btn btn-default" ng-click="submitArticle()">Submit</button>
 </div>

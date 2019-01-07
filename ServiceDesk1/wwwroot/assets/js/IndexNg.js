@@ -2,7 +2,7 @@
 
 myApp.config(function ($routeProvider) {
     $routeProvider
-        .when("/", { templateUrl: "/Pages/Global/Self-Service.html" })
+        .when("/", { templateUrl: "/Pages/Global/Self-Service.html"})
         .when("/HR", { templateUrl: "/Pages/Hr/HR.html" })
         .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
@@ -40,9 +40,8 @@ myApp.controller('ChatCtrl', ['$scope', '$http', function ($scope, $http) {
     });
 }]);
 
-myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+myApp.controller('navCtrl', ['$scope', '$http', '$window',function ($scope, $http, $window, ) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
-
 
     $http.get("api/Global/info?LoginID=" + $scope.LoginID).then(function (response) {
         $scope.information = response.data;
@@ -68,6 +67,8 @@ myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $ht
                 alert("Done you are now can continue your work");
             });
     };
+
+    
 
     $scope.Reset = function () {
         alert($scope.password);

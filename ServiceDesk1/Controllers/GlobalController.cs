@@ -28,6 +28,14 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.getInfo(loginID);
         }
+        [HttpGet("GetImg")]
+        public object GetImg(string loginID)
+        {
+            if (string.IsNullOrEmpty(loginID)) {
+                return -1;
+            }
+            return DBHelper.GetImg(loginID);
+        }
 
         [HttpPost("info")]
         public bool updateInfo(string firstName, string lastName,int BusinessEntityID)

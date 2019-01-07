@@ -6,7 +6,6 @@ $("#Btn-login").on("click", function () {
         LoginID: $('#username').val(),
         Password: $('#password').val()
     };
-
     $.post("api/Login", userData).done(
         function (data) {
             if (data === true) {

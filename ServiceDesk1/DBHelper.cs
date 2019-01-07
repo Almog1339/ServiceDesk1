@@ -296,22 +296,19 @@ namespace ServiceDesk1
             }
         }
 
-        public static object GetImg(string userName)
+        public static object GetImg(string LoginID)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        " select Photo from [Employess.Photo] inner join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = [Employess.Photo].BusinessEntityID where LoginID = @LoginID",
-                        conn))
+                using (SqlCommand cmd = new SqlCommand(" select Image from [Employee.Photo] inner join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = [Employee.Photo].BuisnessEntityID where LoginID = @LoginID", conn))
                 {
-                    cmd.Parameters.AddWithValue("@LoginID", userName);
+                    cmd.Parameters.AddWithValue("@LoginID", LoginID);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         if (dr.Read())
                         {
-                            return dr.GetSqlBinary(0);
+                            return dr.GetString(0);
                         }
                         return -1;
                     }

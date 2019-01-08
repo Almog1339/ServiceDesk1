@@ -36,9 +36,14 @@ namespace ServiceDesk1.Controllers
             }
             return DBHelper.GetImg(loginID);
         }
+        [HttpGet("GetAllImg")]
+        public object GetAllImg()
+        {
+            return DBHelper.GetAllImg();
+        }
 
         [HttpPost("info")]
-        public bool updateInfo(string firstName, string lastName,int BusinessEntityID)
+        public bool UpdateInfo(string firstName, string lastName,int BusinessEntityID)
         {
             if (string.IsNullOrEmpty(firstName)||string.IsNullOrEmpty(lastName))
             {

@@ -31,6 +31,7 @@ namespace ServiceDesk1
         public int Rowguid { get; set; }
         public static int DepartmentID { get; set; }
         public DateTime ModifiedDate { get; set; }
+        public string Img { get; set; }
 
         public Employee()
         {
@@ -47,7 +48,18 @@ namespace ServiceDesk1
             this.PhoneNumberType = PhoneNumberType;
             this.PhoneNumber = PhoneNumber;
         }
-
+        public Employee(int BusinessEntityID, string FirstName, string LastName, string JobTitle, string LoginID, string EmailAddress, string PhoneNumberType, string PhoneNumber,string Img)
+        {
+            this.BusinessEntityID = BusinessEntityID;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.JobTitle = JobTitle;
+            this.LoginID = LoginID;
+            this.EmailAddress = EmailAddress;
+            this.PhoneNumberType = PhoneNumberType;
+            this.PhoneNumber = PhoneNumber;
+            this.Img = Img;
+        }
         public Employee(string firstName, string lastName, string phoneNumber, string jobTitle, string emailAddress,int businessEntityId)
         {
             this.FirstName = firstName;
@@ -56,6 +68,10 @@ namespace ServiceDesk1
             this.JobTitle = jobTitle;
             this.EmailAddress = emailAddress;
             this.BusinessEntityID = businessEntityId;
+        }
+        public Employee(string Img)
+        {
+            this.Img = Img;
         }
     }
 }

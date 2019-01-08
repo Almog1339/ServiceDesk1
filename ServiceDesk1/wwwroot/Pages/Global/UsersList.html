@@ -63,7 +63,7 @@
     <div class="Container" ng-hide="table">
         <div class="card bg-dark text-white" ng-repeat="t in td | filter:search">
             <div class="card-body">
-                
+                <img src="{{t.img}}" style="width:48px;height:46px"/>
                 {{t.firstName}}
                 {{t.lastName}}<br/>
                 {{t.jobTitle}}<br/>

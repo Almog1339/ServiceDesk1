@@ -2,7 +2,7 @@
 
 myApp.config(function ($routeProvider) {
     $routeProvider
-        .when("/", { templateUrl: "/Pages/Global/Self-Service.html"})
+        .when("/", { templateUrl: "/Pages/Global/Self-Service.html" })
         .when("/HR", { templateUrl: "/Pages/Hr/HR.html" })
         .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
@@ -18,7 +18,8 @@ myApp.config(function ($routeProvider) {
         .when("/ServiceCatalog", { templateUrl: "/pages/Global/ServiceCatalog.html", controller: "CatalogCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
-        .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" });
+        .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" })
+        .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html" });
 
 
 });
@@ -43,6 +44,14 @@ myApp.controller('ChatCtrl', ['$scope', '$http', function ($scope, $http) {
 myApp.controller('navCtrl', ['$scope', '$http', '$window',function ($scope, $http, $window, ) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
 
+    $http.get("api/Global/GetImg?loginID=" + $scope.LoginID).then(function (response) {
+        $scope.ImgData = response.data;
+    });
+
+    $http.get("api/Global/GetAllImg").then(function (response) {
+        $scope.images = response.data;
+    });
+
     $http.get("api/Global/info?LoginID=" + $scope.LoginID).then(function (response) {
         $scope.information = response.data;
         $window.localStorage.setItem('information', JSON.stringify(response.data));
@@ -50,28 +59,29 @@ myApp.controller('navCtrl', ['$scope', '$http', '$window',function ($scope, $htt
         $scope.firstName = i[0].firstName;
         $scope.lastName = i[0].lastName;
         $scope.BusinessEntityID = i[0].businessEntityID;
-        $scope.password = '';
-        $scope.newPassword = '';
     });
-
+    
     $scope.UpdateProfile = function () {
         $http.post("api/Global/info?firstName=" +
             $scope.firstName +
             "&lastName=" +
-            scope.lastName +
+            $scope.lastName +
             "&BusinessEntityID=" +
             $scope.BusinessEntityID).then(function (response) {
                 if (response.data === -1 | response.data === false) {
                     alert("We could not update your information please contact your system administrator or the HR");
+                } else {
+                    alert("Done you are now can continue your work");
                 }
-                alert("Done you are now can continue your work");
             });
     };
 
-    
+    //$scope.updateImg = function () {
 
-    $scope.Reset = function () {
-        alert($scope.password);
+    //}
+
+    //$scope.Reset = function () {
+        //alert($scope.password);
         //$http.post("api/Global/passwordReset?loginID=" +
         //    $scope.LoginID +
         //    "&password=" +
@@ -86,7 +96,7 @@ myApp.controller('navCtrl', ['$scope', '$http', '$window',function ($scope, $htt
         //        alert("your password has been update successfuly");
         //    }
         //});
-    };
+    //};
 
 }]);
 myApp.controller('SettingsCtrl', ['$scope', function ($scope) {
@@ -208,3 +218,80 @@ myApp.controller('ArticleCtrl', ['$scope', '$http', '$window', function ($scope,
     };
 }
 ]);
+myApp.controller('UploadController', function ($scope, fileReader) {
+    $scope.imageSrc = "";
+
+    $scope.$on("fileProgress", function (e, progress) {
+        $scope.progress = progress.loaded / progress.total;
+    });
+});
+
+myApp.directive("ngFileSelect", function (fileReader, $timeout) {
+    return {
+        scope: {
+            ngModel: '='
+        },
+        link: function ($scope, el) {
+            function getFile(file) {
+                fileReader.readAsDataUrl(file, $scope)
+                    .then(function (result) {
+                        $timeout(function () {
+                            $scope.ngModel = result;
+                        });
+                    });
+            }
+
+            el.bind("change", function (e) {
+                var file = (e.srcElement || e.target).files[0];
+                getFile(file);
+            });
+        }
+    };
+});
+myApp.factory("fileReader", function ($q, $log) {
+    var onLoad = function (reader, deferred, scope) {
+        return function () {
+            scope.$apply(function () {
+                deferred.resolve(reader.result);
+            });
+        };
+    };
+
+    var onError = function (reader, deferred, scope) {
+        return function () {
+            scope.$apply(function () {
+                deferred.reject(reader.result);
+            });
+        };
+    };
+
+    var onProgress = function (reader, scope) {
+        return function (event) {
+            scope.$broadcast("fileProgress", {
+                total: event.total,
+                loaded: event.loaded
+            });
+        };
+    };
+
+    var getReader = function (deferred, scope) {
+        var reader = new FileReader();
+        reader.onload = onLoad(reader, deferred, scope);
+        reader.onerror = onError(reader, deferred, scope);
+        reader.onprogress = onProgress(reader, scope);
+        return reader;
+    };
+
+    var readAsDataURL = function (file, scope) {
+        var deferred = $q.defer();
+
+        var reader = getReader(deferred, scope);
+        reader.readAsDataURL(file);
+
+        return deferred.promise;
+    };
+
+    return {
+        readAsDataUrl: readAsDataURL
+    };
+});

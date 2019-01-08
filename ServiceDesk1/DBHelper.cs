@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Schema;
+using System.Threading;
 using Microsoft.AspNetCore.Antiforgery.Internal;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -36,6 +36,24 @@ namespace ServiceDesk1
                 }               
             }
         }
+
+        internal static List<Employee> GetAllImg()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("Select ImgData from Images",conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Employee> Images = new List<Employee>();
+                        while (dr.Read()) {
+                            Employee img = new Employee(dr.GetString(0));
+                            Images.Add(img);
+                        }
+                        return Images;
+                    }
+                }
+            }
+        }
+
         public static int ReutnDepartmentID(string Department)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -179,7 +197,7 @@ namespace ServiceDesk1
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
                 using (SqlCommand cmd = new SqlCommand(
-                    " SELECT Person.BusinessEntityID,Person.FirstName,Person.LastName,HumanResources.Employee.JobTitle,Employee.LoginID,EmailAddress,Person.PhoneNumberType.Name,PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID WHERE Person.Person.PersonType in ('em', 'sp')",
+                    " SELECT Person.BusinessEntityID,Person.FirstName, Person.LastName, HumanResources.Employee.JobTitle, Employee.LoginID, EmailAddress, Person.PhoneNumberType.Name, PhoneNumber,[Employee.Photo].ImgData FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID left join[Employee.Photo] on[Employee.Photo].BusinessEntityID = Person.BusinessEntityID WHERE Person.Person.PersonType in ('em', 'sp')",
                     conn))
                 {
                     conn.Open();
@@ -190,7 +208,7 @@ namespace ServiceDesk1
                         while (dr.Read())
                         {
                             Employee list = new Employee(dr.GetInt32(0), dr.GetString(1), dr.GetString(2),
-                                dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetString(7));
+                                dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetString(7),dr.GetString(8));
                             lists.Add(list);
                         }
 
@@ -300,7 +318,7 @@ namespace ServiceDesk1
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
-                using (SqlCommand cmd = new SqlCommand(" select Image from [Employee.Photo] inner join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = [Employee.Photo].BuisnessEntityID where LoginID = @LoginID", conn))
+                using (SqlCommand cmd = new SqlCommand(" select ImgData from [Employee.Photo] inner join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = [Employee.Photo].BusinessEntityID where LoginID = @LoginID", conn))
                 {
                     cmd.Parameters.AddWithValue("@LoginID", LoginID);
                     conn.Open();

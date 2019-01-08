@@ -3,16 +3,20 @@
         display: grid;
         grid-template-columns: repeat(2,1fr);
     }
+
     img {
         width: 200px;
         height: 200px;
     }
+
     input[type="text"] {
         width: 300px;
-    }   
+    }
+
     input[type="number"] {
         width: 300px;
     }
+
     input[type="datetime-local"] {
         width: 300px;
     }
@@ -38,60 +42,63 @@
     }
 </style>
 <nav style="background-color: gray">
-    <i ng-click="attachment=true" class="fas fa-paperclip"></i>
+    <button ng-click="attachment=true" class="btn btn-group btn-fill btn-icon" style="font-size:1.5em">
+        <i class="fas fa-paperclip"></i>
+    </button>
 </nav>
-<div class="Container">
-    <div>
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Number</label>
-        <input class="input-group-addon" type="number" />
-        <br />
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Caller</label>
-        <input class="input-group-addon" type="text" />
-        <br />
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Open At: </label>
-        <input disabled class="input-group-addon" type="datetime-local" />
-        <br />
-    </div>
-    <div>
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Category</label>
-        <select style="max-width:250px;float:right" class="form-control">
-            <option>--None--</option>
-            <option>Inquiry/Help</option>
-            <option>Software</option>
-            <option>Hardware</option>
-            <option>Network</option>
-        </select>
-        <br />
-        <br />
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Assigment Group: </label>
-        <select disabled style="max-width:250px;float:right" class="form-control">
-            <option>Global Service Desk</option>
-        </select>
-        <br />
-        <br />
-        <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Assgin To:</label>
-        <input disabled class="input-group-addon" style="float:right" type="text" />
-    </div>
-</div>
-<br />
-<br />
 <div>
-    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Short Description: </label>
-    <input id="Short_Discription" class="input-group-addon" type="text" />
-    <br />
-    <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Description: </label>
-    <textarea class="input-group-addon" type="text"></textarea>
-    <br />
-    <input class="btn btn-lg" type="submit" value="Submit"/>
-</div>
-<div ng-show="attachment">
-    <input ng-click="attachment=false" type="button" class="btn btn-danger" value="X" />
-    <div ng-controller="UploadController ">
-        <form>
-            <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
-        </form>
+    <form id="newInc" class="Container">
+        <div>
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Number</label>
+            <input ng-model="NewIncNum" disabled class="input-group-addon" type="number" />
+            <br />
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Caller</label>
+            <input class="input-group-addon" type="text" />
+            <br />
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Open At: </label>
+            <input ng-model="time" disabled class="input-group-addon" type="datetime-local" />
+            <br />
+        </div>
+        <div>
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Category</label>
+            <select style="max-width:250px;float:right" class="form-control">
+                <option>--None--</option>
+                <option>Inquiry/Help</option>
+                <option>Software</option>
+                <option>Hardware</option>
+                <option>Network</option>
+            </select>
+            <br />
+            <br />
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Assigment Group: </label>
+            <select disabled style="max-width:250px;float:right" class="form-control">
+                <option>Global Service Desk</option>
+            </select>
+            <br />
+            <br />
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Assgin To:</label>
+            <input disabled class="input-group-addon" style="float:right" type="text" />
+        </div>
+        <div>
+            <label class="control-label">Short Description: </label>
+            <input id="Short_Discription" class="input-group-addon" type="text" />
+            <br />
+            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Description: </label>
+            <textarea class="input-group-addon" type="text"></textarea>
+            <br />
+            <input class="btn btn-success" type="submit" value="Submit" />
+        </div>
+    </form>
+    <div ng-show="attachment" class="nav-mobile-menu">
+        <div class="">
+            <header class="">
 
-        <img ng-src="{{imageSrc}}" />
-
+                <h4 style="float:left">Attachments</h4>
+                <button style="float:right;text-align:justify" ng-click="attachment=false" class="btn btn-icon close icon-cross">X</button>
+                <hr />
+            </header>
+            Comming Soon...
+        </div>
     </div>
 </div>
+

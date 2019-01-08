@@ -19,7 +19,7 @@ myApp.config(function ($routeProvider) {
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
         .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" })
-        .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html" });
+        .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html", controller:"IncCtrl" });
 
 
 });
@@ -107,6 +107,18 @@ myApp.controller('SettingsCtrl', ['$scope', function ($scope) {
             "name": "Profile Settings"
         }
     ];
+}]);
+myApp.controller('IncCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get('api/IT/GetNewInc').then(function (response) {
+        if (response.data === -1) {
+            alert("Please try again later or content your local help desk");
+        } else {
+            $scope.NewIncNum = response.data;
+        }
+    });
+    $http.get('api/Global/Time').then(function (response) {
+        $scope.time = response.data;
+    });
 }]);
 
 myApp.controller('HrCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -218,80 +230,4 @@ myApp.controller('ArticleCtrl', ['$scope', '$http', '$window', function ($scope,
     };
 }
 ]);
-myApp.controller('UploadController', function ($scope, fileReader) {
-    $scope.imageSrc = "";
 
-    $scope.$on("fileProgress", function (e, progress) {
-        $scope.progress = progress.loaded / progress.total;
-    });
-});
-
-myApp.directive("ngFileSelect", function (fileReader, $timeout) {
-    return {
-        scope: {
-            ngModel: '='
-        },
-        link: function ($scope, el) {
-            function getFile(file) {
-                fileReader.readAsDataUrl(file, $scope)
-                    .then(function (result) {
-                        $timeout(function () {
-                            $scope.ngModel = result;
-                        });
-                    });
-            }
-
-            el.bind("change", function (e) {
-                var file = (e.srcElement || e.target).files[0];
-                getFile(file);
-            });
-        }
-    };
-});
-myApp.factory("fileReader", function ($q, $log) {
-    var onLoad = function (reader, deferred, scope) {
-        return function () {
-            scope.$apply(function () {
-                deferred.resolve(reader.result);
-            });
-        };
-    };
-
-    var onError = function (reader, deferred, scope) {
-        return function () {
-            scope.$apply(function () {
-                deferred.reject(reader.result);
-            });
-        };
-    };
-
-    var onProgress = function (reader, scope) {
-        return function (event) {
-            scope.$broadcast("fileProgress", {
-                total: event.total,
-                loaded: event.loaded
-            });
-        };
-    };
-
-    var getReader = function (deferred, scope) {
-        var reader = new FileReader();
-        reader.onload = onLoad(reader, deferred, scope);
-        reader.onerror = onError(reader, deferred, scope);
-        reader.onprogress = onProgress(reader, scope);
-        return reader;
-    };
-
-    var readAsDataURL = function (file, scope) {
-        var deferred = $q.defer();
-
-        var reader = getReader(deferred, scope);
-        reader.readAsDataURL(file);
-
-        return deferred.promise;
-    };
-
-    return {
-        readAsDataUrl: readAsDataURL
-    };
-});

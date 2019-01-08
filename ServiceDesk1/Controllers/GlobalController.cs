@@ -41,7 +41,11 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.GetAllImg();
         }
-
+        [HttpGet("GetTime")]
+        public object GetTime()
+        {
+            return DBHelper.GetDateTime();
+        }
         [HttpPost("info")]
         public bool UpdateInfo(string firstName, string lastName,int BusinessEntityID)
         {

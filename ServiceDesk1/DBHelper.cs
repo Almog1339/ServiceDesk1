@@ -506,6 +506,37 @@ namespace ServiceDesk1
                 }
             }
         }
+
+        internal static int GetNewInc()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select max(ID) from Incidents", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            int Inc = dr.GetInt32(0);
+                            Inc++;
+                            return Inc;
+                        } return -1;
+                       
+                    }
+                }
+            }
+        }
+        public static List<DateTime> GetDateTime()
+        {
+            List<DateTime> dateTime = new List<DateTime>();
+            DateTime date = DateTime.UtcNow;
+            DateTime time = DateTime.UtcNow;
+            date.ToLongDateString();
+            dateTime.Add(date);
+            time.ToLongTimeString();
+            dateTime.Add(time);
+
+            return dateTime;
+        }
+        
+
         public class OptionList
         {
             public object Content { get; set; }

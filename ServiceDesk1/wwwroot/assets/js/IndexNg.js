@@ -19,11 +19,13 @@ myApp.config(function ($routeProvider) {
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
         .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" })
-        .when("/NewReq", { templateUrl:" /pages/IT/NewReq.html"})
+        .when("/Unassigned", { templateUrl: " /pages/IT/Unassigned.html", controller: "UnassignedCtrl" })
+        .when("/OpenTicket", { templateUrl: "/pages/IT/OpenTicket.html", controller:"OpenTicket" })
         .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html", controller: "IncCtrl" });
 
 
 });
+
 myApp.controller('CatalogCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get("api/Catalog").then(function (response) {
         $scope.Catalogs = response.data;
@@ -41,7 +43,17 @@ myApp.controller('ChatCtrl', ['$scope', '$http', function ($scope, $http) {
         }
     });
 }]);
-
+myApp.controller('UnassignedCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("api/IT/GetUnassigned").then(function (response) {
+        $scope.td = response.data;
+    });
+}]);
+myApp.controller("OpenTicket", ['$scope', '$http', function ($scope, $http) {
+    $http.get("api/IT/GetOpenTicket").then(function (response) {
+        $scope.td = response.data;
+        console.log(response.data);
+    });
+}]);
 myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window, ) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
 

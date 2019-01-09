@@ -16,5 +16,15 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.GetNewInc();
         }
+        [HttpGet("GetUnassigned")]
+        public object GetUnassiged()
+        {
+            return DBHelper.GetUnassiged();
+        }
+        [HttpGet("GetOpenTicket")]
+        public object GetOpenTicket()
+        {
+            return DBHelper.GetOpenTicket();
+        }
     }
 }

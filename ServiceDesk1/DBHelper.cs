@@ -20,6 +20,42 @@ namespace ServiceDesk1
         private static string CONN_STRING =
             "Data Source=DESKTOP-O8IU0PQ\\SQLEXPRESS;Initial Catalog=ServiceDesk;Persist Security Info=True;User ID=sa;Password=Q1w2q1w2";
 
+        internal static object GetUnassiged()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select ID,Open_by,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where Assigned_to = ' '", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Tickets> tickets = new List<Tickets>();
+                        while (dr.Read()) {
+                            Tickets ticket = new Tickets(dr.GetInt32(0),dr.GetString(1),dr.GetString(2),dr.GetString(3),dr.GetString(4),dr.GetString(5),dr.GetString(6),dr.GetInt16(7),dr.GetInt16(8),dr.GetString(9));
+                            tickets.Add(ticket);
+                            
+                        }
+                        return tickets;
+                    }
+                    
+                }
+            }
+        }
+        internal static object GetOpenTicket()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select ID,Open_by,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where State = 'open'", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Tickets> tickets = new List<Tickets>();
+                        while (dr.Read()) {
+                            Tickets ticket = new Tickets(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetInt16(7), dr.GetInt16(8), dr.GetString(9));
+                            tickets.Add(ticket);
+
+                        }
+                        return tickets;
+                    }
+
+                }
+            }
+        }
         public static int PositionID()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {

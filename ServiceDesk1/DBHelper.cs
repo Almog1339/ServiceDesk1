@@ -217,7 +217,7 @@ namespace ServiceDesk1
                 }
             }
         }
-
+       
         public static List<Knowledge> GetArticles()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -525,17 +525,14 @@ namespace ServiceDesk1
         }
         public static List<DateTime> GetDateTime()
         {
-            List<DateTime> dateTime = new List<DateTime>();
-            DateTime date = DateTime.UtcNow;
-            DateTime time = DateTime.UtcNow;
-            date.ToLongDateString();
-            dateTime.Add(date);
-            time.ToLongTimeString();
-            dateTime.Add(time);
+            List<DateTime> dates = new List<DateTime>();
+            DateTime date = DateTime.Now.Date;
+            date.ToString();
+            dates.Add(date);
 
-            return dateTime;
+            return dates;
         }
-        
+
 
         public class OptionList
         {

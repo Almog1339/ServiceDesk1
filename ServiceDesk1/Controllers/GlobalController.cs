@@ -12,7 +12,7 @@ namespace ServiceDesk1.Controllers
     public class GlobalController : ControllerBase
     {
         [HttpGet("UsersList")]
-        public object UsersList()
+        public object UsersListWithPic()
         {
             return DBHelper.UsersList();
         }

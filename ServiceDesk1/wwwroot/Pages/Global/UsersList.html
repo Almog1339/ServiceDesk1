@@ -26,21 +26,9 @@
             width: 78%;
             max-width: 500px;
         }
-
-    .animate-bottom {
-        position: relative;
-        -webkit-animation-name: animatebottom;
-        -webkit-animation-duration: 1s;
-        animation-name: animatebottom;
-        animation-duration: 1s
-    }
-
-    #myDiv {
-        display: none;
-    }
 </style>
 <div>
-    <div class="animate-bottom" style="display:none;">
+    <div>
         <nav style="background-color: gray">
             <input ng-click="table=true" type="button" value="Show as a table" />
             <input ng-click="table=false" type="button" value="Show as a Business Card" />
@@ -67,9 +55,9 @@
                         <td>{{t.lastName}}</td>
                         <td>{{t.jobTitle}}</td>
                         <td>{{t.loginID}}</td>
-                        <td>{{t.emailAddress}}</td>
+                        <td><a href="mailto:{{t.emailAddress}}">{{t.emailAddress}}</a></td>
                         <td>{{t.phoneNumberType}}</td>
-                        <td>{{t.phoneNumber}}</td>
+                        <td><a href="tel:{{t.phoneNumber}}">{{t.phoneNumber}}</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -81,9 +69,9 @@
                     {{t.firstName}}
                     {{t.lastName}}<br />
                     {{t.jobTitle}}<br />
-                    {{t.emailAddress}}<br />
+                    <a href="mailto:{{t.emailAddress}}">{{t.emailAddress}}</a><br />
                     {{t.phoneNumberType}}
-                    {{t.phoneNumber}}
+                    <a href="tel:{{t.phoneNumber}}">{{t.phoneNumber}}</a>
                 </div>
             </div>
         </div>

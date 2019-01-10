@@ -1,12 +1,39 @@
 ﻿<style>
+    input[type=text] {
+        border-radius: 12px;
+        width: 50%;
+    }
+
+        input[type=text]:focus {
+            border: 1px solid purple;
+        }
+
+    .list-group {
+        width: 50%;
+        float: left;
+        border:none;
+    }
+    .list-group-item {
+        font-size: 17px;
+        float: left;
+        margin-left: 102px;
+        width: 100%;
+        cursor:pointer;
+    }
 
 </style>
 <div>
     <h3>Stores</h3>
-    <input type="text" style="align-items:center" name="country" ng-model="country" ng-keyup="complete(country)" class="form-control" />
-    <ul class="list-group" ng-model="hideList" ng-hide="hideList">
-        <li class="list-group-item" ng-repeat="countrydata in filterCountry" ng-click="fillTextbox(countrydata)">{{countrydata}}</li>
-    </ul>
+
+    <center>
+        <label style="float:left;padding-top:10px;">Select a State: </label>
+        <input style="float:left" type="text" name="country" ng-model="country" ng-keyup="complete(country)" class="form-control" />
+        <div style="clear:both"></div>
+        <ul class="list-group" ng-model="hideList" ng-hide="hideList">
+            <li class="list-group-item" ng-repeat="countrydata in filterCountry" ng-click="fillTextbox(countrydata)">{{countrydata}}</li>
+        </ul>
+    </center>
+
     <table class="table table-striped">
         <thead class="thead-light">
             <tr>
@@ -19,7 +46,7 @@
         <tbody class="table table-strips">
             <tr ng-repeat="store in storeLists">
                 <td>{{store.country}}</td>
-                <td>{{store.address}}</td>
+                <td><a href="http://maps.google.com/?q='{{store.address}}'" target="_blank">{{store.address}}</a></td>
                 <td>{{store.zipCode}}</td>
                 <td>{{store.phone}}</td>
             </tr>

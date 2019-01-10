@@ -14,18 +14,47 @@ myApp.config(function ($routeProvider) {
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
         .when("/JobCandidate", { templateUrl: "/pages/HR/JobCandidate.html", controller: "HrCtrl" })
         .when("/NewPosition", { templateUrl: "/pages/HR/NewPosition.html", controller: "HrCtrl" })
-        .when("/AssignToMe", { templateUrl: "/pages/IT/AssignToMe.html", controller:"AssignToMeCtrl" })
+        .when("/AssignToMe", { templateUrl: "/pages/IT/AssignToMe.html", controller: "AssignToMeCtrl" })
         .when("/ServiceCatalog", { templateUrl: "/pages/Global/ServiceCatalog.html", controller: "CatalogCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
         .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" })
         .when("/Unassigned", { templateUrl: " /pages/IT/Unassigned.html", controller: "UnassignedCtrl" })
         .when("/OpenTicket", { templateUrl: "/pages/IT/OpenTicket.html", controller: "OpenTicket" })
-        .when("/ResolvedInc", { templateUrl: "/pages/IT/ResolveInc.html", controller:"ResolveIncCtrl" })
+        .when("/ResolvedInc", { templateUrl: "/pages/IT/ResolveInc.html", controller: "ResolveIncCtrl" })
         .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html", controller: "IncCtrl" });
 
 
 });
+myApp.controller('IncCtrl', ['$scope', '$http', function ($scope, $http) {
+
+    $http.get("/api/Global/UsersListWithoutPic").then(function (response) {
+        $scope.employeeList = response.data;
+        setTimeout(function () {
+            $scope.complete = function (string) {
+                var output = [];
+                angular.forEach($scope.employeeList, function (employee) {
+                    if (employee.toLowerCase().indexOf(string.toLowerCase()) >= 0) {
+                        output.push(employee);
+                    }
+                });
+                $scope.filterEmployee = output;
+            };
+            $scope.fillTextbox = function (string) {
+                $scope.employee = string;
+                $scope.hideList = true;
+            };
+        }, 3000);
+        
+    });
+    $http.get('api/IT/GetNewInc').then(function (response) {
+        if (response.data === -1) {
+            alert("Please try again later or content your local help desk");
+        } else {
+            $scope.NewIncNum = response.data;
+        }
+    });
+}]);
 myApp.controller('LocationCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.countryList = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", " North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"];
     $scope.complete = function (string) {
@@ -143,25 +172,6 @@ myApp.controller('SettingsCtrl', ['$scope', function ($scope) {
         }
     ];
 }]);
-myApp.controller('IncCtrl', ['$scope', '$http', function ($scope, $http) {
-    //$http.get("api/Global/GetTime").then(function (response) {
-    //    var DateTime = response.data;
-    //    DateTime.substr(0, 1);
-    //    $scope.time = DateTime;
-    //});
-    $http.get("Api/Global/UsersList").then(function (response) {
-        $scope.employeesList = response.data;
-    });
-
-
-    $http.get('api/IT/GetNewInc').then(function (response) {
-        if (response.data === -1) {
-            alert("Please try again later or content your local help desk");
-        } else {
-            $scope.NewIncNum = response.data;
-        }
-    });
-}]);
 
 myApp.controller('HrCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.LoginID = JSON.parse(window.localStorage.getItem('username'));
@@ -215,6 +225,7 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
 }]);
 
 myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http) {
+
     $http.get("/api/Global/UsersList").then(function (response) {
         $scope.td = response.data;
     });

@@ -272,7 +272,27 @@ namespace ServiceDesk1
                 }
             }
         }
+        public static List<Employee> UsersListWithoutPic()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(
+                    " SELECT Person.BusinessEntityID,Person.FirstName, Person.LastName, HumanResources.Employee.JobTitle, Employee.LoginID, EmailAddress, Person.PhoneNumberType.Name, PhoneNumber FROM Person.Person left join HumanResources.Employee on HumanResources.Employee.BusinessEntityID = Person.BusinessEntityID left join Person.EmailAddress on HumanResources.Employee.BusinessEntityID = Person.EmailAddress.BusinessEntityID left join Person.PersonPhone on Person.PersonPhone.BusinessEntityID = HumanResources.Employee.BusinessEntityID left join Person.PhoneNumberType on Person.PhoneNumberType.PhoneNumberTypeID = Person.PersonPhone.PhoneNumberTypeID WHERE Person.Person.PersonType in ('em', 'sp')",
+                    conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
 
+                        List<Employee> lists = new List<Employee>();
+                        while (dr.Read()) {
+                            Employee list = new Employee(dr.GetInt32(0), dr.GetString(1), dr.GetString(2),
+                                dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetString(7));
+                            lists.Add(list);
+                        }
+
+                        return lists;
+                    }
+                }
+            }
+        }
         public static List<Employee> UsersList()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -432,24 +452,24 @@ namespace ServiceDesk1
             }
         }
 
-        public static List<Chats> GetChats(string userName)
-        {
-            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" select * from Room where UserID1 = @BEID or UserID2 = @BEID", conn)) {
-                    int BEID = GetBEID(userName);
-                    cmd.Parameters.AddWithValue("@BEID", BEID);
-                    conn.Open();
-                    using (SqlDataReader dr = cmd.ExecuteReader()) {
-                        List<Chats> chats = new List<Chats>();
-                        while (dr.Read()) {
-                            Chats chat = new Chats(dr.GetInt32(0), dr.GetInt32(1), dr.GetInt32(2));
-                            chats.Add(chat);
-                        }
-                        return chats;
-                    }
-                }
-            }
-        }
+        //public static List<Chats> GetChats(string userName)
+        //{
+        //    using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+        //        using (SqlCommand cmd = new SqlCommand(" select * from Room where UserID1 = @BEID or UserID2 = @BEID", conn)) {
+        //            int BEID = GetBEID(userName);
+        //            cmd.Parameters.AddWithValue("@BEID", BEID);
+        //            conn.Open();
+        //            using (SqlDataReader dr = cmd.ExecuteReader()) {
+        //                List<Chats> chats = new List<Chats>();
+        //                while (dr.Read()) {
+        //                    Chats chat = new Chats(dr.GetInt32(0), dr.GetInt32(1), dr.GetInt32(2));
+        //                    chats.Add(chat);
+        //                }
+        //                return chats;
+        //            }
+        //        }
+        //    }
+        //}
 
         public static object GetOpenPositions()
         {

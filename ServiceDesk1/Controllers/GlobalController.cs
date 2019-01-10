@@ -16,7 +16,11 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.UsersList();
         }
-
+        [HttpGet("UsersListWithoutPic")]
+        public object UsersListWithoutPic()
+        {
+            return DBHelper.UsersListWithoutPic();
+        }
         [HttpGet("Department")]
         public object DepartmentList()
         {

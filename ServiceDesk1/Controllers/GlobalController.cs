@@ -41,6 +41,14 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.GetAllImg();
         }
+        [HttpGet("GetStores")]
+        public object GetStores(string state)
+        {
+            if (string.IsNullOrEmpty(state)) {
+                return -1;
+            }
+            return DBHelper.GetStores(state);
+        }
         [HttpGet("GetTime")]
         public object GetTime()
         {
@@ -66,5 +74,6 @@ namespace ServiceDesk1.Controllers
                 return DBHelper.passwordReset(loginID, password, newPassword, BusinessEntityID);
             }
         }
+
     }
 }

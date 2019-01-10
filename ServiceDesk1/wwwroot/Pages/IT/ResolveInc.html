@@ -1,0 +1,60 @@
+﻿<style>
+    .Container {
+        display: grid;
+        position: relative;
+        grid-template-columns: repeat(3,1fr);
+        padding: 0%;
+        height: 100%;
+        margin: 0;
+        grid-gap: 10px;
+    }
+
+    input[type=text] {
+        width: 130px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        font-size: 12px;
+        background-color: white;
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+
+        input[type=text]:focus {
+            width: 78%;
+            max-width: 500px;
+        }
+</style>
+<nav>
+    <input type="text" ng-model="search" />
+</nav>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Incident ID</th>
+            <th>Caller</th>
+            <th>Short Description</th>
+            <th>Description</th>
+            <th>Group Name</th>
+            <th>State</th>
+            <th>Category</th>
+            <th>Impact</th>
+            <th>Urgency</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="t in td | filter:search">
+            <td>{{t.id}}</td>
+            <td>{{t.open_by}}</td>
+            <td>{{t.short_Description}}</td>
+            <td>{{t.description}}</td>
+            <td>{{t.groupName}}</td>
+            <td>{{t.state}}</td>
+            <td>{{t.category}}</td>
+            <td>{{t.impact}}</td>
+            <td>{{t.urgency}}</td>
+        </tr>
+    </tbody>
+</table>

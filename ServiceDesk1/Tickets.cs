@@ -7,6 +7,7 @@ namespace ServiceDesk1
 {
     public class Tickets
     {
+
         public int ID { get; set; }
         public string Open_by { get; set; }
         public string Short_Description { get; set; }
@@ -33,6 +34,19 @@ namespace ServiceDesk1
         public Tickets()
         {
 
+        }
+
+        public Tickets(int ID, string Open_by, string Short_Description, string Description, string GroupName, string State, string Category, Int16 Impact, Int16 Urgency)
+        {
+            this.ID = ID;
+            this.Open_by = Open_by;
+            this.Short_Description = Short_Description;
+            this.Description = Description;
+            this.GroupName = GroupName;
+            this.State = State;
+            this.Category = Category;
+            this.Impact = Impact;
+            this.Urgency = Urgency;
         }
     }
 }

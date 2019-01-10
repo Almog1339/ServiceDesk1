@@ -26,5 +26,20 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.GetOpenTicket();
         }
+        [HttpGet("ResolveInc")]
+        public object ResolveInc()
+        {
+            
+            return DBHelper.ResolveInc();
+        }
+        [HttpGet("AssignToMe")]
+        public object AssignToMe(string username)
+        {
+            if (string.IsNullOrEmpty(username)) {
+                return -1;
+            }
+            return DBHelper.AssignToMe(username);
+        }
+
     }
 }

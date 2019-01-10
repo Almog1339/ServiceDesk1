@@ -1,10 +1,28 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<style>
 
-</body>
-</html>
+</style>
+<div>
+    <h3>Stores</h3>
+    <input type="text" style="align-items:center" name="country" ng-model="country" ng-keyup="complete(country)" class="form-control" />
+    <ul class="list-group" ng-model="hideList" ng-hide="hideList">
+        <li class="list-group-item" ng-repeat="countrydata in filterCountry" ng-click="fillTextbox(countrydata)">{{countrydata}}</li>
+    </ul>
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <td>State</td>
+                <td>Address</td>
+                <td>ZipCode</td>
+                <td>Phone</td>
+            </tr>
+        </thead>
+        <tbody class="table table-strips">
+            <tr ng-repeat="store in storeLists">
+                <td>{{store.country}}</td>
+                <td>{{store.address}}</td>
+                <td>{{store.zipCode}}</td>
+                <td>{{store.phone}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

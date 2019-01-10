@@ -8,50 +8,72 @@ myApp.config(function ($routeProvider) {
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
         .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
-        .when("/Chat", { templateUrl: "/Pages/Global/Chat.html", controller: "ChatCtrl" })
-        .when("/LocationMap", { templateUrl: "/Pages/Global/LocationMap.html", controller: "SimpleMapController" })
+        .when("/Location", { templateUrl: "/Pages/Global/Location.html", controller: "LocationCtrl" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html", controller: "navCtrl" })
         .when("/Settings", { templateUrl: "/Pages/Global/Settings.html", controller: "SettingsCtrl" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
         .when("/JobCandidate", { templateUrl: "/pages/HR/JobCandidate.html", controller: "HrCtrl" })
         .when("/NewPosition", { templateUrl: "/pages/HR/NewPosition.html", controller: "HrCtrl" })
+        .when("/AssignToMe", { templateUrl: "/pages/IT/AssignToMe.html", controller:"AssignToMeCtrl" })
         .when("/ServiceCatalog", { templateUrl: "/pages/Global/ServiceCatalog.html", controller: "CatalogCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
         .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" })
         .when("/Unassigned", { templateUrl: " /pages/IT/Unassigned.html", controller: "UnassignedCtrl" })
-        .when("/OpenTicket", { templateUrl: "/pages/IT/OpenTicket.html", controller:"OpenTicket" })
+        .when("/OpenTicket", { templateUrl: "/pages/IT/OpenTicket.html", controller: "OpenTicket" })
+        .when("/ResolvedInc", { templateUrl: "/pages/IT/ResolveInc.html", controller:"ResolveIncCtrl" })
         .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html", controller: "IncCtrl" });
 
 
 });
+myApp.controller('LocationCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.countryList = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", " North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"];
+    $scope.complete = function (string) {
+        var output = [];
+        angular.forEach($scope.countryList, function (country) {
+            if (country.toLowerCase().indexOf(string.toLowerCase()) >= 0) {
+                output.push(country);
+            }
+        });
+        $scope.filterCountry = output;
+    };
+    $scope.fillTextbox = function (string) {
+        $scope.country = string;
+        $scope.hideList = true;
+        setTimeout(function () {
+            $http.get("api/Global/GetStores?State=" + $scope.country).then(function (resoponse) {
+                $scope.storeLists = resoponse.data;
+            })
+        }, 1000);
+
+    };
+}]);
 
 myApp.controller('CatalogCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get("api/Catalog").then(function (response) {
         $scope.Catalogs = response.data;
     });
 }]);
-myApp.controller('ChatCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.LoginID = JSON.parse(window.localStorage.getItem('username'));
 
-    $http.get("api/Chat?userName=" + $scope.LoginID).then(function (response) {
-        if (response.data === -1) {
-            alert("Please try again later");
-        } else {
-            $scope.RoomList = response.data;
-            console.log(response.data);
-        }
-    });
-}]);
 myApp.controller('UnassignedCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get("api/IT/GetUnassigned").then(function (response) {
         $scope.td = response.data;
     });
 }]);
+myApp.controller('ResolveIncCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("api/IT/ResolveInc").then(function (response) {
+        $scope.td = response.data;
+    });
+}]);
+
 myApp.controller("OpenTicket", ['$scope', '$http', function ($scope, $http) {
     $http.get("api/IT/GetOpenTicket").then(function (response) {
         $scope.td = response.data;
-        console.log(response.data);
+    });
+}]);
+myApp.controller("AssignToMeCtrl", ['$scope', '$http', function ($scope, $http) {
+    $http.get("api/IT/AssignToMe?userName=" + $scope.LoginID).then(function (response) {
+        $scope.td = response.data;
     });
 }]);
 myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window, ) {

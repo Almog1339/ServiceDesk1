@@ -24,7 +24,7 @@
         <input disabled="disabled" class="input-group-addon" type="text" value="{{info.jobTitle}}" />
         <br />
         <input ng-click="UpdateProfile()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Update" />
-        <input ng-click="UpdateProfilePic=true" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Update your profile pic" />
+        <!--<input ng-click="UpdateProfilePic=true" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Update your profile pic" />-->
         <input ng-click="passwordReset=true" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Reset Password" />
     </div>
     <div>
@@ -36,17 +36,19 @@
         <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Email</label>
         <input disabled="disabled" class="input-group-addon" type="text" value="{{info.emailAddress}}" />
     </div>
-    <form class="password" ng-show="passwordReset">
-        <button ng-click="passwordReset=false" class="btn btn-danger">X</button><br />
+    <div ng-show="passwordReset">
+        <button style="float:right" ng-click="passwordReset=false" class="btn btn-danger">X</button><br /><br />
         <label class="col-xs-12 col-md-3 col-lg-4 control-label">Login ID</label>
         <input disabled="disabled" ng-model="LoginID" class="input-group-addon" type="text" value="{{LoginID}}" />
         <label class="col-xs-12 col-md-3 col-lg-4 control-label">Old password</label>
-        <input ng-model="password" class="input-group-addon" type="password" placeholder="please enter your old password here" />
+        <input ng-model="Password" class="input-group-addon" type="password" placeholder="please enter your old password here" />
+        <br />
         <label class="col-xs-12 col-md-3 col-lg-4 control-label">New password</label>
-        <input ng-model="newPassword" class="input-group-addon" type="password" placeholder="Enter your New password here" />
+        <input ng-model="NewPassword" class="input-group-addon" type="password" placeholder="Enter your New password here" />
+        <br />
         <input ng-click="Reset()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Reset your password" />
-    </form>
-    <div ng-show="UpdateProfilePic">
+    </div>
+    <!--<div ng-show="UpdateProfilePic">
         <button ng-click="UpdateProfilePic=false" style="float:right" class="btn btn-danger">X</button><br />
         <div ng-repeat="img in images">
             <input class="btn-group radio" name="Avatar" type="radio" />
@@ -54,5 +56,5 @@
         </div>
         <br />
         <input ng-click="UpdateImg()" style="padding: 10px" class="form_action_button  action_context btn btn-default" type="button" value="Update" />
-    </div>
+    </div>-->
 </div>

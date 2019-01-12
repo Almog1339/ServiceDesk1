@@ -73,6 +73,10 @@ namespace ServiceDesk1.Controllers
         {
             if (string.IsNullOrEmpty(loginID) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(newPassword)) {
                 return false;
+            }else if(string.IsNullOrWhiteSpace(password)||string.IsNullOrWhiteSpace(newPassword)){
+                return false;
+            }else if (password == "undefined" | newPassword == "undefined") {
+                return false;
             }
             else {
                 return DBHelper.passwordReset(loginID, password, newPassword, BusinessEntityID);

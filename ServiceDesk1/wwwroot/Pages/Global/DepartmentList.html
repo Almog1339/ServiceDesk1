@@ -44,8 +44,8 @@
                 <td>{{Department.managerLastName}}</td>
                 <td>{{Department.managerTitle}}</td>
                 <td>{{Department.managerLoginID}}</td>
-                <td>{{Department.managerEmail}}</td>
-                <td>{{Department.managerPhoneNumber}}</td>
+                <td><a href="mailto:{{Department.managerEmail}}">{{Department.managerEmail}}</a></td>
+                <td><a href="tel:{{Department.managerPhoneNumber}}">{{Department.managerPhoneNumber}}</a></td>
             </tr>
             </tbody>
         </table>

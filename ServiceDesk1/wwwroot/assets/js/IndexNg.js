@@ -6,16 +6,13 @@ myApp.config(function ($routeProvider) {
         .when("/HR", { templateUrl: "/Pages/Hr/HR.html" })
         .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
-        .when("/Incident", { templateUrl: "/Pages/IT/Incident.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
         .when("/Location", { templateUrl: "/Pages/Global/Location.html", controller: "LocationCtrl" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html", controller: "navCtrl" })
-        .when("/Settings", { templateUrl: "/Pages/Global/Settings.html", controller: "SettingsCtrl" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
         .when("/JobCandidate", { templateUrl: "/pages/HR/JobCandidate.html", controller: "HrCtrl" })
         .when("/NewPosition", { templateUrl: "/pages/HR/NewPosition.html", controller: "HrCtrl" })
         .when("/AssignToMe", { templateUrl: "/pages/IT/AssignToMe.html", controller: "AssignToMeCtrl" })
-        .when("/ServiceCatalog", { templateUrl: "/pages/Global/ServiceCatalog.html", controller: "CatalogCtrl" })
         .when("/DepartmentList", { templateUrl: "/Pages/Global/DepartmentList.html", controller: "OrganizationCtrl" })
         .when("/KnowledgeBase", { templateUrl: "/Pages/IT/KnowledgeBase.html", controller: "KnowledgeCtrl" })
         .when("/NewArticle", { templateUrl: "/pages/IT/NewArticle.html", controller: "ArticleCtrl" })
@@ -26,27 +23,8 @@ myApp.config(function ($routeProvider) {
 
 
 });
-myApp.controller('IncCtrl', ['$scope', '$http', function ($scope, $http) {
-
-    $http.get("/api/Global/UsersListWithoutPic").then(function (response) {
-        $scope.employeeList = response.data;
-        setTimeout(function () {
-            $scope.complete = function (string) {
-                var output = [];
-                angular.forEach($scope.employeeList, function (employee) {
-                    if (employee.toLowerCase().indexOf(string.toLowerCase()) >= 0) {
-                        output.push(employee);
-                    }
-                });
-                $scope.filterEmployee = output;
-            };
-            $scope.fillTextbox = function (string) {
-                $scope.employee = string;
-                $scope.hideList = true;
-            };
-        }, 3000);
-        
-    });
+myApp.controller('IncCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
     $http.get('api/IT/GetNewInc').then(function (response) {
         if (response.data === -1) {
             alert("Please try again later or content your local help desk");
@@ -54,6 +32,16 @@ myApp.controller('IncCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.NewIncNum = response.data;
         }
     });
+
+    $scope.SubmitNewTicket = function () {
+        $http.post("api/IT/SubmitNewTicket?LoginID=" + $scope.LoginID + "&shortDescription=" + $scope.Short_Description + "&description=" + $scope.description + "&category=" + $scope.category).then(function (response) {
+            if (response.data === -1 | response.data === false) {
+                alert("we encouter some issues please try again alter or content your local help desk");
+            } else {
+                alert("done");
+            }
+        });
+    };
 }]);
 myApp.controller('LocationCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.countryList = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", " North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"];
@@ -76,12 +64,6 @@ myApp.controller('LocationCtrl', ['$scope', '$http', function ($scope, $http) {
         }, 1000);
 
     };
-}]);
-
-myApp.controller('CatalogCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get("api/Catalog").then(function (response) {
-        $scope.Catalogs = response.data;
-    });
 }]);
 
 myApp.controller('UnassignedCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -107,6 +89,7 @@ myApp.controller("AssignToMeCtrl", ['$scope', '$http', function ($scope, $http) 
 }]);
 myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window, ) {
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+
 
     $http.get("api/Global/GetImg?loginID=" + $scope.LoginID).then(function (response) {
         $scope.ImgData = response.data;
@@ -139,38 +122,21 @@ myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $ht
                 }
             });
     };
-
-    //$scope.updateImg = function () {
-
-    //}
+    //$scope.Password = '';
 
     //$scope.Reset = function () {
-    //alert($scope.password);
-    //$http.post("api/Global/passwordReset?loginID=" +
-    //    $scope.LoginID +
-    //    "&password=" +
-    //    $scope.password +
-    //    "&newPassword=" +
-    //    $scope.newPassword +
-    //    "&BusinessEntityID=" +
-    //    $scope.BusinessEntityID).then(function (response) {
-    //    if (response.data === -1 | response.data === false) {
-    //        alert("We could not update your password please /content /your local administrator.");
-    //    } else {
-    //        alert("your password has been update successfuly");
-    //    }
-    //});
+    //    console.log($scope.Password);
+    //    console.log($scope.newPassword);
+
+    //    $http.post("api/Global/passwordReset?LoginID=" + $scope.LoginID + "&Password=" + $scope.Password + "&NewPassword=" + $scope.newPassword + "&BusinessEntityID=" + $scope.BusinessEntityID).then(function (response) {
+    //        if (response.data === -1 | response.data === false) {
+    //            alert("We could not update your password please content your local administrator.");
+    //        } else {
+    //            alert("your password has been update successfuly");
+    //        }
+    //    });
     //};
 
-}]);
-myApp.controller('SettingsCtrl', ['$scope', function ($scope) {
-    $scope.Settings = [
-        {
-            "name": "Themes"
-        }, {
-            "name": "Profile Settings"
-        }
-    ];
 }]);
 
 myApp.controller('HrCtrl', ['$scope', '$http', function ($scope, $http) {

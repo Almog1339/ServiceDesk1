@@ -37,6 +37,10 @@ namespace ServiceDesk1
         {
 
         }
+        public Employee(string LoginID)
+        {
+            this.LoginID = LoginID;
+        }
         public Employee (int BusinessEntityID, string FirstName,string LastName,string JobTitle,string LoginID,string EmailAddress,string PhoneNumberType,string PhoneNumber)
         {
             this.BusinessEntityID = BusinessEntityID;
@@ -69,9 +73,6 @@ namespace ServiceDesk1
             this.EmailAddress = emailAddress;
             this.BusinessEntityID = businessEntityId;
         }
-        public Employee(string Img)
-        {
-            this.Img = Img;
-        }
+
     }
 }

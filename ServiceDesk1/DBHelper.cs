@@ -23,7 +23,7 @@ namespace ServiceDesk1
         internal static object GetUnassiged()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" select ID,Open_by,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where Assigned_to = ' '", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" select ID,open_for,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where Assigned_to = ' '", conn)) {
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         List<Tickets> tickets = new List<Tickets>();
@@ -39,10 +39,29 @@ namespace ServiceDesk1
             }
         }
 
+        internal static object SubmitNewTicket(string LoginId,  string shortDescription,string description, string category)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" insert into incidents (open_for,Short_Description,Description,Category,GroupName,state,impact,urgency) values (@loginId,@shortDescription,@description,@Category,'Global Service Desk','Open',3,3)", conn)) {
+                    cmd.Parameters.AddWithValue("@loginId", LoginId);
+                    cmd.Parameters.AddWithValue("@shortDescription", shortDescription);
+                    cmd.Parameters.AddWithValue("@description", description);
+                    cmd.Parameters.AddWithValue("@Category", category);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+
         internal static object ResolveInc()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" Select ID,Open_by,Short_Description,Description,GroupName,State,Category,Impact,Urgency from Incidents where State = 'Resolve'", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" Select ID,open_for,Short_Description,Description,GroupName,State,Category,Impact,Urgency from Incidents where State = 'Resolve'", conn)) {
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         List<Tickets> tickets = new List<Tickets>();
@@ -60,7 +79,7 @@ namespace ServiceDesk1
         internal static object AssignToMe(string username)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" Select ID,Open_by,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where Assigned_to = @userName", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" Select ID,open_for,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where Assigned_to = @userName", conn)) {
                     cmd.Parameters.AddWithValue("@userName", username);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
@@ -79,12 +98,12 @@ namespace ServiceDesk1
         internal static object GetOpenTicket()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" select ID,Open_by,Short_Description,Description,GroupName,State,Category,Impact,Urgency,Assigned_to from Incidents where State = 'open'", conn)) {
+                using (SqlCommand cmd = new SqlCommand(" select ID,open_for,Short_Description,Description,GroupName,State,Category,Impact,Urgency from Incidents where State = 'Open'", conn)) {
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         List<Tickets> tickets = new List<Tickets>();
                         while (dr.Read()) {
-                            Tickets ticket = new Tickets(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetInt16(7), dr.GetInt16(8), dr.GetString(9));
+                            Tickets ticket = new Tickets(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetInt16(7), dr.GetInt16(8));
                             tickets.Add(ticket);
 
                         }
@@ -579,7 +598,7 @@ namespace ServiceDesk1
                 }
             }
         }
-        public static List<DateTime> GetDateTime()
+        public static object GetDateTime()
         {
             List<DateTime> dates = new List<DateTime>();
             DateTime date = DateTime.Now.Date;

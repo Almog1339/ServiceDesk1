@@ -3,12 +3,6 @@
         display: grid;
         grid-template-columns: repeat(2,1fr);
     }
-
-    img {
-        width: 200px;
-        height: 200px;
-    }
-
     input[type="text"] {
         width: 300px;
     }
@@ -53,15 +47,11 @@
             <input ng-model="NewIncNum" disabled class="input-group-addon" type="number" />
             <br />
             <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Caller</label>
-            <input type="text" style="align-items:center" name="employee" ng-model="employee" ng-keyup="complete(employee)" class="form-control" />
-            <ul class="list-group" ng-model="hideList" ng-hide="hideList">
-                <li class="list-group-item" ng-repeat="employeeData in filterEmployee" ng-click="fillTextbox(employeeData)">{{employeeData}}</li>
-            </ul>
-
+            <input disabled type="text" ng-model="LoginID" class="input-group-addon" />
         </div>
         <div>
             <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Category</label>
-            <select style="max-width:250px;float:right" class="form-control">
+            <select ng-model="category" style="max-width:250px;float:right" class="form-control">
                 <option>--None--</option>
                 <option>Inquiry/Help</option>
                 <option>Software</option>
@@ -76,18 +66,16 @@
             </select>
             <br />
             <br />
-            <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Assgin To:</label>
-            <input disabled class="input-group-addon" style="float:right" type="text" />
         </div>
     </div>
     <div>
         <label class="control-label">Short Description: </label>
-        <input id="Short_Discription" class="input-group-addon" type="text" />
+        <input ng-model="Short_Description" id="Short_Discription" class="input-group-addon" type="text" />
         <br />
         <label class=" col-xs-12 col-md-3 col-lg-4 control-label">Description: </label>
-        <textarea class="input-group-addon" type="text"></textarea>
+        <textarea ng-model="description" class="input-group-addon" type="text"></textarea>
         <br />
-        <input onclick="displayDate()" class="btn btn-success" type="submit" value="Submit" />
+        <input ng-click="SubmitNewTicket()" class="btn btn-success" type="submit" value="Submit" />
     </div>
     <div ng-show="attachment" class="nav-mobile-menu">
         <div class="">

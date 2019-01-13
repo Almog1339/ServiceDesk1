@@ -7,6 +7,7 @@ myApp.config(function ($routeProvider) {
         .when("/Self-Service", { templateUrl: "/Pages/Global/Self-Service.html" })
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
+        .when("/Inventory", { templateUrl: "/pages/Inventory/Inventory.html" })
         .when("/Location", { templateUrl: "/Pages/Global/Location.html", controller: "LocationCtrl" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html", controller: "navCtrl" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
@@ -19,6 +20,8 @@ myApp.config(function ($routeProvider) {
         .when("/Unassigned", { templateUrl: " /pages/IT/Unassigned.html", controller: "UnassignedCtrl" })
         .when("/OpenTicket", { templateUrl: "/pages/IT/OpenTicket.html", controller: "OpenTicket" })
         .when("/ResolvedInc", { templateUrl: "/pages/IT/ResolveInc.html", controller: "ResolveIncCtrl" })
+        .when("/Suppliers", { templateUrl: "/pages/Inventory/Suppliers.html", controller: "SuppliersCtrl" })
+        .when("/Orders", { templateUrl: "/pages/Inventory/Orders.html", controller:"OrdersCtrl" })
         .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html", controller: "IncCtrl" });
 
 
@@ -43,6 +46,35 @@ myApp.controller('IncCtrl', ['$scope', '$http', '$window', function ($scope, $ht
         });
     };
 }]);
+
+myApp.controller('OrdersCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("api/Inventory/GetOrders").then(function (response) {
+        $scope.orders = response.data;
+    });
+    $scope.colToSortBy = "orderId";
+    $scope.sortBy = function (col) {
+        $scope.colToSortBy = col;
+    };
+    $scope.createOrder = function () {
+        $http.post("api/invetory/NewOrder?businessEntityID=" + $scope.businessEntityID + "&OrderDate="+ $scope.OrderDate + "&Required_Date="+ $scope.Required_Date + "&Shipped_Date=" + $scope.Shipped_Date + "&Freight=" + $scope.Freight + "&ShipName=" + $scope.ShipName + "&ShipAddress=" + $scope.ShipAddress + "&ShipCity=" + $scope.ShipCity +"&ShipCountry=" + $scope.ShipCountry).then(function (response) {
+            if (response.data === -1) {
+                alert("we have encounter some issues /nPlease try again later");
+            } else {
+                alert("done");
+            }
+        });
+    };
+}]);
+myApp.controller('SuppliersCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("api/Inventory/GetSuppliers").then(function (response) {
+        $scope.suppliers = response.data;
+    });
+    $scope.colToSortBy = "supplierID";
+    $scope.sortBy = function (col) {
+        $scope.colToSortBy = col;
+    };
+}]);
+
 myApp.controller('LocationCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.countryList = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", " North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"];
     $scope.complete = function (string) {
@@ -60,7 +92,7 @@ myApp.controller('LocationCtrl', ['$scope', '$http', function ($scope, $http) {
         setTimeout(function () {
             $http.get("api/Global/GetStores?State=" + $scope.country).then(function (resoponse) {
                 $scope.storeLists = resoponse.data;
-            })
+            });
         }, 1000);
 
     };
@@ -88,6 +120,7 @@ myApp.controller("AssignToMeCtrl", ['$scope', '$http', function ($scope, $http) 
     });
 }]);
 myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window, ) {
+
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
 
 
@@ -191,7 +224,10 @@ myApp.controller('IndexMainUl', ['$scope', '$http', '$window', function ($scope,
 }]);
 
 myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http) {
-
+    $scope.colToSortBy = "supplierID";
+    $scope.sortBy = function (col) {
+        $scope.colToSortBy = col;
+    };
     $http.get("/api/Global/UsersList").then(function (response) {
         $scope.td = response.data;
     });

@@ -1,0 +1,35 @@
+﻿<nav style="background-color: gray">
+    <input ng-model="search" type="text" name="search" placeholder="Search..">
+</nav>
+<table class="table table-striped">
+    <thead class="table table-dark">
+        <tr>
+            <th><a ng-click="sortBy('supplierID')">ID</a> </th>
+            <th><a ng-click="sortBy('companyName')">Company Name</a></th>
+            <th><a ng-click="sortBy('contactName')">Contact Name</a></th>
+            <th>Contact Title</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Postal Code</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>Fax</th>
+            <th>Home Page</th>
+        </tr>
+    </thead>
+    <tbody class="table">
+        <tr ng-repeat="sup in suppliers| orderBy: colToSortBy | filter: search">
+            <td>{{sup.supplierID}}</td>
+            <td>{{sup.companyName}}</td>
+            <td>{{sup.contactName}}</td>
+            <td>{{sup.contactTitle}}</td>
+            <td>{{sup.address}}</td>
+            <td>{{sup.city}}</td>
+            <td>{{sup.postalCode}}</td>
+            <td>{{sup.country}}</td>
+            <td><a href="tel:{{sup.phone}}"</a>{{sup.phone}}</td>
+            <td>{{sup.fax}}</td>
+            <td>{{sup.homePage}}</td>
+        </tr>
+    </tbody>
+</table>

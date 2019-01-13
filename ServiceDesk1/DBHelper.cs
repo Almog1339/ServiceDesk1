@@ -20,6 +20,8 @@ namespace ServiceDesk1
         private static string CONN_STRING =
             "Data Source=DESKTOP-O8IU0PQ\\SQLEXPRESS;Initial Catalog=ServiceDesk;Persist Security Info=True;User ID=sa;Password=Q1w2q1w2";
 
+
+
         internal static object GetUnassiged()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -39,7 +41,7 @@ namespace ServiceDesk1
             }
         }
 
-        internal static object SubmitNewTicket(string LoginId,  string shortDescription,string description, string category)
+        internal static object SubmitNewTicket(string LoginId, string shortDescription, string description, string category)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
                 using (SqlCommand cmd = new SqlCommand(" insert into incidents (open_for,Short_Description,Description,Category,GroupName,state,impact,urgency) values (@loginId,@shortDescription,@description,@Category,'Global Service Desk','Open',3,3)", conn)) {
@@ -608,15 +610,73 @@ namespace ServiceDesk1
             return dates;
         }
 
-
-        public class OptionList
+        internal static object GetSuppliers()
         {
-            public object Content { get; set; }
-
-            public OptionList(object Content)
-            {
-                this.Content = Content;
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select SupplierID,CompanyName,ContactName,ContactTitle,Address,City,PostalCode,Country,Phone,Fax,HomePage from Suppliers", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Inventory> suppliers = new List<Inventory>();
+                        while (dr.Read()) {
+                            Inventory supplier = new Inventory(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), dr.GetString(7), dr.GetString(8), dr.GetString(9), dr.GetString(10));
+                            suppliers.Add(supplier);
+                        }
+                        return suppliers;
+                    }
+                }
             }
+        }
+        internal static object GetOrder()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select OrderID,EmployeeID,FirstName,LastName,OrderDate,RequiredDate,ShippedDate,Freight,ShipName,ShipAddress,ShipCity,ShipCountry from Orders left join Person.Person on Person.BusinessEntityID = Orders.EmployeeID ", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Inventory> orders = new List<Inventory>();
+                        while (dr.Read()) {
+                            Inventory order = new Inventory(dr.GetInt32(0), dr.GetInt32(1), dr.GetString(2), dr.GetString(3), dr.GetDateTime(4), dr.GetDateTime(5), dr.GetDateTime(6), dr.GetInt32(7), dr.GetString(8), dr.GetString(9), dr.GetString(10), dr.GetString(11));
+                            orders.Add(order);
+                        }
+                        return orders;
+                    }
+                }
+            }
+        }
+
+        internal static object NewOrder(int businessEntityID, DateTime orderDate, DateTime required_Date, DateTime shipped_Date, int freight, string shipName, string shipAddress, string shipCity, string shipCountry)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+
+                using (SqlCommand cmd = new SqlCommand(" insert into Orders(EmployeeID,OrderDate,RequiredDate,ShippedDate,Freight,ShipName,ShipAddress,ShipCity,ShipCountry) values (@businessEntityID,@orderDate,@required_Date,@shipped_Date,@freight,@shipName,@shipAddress,@shipCity,@shipCountry)", conn)) {
+                    cmd.Parameters.AddWithValue("@businessEntityID", businessEntityID);
+                    cmd.Parameters.AddWithValue("@orderDate", orderDate);
+                    cmd.Parameters.AddWithValue("@required_Date", required_Date);
+                    cmd.Parameters.AddWithValue("@shipped_Date", shipped_Date);
+                    cmd.Parameters.AddWithValue("@freight", freight);
+                    cmd.Parameters.AddWithValue("@shipName", shipName);
+                    cmd.Parameters.AddWithValue("@shipAddress", shipAddress);
+                    cmd.Parameters.AddWithValue("@shipCity", shipCity);
+                    cmd.Parameters.AddWithValue("@shipCountry", shipCountry);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return false;
+                        }
+
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    public class OptionList
+    {
+        public object Content { get; set; }
+
+        public OptionList(object Content)
+        {
+            this.Content = Content;
         }
     }
 }

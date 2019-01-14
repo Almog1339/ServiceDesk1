@@ -1,53 +1,62 @@
 ﻿<style>
-    .container {
-        padding: 0;
-        display: grid;
-        grid-template-columns: repeat(4,1fr);
+    .Container{
+        display:grid;
+        padding:0;
+        margin:0;
+        grid-template-columns:repeat(3,1fr);
+        grid-column-gap:10px;
     }
-
-    .box {
-        grid-column-start: 2;
-        grid-column-end: 5;
-    }
-
-    ul {
-        list-style-type: none;
-    }
-
-    input[type=text] {
-        width: 130px;
-        box-sizing: border-box;
-        border-radius: 8px;
-        font-size: 12px;
-        background-color: white;
-        background-position: 10px 10px;
-        background-repeat: no-repeat;
-        padding: 12px 20px 12px 40px;
-        -webkit-transition: width 0.4s ease-in-out;
-        transition: width 0.4s ease-in-out;
-    }
-
-        input[type=text]:focus {
-            width: 50%;
-        }
 </style>
 <nav style="background-color: gray">
     <a href="#!NewArticle"><input type="button" value="Add new Article" /></a>
+    <span class="dropdown" style="float:left;border:none">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="user_info_dropdown" style="background-color: transparent;border: transparent">
+            <span style="color: black">Select your subject</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a ng-click="sendGetApplication()">Application</a></li>
+            <li><a ng-click="sendGetDevices()">Devices</a></li>
+            <li><a ng-click="sendGetEmail()">Email</a></li>
+            <li><a ng-click="sendGetIT()">IT</a></li>
+            <li><a ng-click="sendGetOP()">Operating System</a></li>
+        </ul>
+    </span>
     <input ng-model="search" type="text" name="search" placeholder="Search..">
 </nav>
-<div class="container">
-    <div style="float:left;border:none">
-        <ul>
-            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Application'">Application</a></li>
-            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Devices'">Devices</a></li>
-            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Email'">Email</a></li>
-            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'IT'">IT</a></li>
-            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Operating System'">Operating System</a></li>
-        </ul>
-    </div>
-    <div>
-        {{subject}}
+<div class="Container">
+    <div class="card bg-dark text-white" ng-repeat="t in knowledge">
+        <div class="card-body">
+            KB{{t.id}}<center style="left:20px"> {{t.subject}}</center><br />
+            {{t.title}}<hr />
+            Posted By:  {{t.postedByName}}
+            <hr />
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                Open modal
+            </button>
+        </div>
+        <div class="modal" id="myModal">
+            <div style="width:100%;height:100%;position:absolute;top:0px;left:0px;background-color:rgba(36, 34, 34, 0.87);z-index:1;"></div>
+            <div style="color:black;z-index:2;" class="modal-dialog">
+                <div class="modal-content">
 
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{t.title}}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        {{t.content}}
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-

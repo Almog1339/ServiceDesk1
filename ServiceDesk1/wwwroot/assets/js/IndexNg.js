@@ -253,10 +253,29 @@ myApp.controller('KnowledgeCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get("/api/Knowledge/GetSubjects").then(function (response) {
         $scope.items = response.data;
     });
-    $scope.sendRequest = function () {
-        console.log($scope.subject);
-        $http.get("/api/Knowledge/GetArticles?subject=" + $scope.subject).then(function (response) {
-            $scope.items = response.data;
+    $scope.sendGetApplication = function () {
+        $http.get("/api/Knowledge/GetArticles?subject=Application").then(function (response) {
+            $scope.knowledge = response.data;
+        });
+    };
+    $scope.sendGetDevices = function () {
+        $http.get("/api/Knowledge/GetArticles?subject=Devices").then(function (response) {
+            $scope.knowledge = response.data;
+        });
+    };
+    $scope.sendGetEmail = function () {
+        $http.get("/api/Knowledge/GetArticles?subject=Email").then(function (response) {
+            $scope.knowledge = response.data;
+        });
+    };
+    $scope.sendGetIT = function () {
+        $http.get("/api/Knowledge/GetArticles?subject=IT").then(function (response) {
+            $scope.knowledge = response.data;
+        });
+    };
+    $scope.sendGetOP = function () {
+        $http.get("/api/Knowledge/GetArticles?subject=Operating system").then(function (response) {
+            $scope.knowledge = response.data;
         });
     };
 }]);

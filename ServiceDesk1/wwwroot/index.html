@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>ServiceDesk</title>
     <script src="assets/js/angular.min.js"></script>
@@ -17,12 +18,16 @@
             font-size: 1.5em;
             border: 0.5px groove;
         }
+
+        .bg-color {
+            background-color: #377ac2;
+        }
     </style>
 </head>
 <body ng-app="myApp">
     <div class="wrapper">
         <div class="main-panel">
-            <nav class="navbar navbar-light navbar-expand-md" style="background-color: #377ac2;">
+            <nav class="navbar navbar-light navbar-expand-md bg-color">
                 <div class="container-fluid" ng-controller="navCtrl">
 
                     <div class="dropdown" style="background-color: transparent;">
@@ -35,8 +40,20 @@
                             <li><a href="/Login.html">Logout</a></li>
                         </ul>
                     </div>
+
                     <span style="flex: 1 1 auto"></span>
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                </div>
+                <div class="dropdown" style="background-color: transparent;position:relative;right:60px;">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="user_info_dropdown" style="background-color: transparent;border: transparent">
+                        <span style="color: white">Themes</span>
+                    </button>
+                    <ul style="cursor:pointer;" class="dropdown-menu">
+                        <li id="Default"><a>Default</a></li>
+                        <li id="Roses"><a>Roses</a></li>
+                        <li id="Skyline"><a>Skyline Blue</a></li>
+                        <li id="Green"><a>Blumdield Grass</a></li>
+                    </ul>
                 </div>
             </nav>
             <div id="main">
@@ -45,8 +62,8 @@
             </div>
             <div>
                 <div>
-                    <div class="visible sidebar" data-color="blue" data-image="" style="background-image: url(&quot;/assets/img/sidebar-2.jpg&quot;); color: rgb(0, 0, 0);">
-                        <div class="sidebar-wrapper">
+                    <div class="visible sidebar" style="color: rgb(0, 0, 0);">
+                        <div class="sidebar-wrapper bg-color">
                             <div class="logo" style="height: 100px"><a href="#" class="simple-text">Service Management System</a></div>
                             <div ng-controller="IndexMainUl">
                                 <ul ng-repeat="o in option">
@@ -60,7 +77,22 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
 
+            $("#Default").click(function () {
+                $('.bg-color').css("background-color", "#377ac2");
+            });
+            $("#Skyline").click(function () {
+                $('.bg-color').css("background-color", "#40739e");
+            });
+            $("#Green").click(function () {
+                $('.bg-color').css("background-color", "#A3CB38");
+            });
+            $("#Roses").click(function () {
+                $('.bg-color').css("background-color", "#833471");
+            });
+        });
+    </script>
 </body>
-
 </html>

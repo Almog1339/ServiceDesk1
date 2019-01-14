@@ -9,12 +9,12 @@ namespace ServiceDesk1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CatalogController : ControllerBase
+    public class FinanceController : ControllerBase
     {
-        [HttpGet]
-        public object GetCatalog()
+        [HttpGet("GetInvocies")]
+        public object GetInvocies()
         {
-            return DBHelper.GetCatalog();
+            return DBHelper.GetInvocies();
         }
     }
 }

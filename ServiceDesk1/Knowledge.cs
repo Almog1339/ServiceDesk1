@@ -14,15 +14,19 @@ namespace ServiceDesk1
         public string PostedByName { get; set; }
         public string Title { get; set; }
 
-        public Knowledge(int ID,string subject, string Content,string PostedByName,string tital)
+        public Knowledge(int ID,string subject, string Content,int postedBy,string PostedByName,string tital)
         {
             this.ID = ID;
             this.Subject = subject;
             this.Content = Content;
+            this.PostedBy = postedBy;
             this.PostedByName = PostedByName;
             this.Title = tital;
         }
-
+        public Knowledge(string subject)
+        {
+            this.Subject = subject;
+        }
         public Knowledge()
         {
 

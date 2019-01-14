@@ -1,0 +1,62 @@
+﻿<style>
+    input[type=text] {
+        width: 150px
+    }
+
+    input[type=number] {
+        width: 150px
+    }
+
+    input[type=datetime] {
+        width: 150px
+    }
+</style>
+
+<div>
+    <nav style="background-color: gray">
+        <input ng-model="search" type="text" name="search" placeholder="Search..">
+    </nav>
+    <div>
+        <table class="table table-bordered table-dark table-striped ">
+            <thead>
+                <tr>
+                    <th><a style="cursor: pointer;" ng-click="sortBy('orderId')">Order ID</a></th>
+                    <th>Ship Name</th>
+                    <th>Ship Address</th>
+                    <th><a style="cursor: pointer;" ng-click="sortBy('customerName')">Customer Name</a></th>
+                    <th><a style="cursor: pointer;" ng-click="sortBy('shipCountry')">Ship Country</a></th>
+                    <th>Order Date</th>
+                    <th>Shipped Date</th>
+                    <th>Required Date</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Extended Price</th>
+                    <th>Freight</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="invoice in invocies |  orderBy: colToSortBy | filter:search">
+                    <td>{{invoice.orderID}}</td>
+                    <td>{{invoice.shipName}}</td>
+                    <td>{{invoice.shipAddress}}</td>
+                    <td>{{invoice.shipCountry}}</td>
+                    <td>{{invoice.customerName}}</td>
+                    <td>{{invoice.orderDate}}</td>
+                    <td>{{invoice.shippedDate}}</td>
+                    <td>{{invoice.requiredDate}}</td>
+                    <td>{{invoice.productID}}</td>
+                    <td>{{invoice.productName}}</td>
+                    <td>{{invoice.unitPrice}}</td>
+                    <td>{{invoice.quantity}}</td>
+                    <td>{{invoice.discount}}</td>
+                    <td>{{invoice.extendedPrice}}</td>
+                    <td>{{invoice.freight}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

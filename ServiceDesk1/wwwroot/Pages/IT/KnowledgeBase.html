@@ -1,17 +1,19 @@
 ﻿<style>
     .container {
-        padding:0;
+        padding: 0;
         display: grid;
         grid-template-columns: repeat(4,1fr);
     }
 
     .box {
-        grid-column-start:2;
-        grid-column-end:5;
+        grid-column-start: 2;
+        grid-column-end: 5;
     }
+
     ul {
         list-style-type: none;
     }
+
     input[type=text] {
         width: 130px;
         box-sizing: border-box;
@@ -33,40 +35,19 @@
     <a href="#!NewArticle"><input type="button" value="Add new Article" /></a>
     <input ng-model="search" type="text" name="search" placeholder="Search..">
 </nav>
-<div ng-hide="kb" class="container">
-    <div>
-        <aside>
-            <table>
-                <tr>Subjets:</tr>
-                <tr><td><hr /></td></tr>
-                <tr><td ng-click="subject='Application'">Application</td></tr>
-                <tr><td ng-click="subject='Devices'">Devices</td></tr>
-                <tr><td ng-click="subject='Email'">Email</td></tr>
-                <tr><td ng-click="subject='IT'">IT</td></tr>
-                <tr><td ng-click="subject='Operating System'">Operating System</td></tr>
-            </table>
-        </aside>
-    </div>
-    <div class="box">
-
+<div class="container">
+    <div style="float:left;border:none">
         <ul>
-            <a ng-click="kb=true">
-                <li ng-repeat="item in items| filter:search" ng-show="item.subject">
-                    KB: {{item.id}} <span style="float:right">{{item.postedByName}}</span>
-                    <br />
-                    {{item.title}}
-                    <hr />
-                </li>
-            </a>
+            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Application'">Application</a></li>
+            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Devices'">Devices</a></li>
+            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Email'">Email</a></li>
+            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'IT'">IT</a></li>
+            <li><a ng-click="sendRequest()" ng-bind-html="subject = 'Operating System'">Operating System</a></li>
         </ul>
+    </div>
+    <div>
+        {{subject}}
 
     </div>
 </div>
-<div ng-show="kb">
-    <button style="float:right" class="btn btn-danger" ng-click="kb=false">X</button>
-    KB: {{item.id}}
-    <br /><span>{{item.postedByName}}</span>
 
-    <br /><br />
-    {{item.content}}
-</div>

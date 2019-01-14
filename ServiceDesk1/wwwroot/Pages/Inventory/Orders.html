@@ -9,78 +9,81 @@
         width: 150px
     }
 </style>
-<nav style="background-color: gray">
-    <button ng-click="insertDiv=true" type="button" class="btn btn-primary">
+
+<div>
+    <nav style="background-color: gray">
+    <button ng-click="NewOrder=true" type="button" class="btn btn-primary">
         Open modal
     </button>
     <input ng-model="search" type="text" name="search" placeholder="Search..">
 </nav>
-<div ng-show="insertDiv">
-    <table class="table table-responsive">
-        <thead class="table table-dark">
-            <tr>
-                <th>EmployeeID</th>
-                <th>OrderDate</th>
-                <th>Required Date</th>
-                <th>Shipped Date</th>
-                <th>Freight</th>
-                <th>Ship Name</th>
-                <th>Ship Address</th>
-                <th>Ship City</th>
-                <th>ShipCountry</th>
-                <th><button class="btn btn-danger" ng-click="insertDiv=false"><i class="far fa-times-circle"></i></button></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input disabled type="text" ng-model="businessEntityID" /></td>
-                <td><input required type="datetime" ng-model="OrderDate" /></td>
-                <td><input required type="datetime" ng-model="Required_Date" /></td>
-                <td><input required type="datetime" ng-model="Shipped_Date" /></td>
-                <td><input required type="number" ng-model="Freight" /></td>
-                <td><input required type="text" ng-model="ShipName" /></td>
-                <td><input required type="text" ng-model="ShipAddress" /></td>
-                <td><input required type="text" ng-model="ShipCity" /></td>
-                <td><input required type="text" ng-model="ShipCountry" /></td>
-                <td><button class="btn btn-success" ng-click="createOrder()">add</button></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div>
-    <table class="table table-striped">
-        <thead class="table table-dark">
-            <tr>
-                <th><a ng-click="sortBy('orderId')">ID</a></th>
-                <th><a ng-click="sortBy('employeeID')">EmployeeID</a></th>
-                <th><a ng-click="sortBy('employee_FirstName')">Employee First Name</a></th>
-                <th><a ng-click="sortBy('employee_LastName')">Employee Last Name</a></th>
-                <th><a ng-click="sortBy('orderDate')">OrderDate</a></th>
-                <th>Required Date</th>
-                <th>Shipped Date</th>
-                <th>Freight</th>
-                <th>Ship Name</th>
-                <th>Ship Address</th>
-                <th>Ship City</th>
-                <th>ShipCountry</th>
-            </tr>
-        </thead>
-        <tbody class="table">
-            <tr ng-repeat="order in orders| orderBy: colToSortBy | filter: search">
-                <td>{{order.orderID}}</td>
-                <td>{{order.employeeID}}</td>
-                <td>{{order.employee_FirstName}}</td>
-                <td>{{order.employee_LastName}}</td>
-                <td>{{order.orderDate}}</td>
-                <td>{{order.required_Date}}</td>
-                <td>{{order.shipped_Date}}</td>
-                <td>{{order.freight}}</td>
-                <td>{{order.ship_Name}}</td>
-                <td>{{order.ship_Address}}</td>
-                <td>{{order.ship_City}}</td>
-                <td>{{order.ship_Country}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div ng-show="NewOrder">
+        <table class="table table-responsive">
+            <thead class="table table-dark">
+                <tr>
+                    <th>EmployeeID</th>
+                    <th>OrderDate</th>
+                    <th>Required Date</th>
+                    <th>Shipped Date</th>
+                    <th>Freight</th>
+                    <th>Ship Name</th>
+                    <th>Ship Address</th>
+                    <th>Ship City</th>
+                    <th>ShipCountry</th>
+                    <th><button class="btn btn-danger" ng-click="NewOrder=false"><i class="far fa-times-circle"></i></button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input disabled type="text" ng-model="businessEntityID" /></td>
+                    <td><input required type="datetime" ng-model="OrderDate" /></td>
+                    <td><input required type="datetime" ng-model="Required_Date" /></td>
+                    <td><input required type="datetime" ng-model="Shipped_Date" /></td>
+                    <td><input required type="number" ng-model="Freight" /></td>
+                    <td><input required type="text" ng-model="ShipName" /></td>
+                    <td><input required type="text" ng-model="ShipAddress" /></td>
+                    <td><input required type="text" ng-model="ShipCity" /></td>
+                    <td><input required type="text" ng-model="ShipCountry" /></td>
+                    <td><button class="btn btn-success" ng-click="createOrder()"><i class="far fa-plus-square"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead class="table table-dark">
+                <tr>
+                    <th><a ng-click="sortBy('orderId')">ID</a></th>
+                    <th><a ng-click="sortBy('employeeID')">EmployeeID</a></th>
+                    <th><a ng-click="sortBy('employee_FirstName')">Employee First Name</a></th>
+                    <th><a ng-click="sortBy('employee_LastName')">Employee Last Name</a></th>
+                    <th><a ng-click="sortBy('orderDate')">OrderDate</a></th>
+                    <th>Required Date</th>
+                    <th>Shipped Date</th>
+                    <th>Freight</th>
+                    <th>Ship Name</th>
+                    <th>Ship Address</th>
+                    <th>Ship City</th>
+                    <th>ShipCountry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="order in orders">
+                    <td>{{order.orderID}}</td>
+                    <td>{{order.employeeID}}</td>
+                    <td>{{order.employee_FirstName}}</td>
+                    <td>{{order.employee_LastName}}</td>
+                    <td>{{order.orderDate}}</td>
+                    <td>{{order.required_Date}}</td>
+                    <td>{{order.ship_Address}}</td>
+                    <td>{{order.freight}}</td>
+                    <td>{{order.ship_Name}}</td>
+                    <td>{{order.ship_Address}}</td>
+                    <td>{{order.ship_City}}</td>
+                    <td>{{order.ship_Country}}</td>
+                </tr>
+            </tbody>
+        </table>
 
+    </div>
 </div>

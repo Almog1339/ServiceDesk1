@@ -22,13 +22,13 @@ namespace ServiceDesk1.Controllers
             return DBHelper.GetOrder();
         }
         [HttpPost("NewOrder")]
-        public object NewOrder(int businessEntityID,DateTime OrderDate,DateTime Required_Date,DateTime Shipped_Date,int Freight,string ShipName,string ShipAddress,string ShipCity,string ShipCountry)
+        public object NewOrder(string LoginID, DateTime OrderDate,DateTime Required_Date,DateTime Shipped_Date,int Freight,string ShipName,string ShipAddress,string ShipCity,string ShipCountry)
         {
             if (string.IsNullOrEmpty(ShipAddress)||string.IsNullOrEmpty(ShipCity) || string.IsNullOrEmpty(ShipCountry) || string.IsNullOrEmpty(ShipName)) {
                 return -1;
             }
             else {
-                return DBHelper.NewOrder(businessEntityID,OrderDate,Required_Date, Shipped_Date, Freight, ShipName, ShipAddress, ShipCity, ShipCountry);
+                return DBHelper.NewOrder(LoginID, OrderDate,Required_Date, Shipped_Date, Freight, ShipName, ShipAddress, ShipCity, ShipCountry);
             }
         }
     }

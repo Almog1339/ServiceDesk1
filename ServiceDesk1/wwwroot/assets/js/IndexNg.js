@@ -8,6 +8,7 @@ myApp.config(function ($routeProvider) {
         .when("/Organization", { templateUrl: "/Pages/Global/Organization.html" })
         .when("/Service Desk", { templateUrl: "/Pages/IT/Service Desk.html" })
         .when("/Inventory", { templateUrl: "/pages/Inventory/Inventory.html" })
+        .when("/Finance", { templateUrl: "/pages/Finance/Finance.html" })
         .when("/Location", { templateUrl: "/Pages/Global/Location.html", controller: "LocationCtrl" })
         .when("/Profile", { templateUrl: "/Pages/Global/Profile.html", controller: "navCtrl" })
         .when("/UsersList", { templateUrl: "/Pages/Global/UsersList.html", controller: "OrganizationCtrl" })
@@ -21,7 +22,8 @@ myApp.config(function ($routeProvider) {
         .when("/OpenTicket", { templateUrl: "/pages/IT/OpenTicket.html", controller: "OpenTicket" })
         .when("/ResolvedInc", { templateUrl: "/pages/IT/ResolveInc.html", controller: "ResolveIncCtrl" })
         .when("/Suppliers", { templateUrl: "/pages/Inventory/Suppliers.html", controller: "SuppliersCtrl" })
-        .when("/Orders", { templateUrl: "/pages/Inventory/Orders.html", controller:"OrdersCtrl" })
+        .when("/Orders", { templateUrl: "/pages/Inventory/Orders.html", controller: "OrdersCtrl" })
+        .when("/Invoices", { templateUrl: "/pages/Finance/Invoices.html", controller: "InvociesCtrl" })
         .when("/NewInc", { templateUrl: "/pages/IT/NewInc.html", controller: "IncCtrl" });
 
 
@@ -47,16 +49,18 @@ myApp.controller('IncCtrl', ['$scope', '$http', '$window', function ($scope, $ht
     };
 }]);
 
-myApp.controller('OrdersCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get("api/Inventory/GetOrders").then(function (response) {
+myApp.controller('OrdersCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+    $http.get("/api/Inventory/GetOrders").then(function (response) {
         $scope.orders = response.data;
     });
     $scope.colToSortBy = "orderId";
     $scope.sortBy = function (col) {
         $scope.colToSortBy = col;
     };
+    $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
+
     $scope.createOrder = function () {
-        $http.post("api/invetory/NewOrder?businessEntityID=" + $scope.businessEntityID + "&OrderDate="+ $scope.OrderDate + "&Required_Date="+ $scope.Required_Date + "&Shipped_Date=" + $scope.Shipped_Date + "&Freight=" + $scope.Freight + "&ShipName=" + $scope.ShipName + "&ShipAddress=" + $scope.ShipAddress + "&ShipCity=" + $scope.ShipCity +"&ShipCountry=" + $scope.ShipCountry).then(function (response) {
+        $http.post("/api/invetory/NewOrder?LoginID=" + $scope.LoginID + "&OrderDate=" + $scope.OrderDate + "&Required_Date=" + $scope.Required_Date + "&Shipped_Date=" + $scope.Shipped_Date + "&Freight=" + $scope.Freight + "&ShipName=" + $scope.ShipName + "&ShipAddress=" + $scope.ShipAddress + "&ShipCity=" + $scope.ShipCity + "&ShipCountry=" + $scope.ShipCountry).then(function (response) {
             if (response.data === -1) {
                 alert("we have encounter some issues /nPlease try again later");
             } else {
@@ -102,6 +106,15 @@ myApp.controller('UnassignedCtrl', ['$scope', '$http', function ($scope, $http) 
     $http.get("api/IT/GetUnassigned").then(function (response) {
         $scope.td = response.data;
     });
+}]);
+myApp.controller('InvociesCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get("/api/Finance/GetInvocies").then(function (response) {
+        $scope.invocies = response.data;
+    });
+    $scope.colToSortBy = "orderId";
+    $scope.sortBy = function (col) {
+        $scope.colToSortBy = col;
+    };
 }]);
 myApp.controller('ResolveIncCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get("api/IT/ResolveInc").then(function (response) {
@@ -237,12 +250,15 @@ myApp.controller('OrganizationCtrl', ['$scope', '$http', function ($scope, $http
 }]);
 
 myApp.controller('KnowledgeCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.subject;
-    console.log($scope.subject);
-    $http.get("/api/Knowledge/GetArticles").then(function (response) {
+    $http.get("/api/Knowledge/GetSubjects").then(function (response) {
         $scope.items = response.data;
-        console.log(response.data);
     });
+    $scope.sendRequest = function () {
+        console.log($scope.subject);
+        $http.get("/api/Knowledge/GetArticles?subject=" + $scope.subject).then(function (response) {
+            $scope.items = response.data;
+        });
+    };
 }]);
 
 myApp.controller('ArticleCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {

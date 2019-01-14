@@ -13,9 +13,14 @@ namespace ServiceDesk1.Controllers
     {
         
         [HttpGet("GetArticles")]
-        public object GetArticles()
+        public object GetArticles(string Subject)
         {
-            return DBHelper.GetArticles();
+            return DBHelper.GetArticles(Subject);
+        }
+        [HttpGet("GetSubjects")]
+        public object GetSubjects()
+        {
+            return DBHelper.GetSubjects();
         }
         [HttpGet("EntityID")]
         public int EntityID(string userName)

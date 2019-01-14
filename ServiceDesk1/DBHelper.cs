@@ -336,17 +336,17 @@ namespace ServiceDesk1
             }
         }
 
-        public static List<Knowledge> GetArticles()
+        public static List<Knowledge> GetArticles(string Subject)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" select ID,title,Data,PostedByLoginID,Subject from Knowledgebase",
+                using (SqlCommand cmd = new SqlCommand(" select * from Knowledgebase where Subject = @Subject",
                     conn)) {
+                    cmd.Parameters.AddWithValue("@Subject", Subject);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         List<Knowledge> lists = new List<Knowledge>();
                         while (dr.Read()) {
-                            Knowledge item = new Knowledge(dr.GetInt32(0), dr.GetString(1), dr.GetString(2),
-                                dr.GetString(3), dr.GetString(4));
+                            Knowledge item = new Knowledge(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetInt32(3), dr.GetString(4),dr.GetString(5));
                             lists.Add(item);
                         }
                         return lists;
@@ -354,7 +354,22 @@ namespace ServiceDesk1
                 }
             }
         }
-
+        public static object GetSubjects()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("select subject from Knowledgebase group by Subject", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Knowledge> subjects = new List<Knowledge>();
+                        while (dr.Read()) {
+                            Knowledge sub = new Knowledge(dr.GetString(0));
+                            subjects.Add(sub);
+                        }
+                        return subjects;
+                    }
+                }
+            }
+        }
         public static List<Department> DepartmentList()
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
@@ -643,8 +658,9 @@ namespace ServiceDesk1
             }
         }
 
-        internal static object NewOrder(int businessEntityID, DateTime orderDate, DateTime required_Date, DateTime shipped_Date, int freight, string shipName, string shipAddress, string shipCity, string shipCountry)
+        internal static object NewOrder(string LoginID, DateTime orderDate, DateTime required_Date, DateTime shipped_Date, int freight, string shipName, string shipAddress, string shipCity, string shipCountry)
         {
+            int businessEntityID = GetBEID(LoginID);
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
 
                 using (SqlCommand cmd = new SqlCommand(" insert into Orders(EmployeeID,OrderDate,RequiredDate,ShippedDate,Freight,ShipName,ShipAddress,ShipCity,ShipCountry) values (@businessEntityID,@orderDate,@required_Date,@shipped_Date,@freight,@shipName,@shipAddress,@shipCity,@shipCountry)", conn)) {
@@ -664,6 +680,23 @@ namespace ServiceDesk1
                         }
 
                         return true;
+                    }
+                }
+            }
+        }
+
+        internal static object GetInvocies()
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand(" select OrderID,ShipName,ShipAddress,ShipCity,ShipCountry,CustomerName,OrderDate,ShippedDate,RequiredDate,ProductID,ProductName,UnitPrice,Quantity,Discount,ExtendedPrice,Freight from Invoices", conn)) {
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        List<Finance> invoices = new List<Finance>();
+                        while (dr.Read()) {
+                            Finance invoice = new Finance(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetDateTime(6), dr.GetDateTime(7), dr.GetDateTime(8), dr.GetInt32(9),dr.GetString(10), dr.GetInt32(11), dr.GetInt16(12), dr.GetInt32(13), dr.GetInt32(14), dr.GetInt32(15));
+                            invoices.Add(invoice);
+                        }
+                        return invoices;
                     }
                 }
             }

@@ -1,13 +1,13 @@
 ﻿<style>
-    .Container{
-        display:grid;
-        padding:0;
-        margin:0;
-        grid-template-columns:repeat(3,1fr);
-        grid-column-gap:10px;
+    .Container {
+        display: grid;
+        padding: 0;
+        margin: 0;
+        grid-template-columns: repeat(3,1fr);
+        grid-column-gap: 10px;
     }
 </style>
-<nav style="background-color: gray">
+<div style="background-color: gray;padding-bottom:10px">
     <a href="#!NewArticle"><input type="button" value="Add new Article" /></a>
     <span class="dropdown" style="float:left;border:none">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="user_info_dropdown" style="background-color: transparent;border: transparent">
@@ -22,7 +22,7 @@
         </ul>
     </span>
     <input ng-model="search" type="text" name="search" placeholder="Search..">
-</nav>
+</div>
 <div class="Container">
     <div class="card bg-dark text-white" ng-repeat="t in knowledge">
         <div class="card-body">
@@ -31,7 +31,7 @@
             Posted By:  {{t.postedByName}}
             <hr />
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                Open modal
+                Read More
             </button>
         </div>
         <div class="modal" id="myModal">

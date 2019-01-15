@@ -17,7 +17,6 @@ C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\bin\Debug\netcoreapp2.
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\bin\Debug\netcoreapp2.1\ServiceDesk1.runtimeconfig.dev.json
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\bin\Debug\netcoreapp2.1\ServiceDesk1.dll
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\bin\Debug\netcoreapp2.1\ServiceDesk1.pdb
-C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.csprojAssemblyReference.cache
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.csproj.CoreCompileInputs.cache
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.RazorAssemblyInfo.cache
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.RazorAssemblyInfo.cs
@@ -26,3 +25,4 @@ C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.RazorTargetAssemblyInfo.cache
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.dll
 C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.pdb
+C:\Users\almog\Documents\GitHub\ServiceDesk1\ServiceDesk1\obj\Debug\netcoreapp2.1\ServiceDesk1.csprojAssemblyReference.cache

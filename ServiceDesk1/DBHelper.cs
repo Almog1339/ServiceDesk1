@@ -41,6 +41,24 @@ namespace ServiceDesk1
             }
         }
 
+        internal static bool ChangeTheme(string Color,string LoginID)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("update HumanResources.Employee set Theme = @color where Employee.LoginID = @LoginID")) {
+                    cmd.Parameters.AddWithValue("@color", Color);
+                    cmd.Parameters.AddWithValue("@LoginID", LoginID);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return true;
+                        }
+
+                    }
+                    return false;
+                }
+            }
+        }
+
         internal static object SubmitNewTicket(string LoginId, string shortDescription, string description, string category)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {

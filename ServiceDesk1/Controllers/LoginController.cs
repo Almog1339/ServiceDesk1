@@ -20,6 +20,7 @@ namespace ServiceDesk1.Controllers
             }
             return DBHelper.ValidateUser(userData.LoginID, userData.Password);
         }
+
         [HttpGet]
         public short GetDepartmentId(string loginID)
         {

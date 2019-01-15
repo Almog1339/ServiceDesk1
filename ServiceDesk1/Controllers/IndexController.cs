@@ -11,10 +11,23 @@ namespace ServiceDesk1.Controllers
     [ApiController]
     public class IndexController : ControllerBase
     {
+        
+        
         [HttpGet("image")]
         public object image(string loginID) => DBHelper.GetImg(loginID);
 
         [HttpGet]
         public object ListOrganizerCtrl(int departmentId) => DBHelper.GetListOfOption(departmentId);
+        [HttpGet]
+        public bool ChangeTheme(string Color, string LoginID)
+        {
+            if (string.IsNullOrEmpty(Color)) {
+                return false;
+            }
+            else {
+                return DBHelper.ChangeTheme(Color, LoginID);
+            }
+
+        }
     }
 }

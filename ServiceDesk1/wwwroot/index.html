@@ -53,6 +53,7 @@
                         <li id="Roses"><a>Roses</a></li>
                         <li id="Skyline"><a>Skyline Blue</a></li>
                         <li id="Green"><a>Blumdield Grass</a></li>
+                        <li id="Fire"><a>Fire</a></li>
                     </ul>
                 </div>
             </nav>
@@ -82,16 +83,29 @@
 
             $("#Default").click(function () {
                 $('.bg-color').css("background-color", "#377ac2");
+                setTimeout(function () {
+                    $.post("api/Index/Theme" + '#377ac2' + window.localStorage.getItem('username').done(function (data) {
+                        if (data == true) {
+                            console.log("updated theme successfully")
+                        } else {
+                            alert("We had some issues to update your theme please try again later")
+                        }
+                    }
+                    ))
+                }, 2000)
             });
             $("#Skyline").click(function () {
-                $('.bg-color').css("background-color", "#40739e");
+                $('.bg-color').css("background-color", "#227093");
             });
             $("#Green").click(function () {
-                $('.bg-color').css("background-color", "#A3CB38");
+                $('.bg-color').css("background-color", "#2ecc71");
             });
             $("#Roses").click(function () {
-                $('.bg-color').css("background-color", "#833471");
+                $('.bg-color').css("background-color", "#8e44ad");
             });
+            $("#Fire").click(function () {
+                $('.bg-color').css("background-color", "#c0392b");
+            })
         });
     </script>
 </body>

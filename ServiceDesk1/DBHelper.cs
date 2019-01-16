@@ -44,17 +44,34 @@ namespace ServiceDesk1
         internal static bool ChangeTheme(string Color,string LoginID)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand("update HumanResources.Employee set Theme = @color where Employee.LoginID = @LoginID")) {
+                using (SqlCommand cmd = new SqlCommand("update HumanResources.Employee set Theme = @color where Employee.LoginID = @LoginID",conn)) {
                     cmd.Parameters.AddWithValue("@color", Color);
                     cmd.Parameters.AddWithValue("@LoginID", LoginID);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         if (dr.Read()) {
-                            return true;
+                            return false;
                         }
 
                     }
-                    return false;
+                    return true;
+                }
+            }
+        }
+        internal static object Theme(string LoginID)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("select Employee.Theme from HumanResources.Employee where Employee.LoginID = @LoginID", conn)) {
+                    cmd.Parameters.AddWithValue("@LoginID", LoginID);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            string color = dr.GetString(0);
+                            return color;
+                        }
+                        
+                    }
+                    return -1;
                 }
             }
         }
@@ -353,18 +370,33 @@ namespace ServiceDesk1
                 }
             }
         }
+        public static object GetContent(int ID)
+        {
+            using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
+                using (SqlCommand cmd = new SqlCommand("select Data from Knowledgebase where ID = @ID", conn)) {
+                    cmd.Parameters.AddWithValue("@ID", ID);
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader()) {
+                        if (dr.Read()) {
+                            return dr.GetString(0);
+                        }
+                    }
+                    return -1;
+                }
+            }
+        }
 
         public static List<Knowledge> GetArticles(string Subject)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING)) {
-                using (SqlCommand cmd = new SqlCommand(" select * from Knowledgebase where Subject = @Subject",
+                using (SqlCommand cmd = new SqlCommand(" select ID,PostedBy,PostedByLoginID,Title from Knowledgebase where Subject = @Subject",
                     conn)) {
                     cmd.Parameters.AddWithValue("@Subject", Subject);
                     conn.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader()) {
                         List<Knowledge> lists = new List<Knowledge>();
                         while (dr.Read()) {
-                            Knowledge item = new Knowledge(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetInt32(3), dr.GetString(4),dr.GetString(5));
+                            Knowledge item = new Knowledge(dr.GetInt32(0), dr.GetInt32(1), dr.GetString(2),dr.GetString(3));
                             lists.Add(item);
                         }
                         return lists;

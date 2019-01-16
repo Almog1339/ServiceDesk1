@@ -1,4 +1,4 @@
-﻿var myApp = angular.module('myApp', ["ngRoute"]);
+﻿var myApp = angular.module('myApp', ["ngRoute","ngAnimate"]);
 
 myApp.config(function ($routeProvider) {
     $routeProvider
@@ -135,7 +135,11 @@ myApp.controller("AssignToMeCtrl", ['$scope', '$http', function ($scope, $http) 
 myApp.controller('navCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window, ) {
 
     $scope.LoginID = JSON.parse($window.localStorage.getItem('username'));
-
+    $http.get("api/Index/Theme?LoginID=" + JSON.parse($window.localStorage.getItem('username'))).then(function (response) {
+        $scope.theme = response.data;
+        $window.localStorage.setItem("Theme", "#"+response.data);
+        $('.bg-color').css("background-color", "#"+response.data);
+    });
 
     $http.get("api/Global/GetImg?loginID=" + $scope.LoginID).then(function (response) {
         $scope.ImgData = response.data;
@@ -278,6 +282,7 @@ myApp.controller('KnowledgeCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.knowledge = response.data;
         });
     };
+
 }]);
 
 myApp.controller('ArticleCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {

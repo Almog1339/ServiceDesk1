@@ -26,15 +26,16 @@
             width: 78%;
             max-width: 500px;
         }
+
 </style>
 <div>
     <div>
         <nav style="background-color: gray">
-            <input ng-click="table=true" type="button" value="Show as a table" />
-            <input ng-click="table=false" type="button" value="Show as a Business Card" />
+            <input ng-click="table=true" type="button" class="btn btn-success btn-fill" value="Show as a table" />
+            <input ng-click="table=false" type="button" class="btn btn-success btn-fill" value="Show as a Business Card" />
             <input ng-model="search" type="text" name="search" placeholder="Search..">
         </nav>
-        <div ng-show="table">
+        <div id="EmpTb" ng-show="table">
             <table class="table table-striped">
                 <thead class="table table-dark">
                     <tr>
@@ -48,8 +49,8 @@
                         <th>Phone Number</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr ng-repeat="t in td | filter:search">
+                <tbody id="EmpTb">
+                    <tr  ng-repeat="t in td | filter:search">
                         <td>{{t.businessEntityID}}</td>
                         <td>{{t.firstName}}</td>
                         <td>{{t.lastName}}</td>
@@ -62,7 +63,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="Container" ng-hide="table">
+        <div id="BuCard" class="Container" ng-hide="table">
             <div class="card bg-dark text-white" ng-repeat="t in td | filter:search">
                 <div class="card-body">
                     <img src="{{t.img}}" style="width:48px;height:46px" />

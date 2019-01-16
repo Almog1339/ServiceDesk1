@@ -17,17 +17,25 @@ namespace ServiceDesk1.Controllers
         public object image(string loginID) => DBHelper.GetImg(loginID);
 
         [HttpGet]
-        public object ListOrganizerCtrl(int departmentId) => DBHelper.GetListOfOption(departmentId);
-        [HttpGet]
+        public object ListOrganizerCtrl(int departmentId) =>  DBHelper.GetListOfOption(departmentId);
+        [HttpGet("ChangeTheme")]
         public bool ChangeTheme(string Color, string LoginID)
         {
-            if (string.IsNullOrEmpty(Color)) {
+            if (string.IsNullOrEmpty(Color)||string.IsNullOrEmpty(LoginID)) {
                 return false;
             }
             else {
                 return DBHelper.ChangeTheme(Color, LoginID);
             }
 
+        }
+        [HttpGet("Theme")]
+        public object GetTheme(string LoginID)
+        {
+            if (string.IsNullOrEmpty(LoginID)) {
+                return -1;
+            }
+            return DBHelper.Theme(LoginID);
         }
     }
 }

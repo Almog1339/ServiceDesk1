@@ -5,6 +5,7 @@
     <title>ServiceDesk</title>
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/angular-route.min.js"></script>
+    <script src="assets/js/angular-animate.js"></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/DashBoard-light-boostrap3.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -32,7 +33,7 @@
 
                     <div class="dropdown" style="background-color: transparent;">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="user_info_dropdown" style="background-color: transparent;border: transparent">
-                            <img src="{{ImgData}}" style="width:38px;height:35px" />
+                            <img ng-cloak src="{{ImgData}}" style="width:38px;height:35px" />
                             <span style="color: white">{{LoginID}}</span>
                         </button>
                         <ul class="dropdown-menu">
@@ -54,11 +55,12 @@
                         <li id="Skyline"><a>Skyline Blue</a></li>
                         <li id="Green"><a>Blumdield Grass</a></li>
                         <li id="Fire"><a>Fire</a></li>
+                        <li id="Sun"><a>Sun</a></li>
                     </ul>
                 </div>
             </nav>
             <div id="main">
-                <div ng-view></div>
+                <main ng-view></main>
 
             </div>
             <div>
@@ -66,9 +68,9 @@
                     <div class="visible sidebar" style="color: rgb(0, 0, 0);">
                         <div class="sidebar-wrapper bg-color">
                             <div class="logo" style="height: 100px"><a href="#" class="simple-text">Service Management System</a></div>
-                            <div ng-controller="IndexMainUl">
+                            <div ng-cloak ng-controller="IndexMainUl">
                                 <ul ng-repeat="o in option">
-                                    <li><a href="#!{{o.content}}" style="color:black">{{o.content}}</a></li>
+                                    <li><a ng-cloak href="#!{{o.content}}" style="color:black">{{o.content}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -83,29 +85,74 @@
 
             $("#Default").click(function () {
                 $('.bg-color').css("background-color", "#377ac2");
-                setTimeout(function () {
-                    $.post("api/Index/Theme" + '#377ac2' + window.localStorage.getItem('username').done(function (data) {
-                        if (data == true) {
-                            console.log("updated theme successfully")
-                        } else {
-                            alert("We had some issues to update your theme please try again later")
-                        }
+                $.get("/api/Index/ChangeTheme?Color=377ac2&LoginID=" + JSON.parse(localStorage.getItem('username'))).done(function (data) {
+                    if (data == true) {
+                        console.log("updated theme successfully")
+                    } else {
+                        alert("We had some issues to update your theme please try again later")
                     }
-                    ))
-                }, 2000)
+                }
+                )
             });
             $("#Skyline").click(function () {
                 $('.bg-color').css("background-color", "#227093");
+                $.get("/api/Index/ChangeTheme?Color=227093&LoginID=" + JSON.parse(localStorage.getItem('username'))).done(function (data) {
+                    if (data == true) {
+                        console.log("updated theme successfully")
+                    } else {
+                        alert("We had some issues to update your theme please try again later")
+                    }
+                }
+                )
             });
+            
             $("#Green").click(function () {
                 $('.bg-color').css("background-color", "#2ecc71");
+                $.get("/api/Index/ChangeTheme?Color=2ecc71&LoginID=" + JSON.parse(localStorage.getItem('username'))).done(function (data) {
+                    if (data == true) {
+                        console.log("updated theme successfully")
+                    } else {
+                        alert("We had some issues to update your theme please try again later")
+                    }
+                }
+                )
             });
             $("#Roses").click(function () {
                 $('.bg-color').css("background-color", "#8e44ad");
+                $.get("/api/Index/ChangeTheme?Color=8e44ad&LoginID=" + JSON.parse(localStorage.getItem('username'))).done(function (data) {
+                    if (data == true) {
+                        console.log("updated theme successfully")
+                    } else {
+                        alert("We had some issues to update your theme please try again later")
+                    }
+                }
+                )
             });
+            
             $("#Fire").click(function () {
                 $('.bg-color').css("background-color", "#c0392b");
+                $.get("/api/Index/ChangeTheme?Color=c0392b&LoginID=" + JSON.parse(localStorage.getItem('username'))).done(function (data) {
+                    if (data == true) {
+                        console.log("updated theme successfully")
+                    } else {
+                        alert("We had some issues to update your theme please try again later")
+                    }
+                }
+                )
+            });
+
+            $("#Sun").click(function () {
+                $('.bg-color').css("background-color", "#ffda79");
+                $.get("/api/Index/ChangeTheme?Color=ffda79&LoginID=" + JSON.parse(localStorage.getItem('username'))).done(function (data) {
+                    if (data == true) {
+                        console.log("updated theme successfully")
+                    } else {
+                        alert("We had some issues to update your theme please try again later")
+                    }
+                }
+                )
             })
+            
         });
     </script>
 </body>

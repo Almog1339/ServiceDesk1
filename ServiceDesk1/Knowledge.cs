@@ -23,6 +23,13 @@ namespace ServiceDesk1
             this.PostedByName = PostedByName;
             this.Title = tital;
         }
+        public Knowledge(int ID,int PostedBy,string PostedByName,string Title)
+        {
+            this.ID = ID;
+            this.PostedBy = PostedBy;
+            this.PostedByName = PostedByName;
+            this.Title = Title;
+        }
         public Knowledge(string subject)
         {
             this.Subject = subject;

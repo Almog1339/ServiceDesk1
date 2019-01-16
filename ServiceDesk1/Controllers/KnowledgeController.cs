@@ -17,6 +17,11 @@ namespace ServiceDesk1.Controllers
         {
             return DBHelper.GetArticles(Subject);
         }
+        [HttpGet("GetContent")]
+        public object GetContent(int ID)
+        {
+            return DBHelper.GetContent(ID);
+        }
         [HttpGet("GetSubjects")]
         public object GetSubjects()
         {
